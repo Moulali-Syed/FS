@@ -1,0 +1,318 @@
+npx create-react-app myapp
+
+
+React:
+React Js is a javascript library used for creating user interfaces
+
+React is all about components
+
+Component is a Reusable piece of code 
+Component at the end is a javascript function
+
+Why React?
+Normal Js is imperative way - in which we need to tell everything step by step 
+In React we just tell end state  - it is a Declarative way
+
+React is used for creating Single Page Applications - SPA 
+
+
+Increase Reusability
+Increase Readability
+DRY
+Modularity
+Separation of Concerns
+
+------------------------------------------------------------------------
+Install NodeJs
+create ReactFolio folder
+change directory to the required folder
+npx create-react-app demoshopapp
+change directory to demoshopapp
+npm start
+
+Way2:
+use Replit
+
+------------------------------------------------------------------------
+package.json - has all dependencies and its version
+index.js is entry point of react app
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+----
+import './App.css';
+
+function App() {
+  return <div className="App">GOOD MORNING REACT</div>;
+}
+
+export default App;
+----
+In public folder - we have index.html file 
+
+
+
+JSX - javascript XML 
+class in css --> className in JSX
+for in css   --> htmlFor
+
+Create a components folder inside src folder 
+
+
+We must have top level parent - so use either <React.Fragment></React.Fragment> or <></>
+
+
+Create a custom component:
+1.Create a js file with either .js or .jsx extension
+2.Create a function 
+3.return JSX code from function
+4.export the function
+5.Import where it needed to be used
+
+Add Style to component:
+1.Create a .css file
+2.import in the js file
+
+Custom Component 
+import './Item.css';
+function Item() {
+  return <p className="nirma">Nirma</p>;
+}
+export default Item;
+
+Custom Component - using the variables
+
+import './ItemDate.css';
+
+function ItemDate() {
+  const day = 20;
+  const month = 'June';
+  const year = 1998;
+  return (
+    <div className="mfg-date">
+      <span>{day}</span>
+      <span>{month}</span>
+      <span>{year}</span>
+    </div>
+  );
+}
+
+export default ItemDate;
+
+
+----
+props - properties 
+
+We can send data from parent component to child component - using props 
+
+import './ItemDate.css';
+
+function ItemDate(props) {
+  return (
+    <div className="mfg-date">
+      <span>{props.day}</span>
+      <span>{props.month}</span>
+      <span>{props.year}</span>
+    </div>
+  );
+}
+
+export default ItemDate;
+
+import './App.css';
+import Item from './components/Item';
+import ItemDate from './components/ItemDate';
+
+function App() {
+    const day = "12"
+  return (
+    <>
+      <Item />
+      <ItemDate day={day} month="Apr" year="1999" />
+      <ItemDate day="08" month="Sept" year="1999" />
+      <div className="App">GOOD MORNING REACT</div>
+    </>
+  );
+}
+
+export default App;
+
+
+Sending props from an object:
+import './App.css';
+import Item from './components/Item';
+import ItemDate from './components/ItemDate';
+
+function App() {
+  const response = [
+    {
+      itemName: 'Nirma',
+      itemDate: '1',
+      itemMonth: 'Jan',
+      itemYear: '1991',
+    },
+    {
+      itemName: 'SurfExcel',
+      itemDate: '5',
+      itemMonth: 'Feb',
+      itemYear: '1999',
+    },
+    {
+      itemName: '555',
+      itemDate: '14',
+      itemMonth: 'Mar',
+      itemYear: '2000',
+    },
+  ];
+  return (
+    <>
+      <Item name={response[0].itemName} />
+      <ItemDate
+        day={response[0].itemDate}
+        month={response[0].itemMonth}
+        year={response[0].itemYear}
+      />
+      <Item name={response[1].itemName} />
+      <ItemDate
+        day={response[1].itemDate}
+        month={response[1].itemMonth}
+        year={response[1].itemYear}
+      />
+      <Item name={response[2].itemName} />
+      <ItemDate
+        day={response[2].itemDate}
+        month={response[2].itemMonth}
+        year={response[2].itemYear}
+      />
+
+      <div className="App">GOOD MORNING REACT</div>
+    </>
+  );
+}
+
+export default App;
+
+
+----------
+using map function passing props 
+
+import './App.css';
+import Item from './components/Item';
+import ItemDate from './components/ItemDate';
+
+function App() {
+  const response = [
+    {
+      itemName: 'Nirma',
+      itemDate: '1',
+      itemMonth: 'Jan',
+      itemYear: '1991',
+    },
+    {
+      itemName: 'SurfExcel',
+      itemDate: '5',
+      itemMonth: 'Feb',
+      itemYear: '1999',
+    },
+    {
+      itemName: '555',
+      itemDate: '14',
+      itemMonth: 'Mar',
+      itemYear: '2000',
+    },
+  ];
+  return (
+    <>
+      {response.map((item) => {
+        return (
+          <>
+            <Item name={item.itemName} />
+            <ItemDate
+              day={item.itemDate}
+              month={item.itemMonth}
+              year={item.itemYear}
+            />
+          </>
+        );
+      })}
+
+      <div className="App">GOOD MORNING REACT</div>
+    </>
+  );
+}
+
+export default App;
+
+
+-------
+props.children - whatever we send in between component can be received using props.children
+
+import './Item.css';
+function Item(props) {
+  return (
+    <>
+      {props.children}
+      <p className="nirma">{props.name}</p>;
+    </>
+  );
+}
+export default Item;
+
+import './App.css';
+import Item from './components/Item';
+import ItemDate from './components/ItemDate';
+
+function App() {
+  const response = [
+    {
+      itemName: 'Nirma',
+      itemDate: '1',
+      itemMonth: 'Jan',
+      itemYear: '1991',
+    },
+    {
+      itemName: 'SurfExcel',
+      itemDate: '5',
+      itemMonth: 'Feb',
+      itemYear: '1999',
+    },
+    {
+      itemName: '555',
+      itemDate: '14',
+      itemMonth: 'Mar',
+      itemYear: '2000',
+    },
+  ];
+  return (
+    <>
+      {response.map((item) => {
+        return (
+          <>
+            <Item name={item.itemName}>Hello There From Children</Item>
+            <ItemDate
+              day={item.itemDate}
+              month={item.itemMonth}
+              year={item.itemYear}
+            />
+          </>
+        );
+      })}
+
+      <div className="App">GOOD MORNING REACT</div>
+    </>
+  );
+}
+
+export default App;
+
+
+props.className - check this 

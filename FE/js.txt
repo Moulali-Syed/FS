@@ -301,3 +301,7 @@ addArray([1, 2, 3, 4]);
 Scoping:
 let and const - are block scoped
 var  - is function scope 
+
+------------------------------------------------------------------------------------
+
+DOM Manipulation:

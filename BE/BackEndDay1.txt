@@ -6,7 +6,7 @@ When we click on link - a http(protocol) call happens
 
 Client(Request) - Server (Response)
 
-When we search - Domain Search happens through Internet Service Provider and we get
+When we search - Domain Name Search happens through Internet Service Provider and we get
 a IP address - then connection happens through Transfer Communication Protocol and we get 
 response from Server 
 

@@ -1,0 +1,256 @@
+Folder Structure:
+
+Till now we have written whole code inside server.js
+we specified the route and a callback function at the same place
+app.get("/",()=>{})
+
+Lets separate this , create a folder that has only routes ----[A folder for ROUTES*****]
+
+
+As we know , each route is mapped with some business logic 
+So we create Controllers folder    ---------------------------[A folder for Controllers*****]
+
+Each Route will be mapped with a Controller 
+
+Say when i hit /createTodo Route -- I need to create a DB Entry
+
+Models  -  Say when ever we want to create a schema for the data to be stored in DB 
+            we specify in DB 
+            Database related Schema is defined inside Model 
+
+Config folder -  this has the configuration , say connecting to database logic is same everytime 
+                database.js 
+
+.env file -- this has PORT, DB URL 
+
+=======================================================================================
+Lets create a todoApp
+
+create a folder - todoApp 
+
+say                 -->   npm init -y
+install express     -->   npm i express 
+
+create a file       -->  index.js 
+
+const express = require('express');
+const app = express();
+
+app.listen(3000, () => {
+  console.log('App is running successfully');
+});
+
+Now run the app --->   node index.js 
+
+-----
+
+Lets install nodemon dependency - used for keep our server running on every file save
+npm i nodemon -D  
+
+-D here represents it is a developement dependency
+
+Now add scripts  in package.json
+
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  }
+
+now we can run using
+        npm start      or        npm run start
+        npm run dev 
+
+------
+Now lets create a folder Structure
+    todoApp 
+        config
+        controllers
+        models
+        routes 
+
+a file 
+        .env 
+
+.env has info about PORT number and DB URL 
+
+----
+Add below to the .env file 
+
+PORT = 3000
+DATABASE_URL = mongodb://127.0.0.1:27017/todoDataBase
+
+----
+lets install mongoose , to create a connection between DB and node app
+
+npm i mongoose 
+
+Now inside config folder , create a file database.js 
+
+To get access of env variables defined inside .env file , we need to install 
+dotenv package  ---------->   npm i dotenv 
+
+
+Now we can access the env variables by  ----->  require('dotenv').config();
+this above import will load the whole data in the .env file into process object
+
+Now inside database.js , write code for connecting database to node app 
+
+const mongoose = require('mongoose');
+
+require('dotenv').config();
+
+const dbConnect = () => {
+  mongoose
+    .connect(process.env.DATABASE_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log('DB Connection successful');
+    })
+    .catch((err) => {
+      console.log('error in DB Connection');
+      console.error(err.message);
+      process.exit(1);
+    });
+};
+
+module.exports = dbConnect;
+
+
+----------
+
+Now lets create a model  Todo.js (Creating Schema)
+
+const mongoose = require('mongoose');
+
+const todoSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    maxLength: 50,
+  },
+  description: {
+    type: String,
+    required: true,
+    maxLength: 50,
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now(),
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+    default: Date.now(),
+  },
+});
+
+module.exports = mongoose.model('Todo', todoSchema);
+
+
+description of our data is Schema 
+
+--------
+Now lets move to the controller , the most important part 
+Inside controllers folder , create a file --->  createTodo.js
+
+
+// step1 - import the model
+const Todo = require('../models/Todo');
+// const todo = require('../models/Todo');
+
+//define the route handler
+exports.createTodo = async (req, res) => {
+  try {
+    //extract title and description from request body
+    const { title, description } = req.body;
+
+    //   create a new Todo and insert in DB
+    const response = await Todo.create({ title, description });
+
+    //send a json response with success flag
+    res.status(200).json({
+      success: true,
+      data: response,
+      message: 'Entry Created Successfully',
+    });
+  } catch (err) {
+    console.error(err);
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      data: 'Internal Server Error',
+      message: err.message,
+    });
+  }
+};
+
+
+----
+
+Now lets create a route 
+inside routes folder - create a file todos.js 
+
+const express = require('express');
+const router = express.Router();
+
+//import controller
+const { createTodo } = require('../controllers/createTodo');
+
+//define API Routes
+router.post('/createTodo', createTodo);
+
+module.exports = router;
+
+
+----------
+Inside index.js , use the route 
+
+const express = require('express');
+const app = express();
+
+//load config from env file
+require('dotenv').config();
+const PORT = process.env.PORT || 4000;
+
+//middleware to parse json request body
+app.use(express.json());
+
+//import routes for TODO API
+const todoRoutes = require('./routes/todos');
+
+//mount the TODO API routes
+app.use('/api/v1', todoRoutes);
+
+//start server
+app.listen(PORT, () => {
+  console.log(`Server started successfully at port ${PORT}`);
+});
+
+//connect to the Database
+const dbConnect = require('./config/database');
+dbConnect();
+
+//we must also specify default route
+app.get('/', (req, res) => {
+  res.send(`<h1>This is homePage</h1>`);
+});
+
+
+------------
+Now open postman
+
+go to the url -> http://localhost:3000/api/v1/createTodo 
+select POST 
+go to body - select raw - select JSON , and enter the json data 
+
+and click on send
+
+------------------------------------------------------------------------
+process.exit(1);//below is its meaning
+
+Node normally exits with a 0 status code when no more async operations are pending. There are other exit codes which are described below:
+
+1 - Uncaught Fatal Exception: There was an uncaught exception, and it was not handled by a domain or an uncaughtException event handler.
