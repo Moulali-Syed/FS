@@ -1,0 +1,288 @@
+html - root tag of website
+head - mainly for seo and title 
+body - all the content of website 
+
+h1 to h6 - headings , block level element
+p - paragraph , block element
+
+em , i , b , strong - inline elements
+
+nbsp; - create a space
+
+br - line break
+hr - horizontal row 
+
+h1*5 - emmet
+alt+click - multiple cursors
+
+===========================================================================
+img , audio , video , a , ul ,ol ,li ,table
+
+<img src="" alt="" width="" height=""/>
+
+<audio src="" autoplay muted controls></audio>
+
+<video src="" autoplay muted controls></video>
+
+<a href=""></a>
+
+<!-- disc , circle , square  -->
+<ul style="list-style-type:disc">
+    <li></li>
+</ul>
+
+<!--  type="A" , "a" , "1" , "i" , "I"  |   start="1" , "4"  -->
+<ol>
+    <li></li>
+</ol>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="2"></td>
+            <td colspan="2"></td>
+            <td></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+
+    <a href="http://google.com">Hello from 6pp</a>
+
+    <p>
+      <a href="#">google</a>
+    </p>
+
+    <a href="#"><p>tom cat</p></a><a href="#">jerry mouse</a>
+
+    <a href="#" target="_blank">new tab</a>
+
+    <abbr title="it is google"><a href="#">google</a></abbr>
+    <!--  -->
+
+    <!-- type - A, a, i, I  -->
+    <ol type="I" start="3">
+      <li>banana</li>
+      <li>mango</li>
+    </ol>
+    <!-- disc,circle,square -->
+    <ul style="list-style-type: circle">
+      <li><a href="#">Tom</a></li>
+      <li><a href="#">Jerry</a></li>
+      <li><a href="#">Disney</a></li>
+    </ul>
+
+    <!-- add images -->
+    <img
+    src="https://cdn.pixabay.com/photo/2023/04/15/14/42/baby-7927866_960_720.jpg"
+    alt="image" width="200" / >
+    <a href="https://google.com"
+      ><img
+        src="https://cdn.pixabay.com/photo/2023/04/15/14/42/baby-7927866_960_720.jpg"
+        alt="actas link"
+        height="300"
+    /></a>
+
+    <video src="" controls autoplay muted width="300"></video>
+    <!-- <video src="" controls autoplay muted width="300"></video> -->
+
+    <!--  -->
+
+    <audio src="" controls autoplay muted></audio>
+
+    <!-- table  -->
+    <table border="1" style="border-collapse: collapse">
+      <caption>
+        table food
+      </caption>
+      <thead>
+        <tr>
+          <th>food</th>
+          <th>protein</th>
+          <th>Fat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2">Egg</td>
+          <td>6gm</td>
+          <td>3gm</td>
+        </tr>
+        <tr>
+          <td>egg white</td>
+          <td>10gm</td>
+          <td>1gm</td>
+        </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+
+===========================================================================
+
+Non Semantic , Semantic , Form 
+
+ <!-- Non semantic -->
+    <div>tom cat</div>
+    <span>jerry</span>
+    <!-- semantic elements -->
+    <header></header>
+    <nav></nav>
+    <section></section>
+    <article></article>
+
+    <!-- id -unique , class - same for many elements -->
+    <div id="navbar">THis is navbar</div>
+    <div id="section1" class="sections">This is home section</div>
+    <div id="section2" class="sections">This is home section</div>
+    <div id="section3" class="sections">This is home section</div>
+
+    <!--  -->
+
+    <form action="" method="POST">
+      <!-- name attribute is very important for sending it to backend -->
+      <div>
+        <label for="name">Name</label>
+        <input required type="text" name="" id="name" />
+      </div>
+      <div>email : <input required type="email" name="email" id="" /></div>
+      <div>
+        Message:
+        <textarea
+          name="usermessage"
+          id=""
+          cols="30"
+          rows="10"
+          style="resize: none"
+        ></textarea>
+      </div>
+
+      <div>Number <input type="number" name="usernumber" id="" /></div>
+
+      <div>
+        Gender
+        <select name="usergender" id="gender">
+          <option value="">--select--</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div><input type="date" name="" id="" /></div>
+      <div><input type="time" name="" id="" /></div>
+      <div>
+        cricket<input type="checkbox" name="sports" id="" /> hockey
+        <input type="checkbox" name="sports" id="" />
+      </div>
+
+      <fieldset>
+        <legend>Topic</legend>
+        <!-- give same name so that we can select only one radio button at one time -->
+        FrontEnd: <input type="radio" name="sessions" id="" /> BackEnd:
+        <input type="radio" name="sessions" />
+      </fieldset>
+
+      <div>Password: <input type="password" name="" id="" /></div>
+      <div>
+        <input type="color" name="" id="" />
+      </div>
+      <div>
+        <input type="file" name="" id="" />
+      </div>
+      <div>
+        <input type="submit" value="Submit" />
+      </div>
+    </form>
+
+    <!-- required , placeholder -->
+
+
+==============================================================================================
+
+A Basic Form 
+
+
+  <body>
+    <h1>CONTACT US</h1>
+
+    <form action="" method="POST">
+      <div>
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          name="username"
+          id="name"
+          placeholder="Enter your name"
+          required
+        />
+      </div>
+      <br />
+      <div>
+        Email:
+        <input
+          type="email"
+          name="useremail"
+          id="email"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+      <br />
+      <div>
+        Message:
+        <textarea
+          placeholder="Enter your message"
+          required
+          name="usermessage"
+          id="usermsg"
+          cols="60"
+          rows="10"
+          style="resize: none"
+        ></textarea>
+      </div>
+      <br />
+      <div>
+        Number: <input type="number" name="usernumber" id="number" required />
+      </div>
+      <br />
+      <div>
+        Gender:
+        <select name="gender" id="gender" required>
+          <option value="">--select--</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <br />
+      <div>
+        Frontend:
+        <input type="checkbox" name="skills" id="fe" /> Backend:
+        <input type="checkbox" name="skills" id="be" />
+      </div>
+      <br />
+      <fieldset>
+        <legend>Mode of Payment</legend>
+        Cash: <input type="radio" name="payment" id="cash" required /> Bank:
+        <input type="radio" name="payment" id="bank" required />
+      </fieldset>
+      <br />
+      <div>
+        Password:
+        <input type="password" name="password" id="password" required />
+      </div>
+      <br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
