@@ -1,0 +1,382 @@
+Lets Add Event Listener:
+
+import React from 'react';
+import ProductDate from './ProductDate';
+
+const ProductItem = (props) => {
+  function clickHandler() {
+    console.log('Added to Cart');
+  }
+  return (
+    <div>
+      <ProductDate date={props.item.date} />
+      <h2>{props.item.itemName}</h2>
+      <button onClick={clickHandler}>AddToCart</button>
+    </div>
+  );
+};
+
+export default ProductItem;
+
+===========================================================================
+Updating the state the javascript way , it doesnot work , as UI is not re rendered
+
+import React from 'react';
+import ProductDate from './ProductDate';
+
+const ProductItem = (props) => {
+  let title = props.item.itemName;
+  function clickHandler() {
+    console.log('Added to Cart');
+    title = 'PoPCorn';
+    console.log(title);
+  }
+  return (
+    <div>
+      <ProductDate date={props.item.date} />
+      <h2>{title}</h2>
+      <button onClick={clickHandler}>AddToCart</button>
+    </div>
+  );
+};
+
+export default ProductItem;
+
+===========================================================================
+We must use the useState hook to make the UI update happens
+
+import React, { useState } from 'react';
+import ProductDate from './ProductDate';
+
+const ProductItem = (props) => {
+  let title = props.item.itemName;
+  const [state, setState] = useState(title);
+  function clickHandler() {
+    console.log('Added to Cart');
+    setState('PopCorn');
+  }
+  return (
+    <div>
+      <ProductDate date={props.item.date} />
+      <h2>{state}</h2>
+      <button onClick={clickHandler}>AddToCart</button>
+    </div>
+  );
+};
+
+export default ProductItem;
+
+---
+No matter how many setState() calls are in the handleClick event handler, 
+they will produce only a single re-render at the end of the event,
+which is crucial for maintaining good performance in large applications.
+The order of requests for updates is always respected; React will always
+treat the first update requests first.
+===========================================================================
+Handling the input of form - using onChange
+
+
+import React, { useState } from 'react';
+
+const ProductForm = () => {
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  function titleChangeHandler(event) {
+    setTitle(event.target.value);
+    console.log(event.target.value);
+  }
+  function dateChangeHandler(event) {
+    setDate(event.target.value);
+    console.log(event.target.value);
+  }
+  return (
+    <form>
+      <div>
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          onChange={titleChangeHandler}
+        />
+      </div>
+      <div>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          name="date"
+          id="date"
+          min="2023-01-01"
+          max="2023-12-12"
+          onChange={dateChangeHandler}
+        />
+      </div>
+      <div>
+        <button type="submit">Add Product</button>
+      </div>
+    </form>
+  );
+};
+
+export default ProductForm;
+
+===========================================================================
+multiple state updates using useState 
+
+import React, { useState } from 'react';
+const ProductForm = () => {
+
+  const [fullProductInput, setFullProductInput] = useState({
+    title: '',
+    date: '',
+  });
+  function titleChangeHandler(event) {
+    let obj = { ...fullProductInput, title: event.target.value };
+    setFullProductInput(obj);
+    console.log(fullProductInput);
+  }
+  function dateChangeHandler(event) {
+    let obj = { ...fullProductInput, date: event.target.value };
+    setFullProductInput(obj);
+    console.log(fullProductInput);
+  }
+  return (
+    <form>
+      <div>
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          onChange={titleChangeHandler}
+        />
+      </div>
+      <div>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          name="date"
+          id="date"
+          min="2023-01-01"
+          max="2023-12-12"
+          onChange={dateChangeHandler}
+        />
+      </div>
+      <div>
+        <button type="submit">Add Product</button>
+      </div>
+    </form>
+  );
+};
+
+export default ProductForm;
+===========================================================================
+
+Prevent default behaviour of form submission and also Two way binding
+
+use value attribute to bind input and the state variables
+
+import React, { useState } from 'react';
+
+const ProductForm = () => {
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  function titleChangeHandler(event) {
+    setTitle(event.target.value);
+    console.log(event.target.value);
+  }
+  function dateChangeHandler(event) {
+    setDate(event.target.value);
+    console.log(event.target.value);
+  }
+
+  //   const [fullProductInput, setFullProductInput] = useState({
+  //     title: '',
+  //     date: '',
+  //   });
+  //   function titleChangeHandler(event) {
+  //     let obj = { ...fullProductInput, title: event.target.value };
+  //     setFullProductInput(obj);
+  //     console.log(fullProductInput);
+  //   }
+  //   function dateChangeHandler(event) {
+  //     let obj = { ...fullProductInput, date: event.target.value };
+  //     setFullProductInput(obj);
+  //     console.log(fullProductInput);
+  //   }
+  function submitHandler(event) {
+    event.preventDefault();
+    const productData = {
+      title,
+      date,
+    };
+    console.log(productData);
+    setTitle('');
+    setDate('');
+  }
+  return (
+    <form onSubmit={submitHandler}>
+      <div>
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          onChange={titleChangeHandler}
+          value={title}
+        />
+      </div>
+      <div>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          name="date"
+          id="date"
+          min="2023-01-01"
+          max="2023-12-12"
+          onChange={dateChangeHandler}
+          value={date}
+        />
+      </div>
+      <div>
+        <button type="submit">Add Product</button>
+      </div>
+    </form>
+  );
+};
+
+export default ProductForm;
+
+===============================================================================
+Till now we have seen parent to child communication using props
+
+Lifting the state up:
+lets see how we can send data from child to parent -->  we use propFunctions
+
+step1:
+we create a function in parent component
+step2:
+pass the function from parent to child as props
+step3:
+we can send the data as argument to the function passed to child
+now parent has access to the child data 
+
+
+------
+import './App.css';
+import Card from './components/Card';
+import Item from './components/Item';
+import ItemDate from './components/ItemDate';
+import NewProduct from './components/NewProduct';
+import Products from './components/Products';
+
+function App() {
+  const items = [
+    {
+      itemName: 'Nirma',
+      date: new Date('2023 04 11'),
+    },
+    {
+      itemName: 'SurfExcel',
+      date: new Date('2023 04 11'),
+    },
+    {
+      itemName: 'Tide',
+      date: new Date('2023 04 11'),
+    },
+    {
+      itemName: '555',
+      date: new Date('2023 04 11'),
+    },
+  ];
+
+  function printProductData(data) {
+    console.log(data);
+  }
+  return (
+    <>
+      <NewProduct printProduct={printProductData} />
+      <Products items={items} />;
+    </>
+  );
+}
+
+export default App;
+
+
+--
+import React from 'react';
+import ProductForm from './ProductForm';
+
+const NewProduct = (props) => {
+  function saveProduct(product) {
+    console.log(product);
+    props.printProduct(product);
+  }
+  return (
+    <div>
+      <ProductForm saveProduct={saveProduct} />
+    </div>
+  );
+};
+
+export default NewProduct;
+
+--
+import React, { useState } from 'react';
+
+const ProductForm = (props) => {
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  function titleChangeHandler(event) {
+    setTitle(event.target.value);
+    console.log(event.target.value);
+  }
+  function dateChangeHandler(event) {
+    setDate(event.target.value);
+    console.log(event.target.value);
+  }
+
+  function submitHandler(event) {
+    event.preventDefault();
+    const productData = {
+      title,
+      date,
+    };
+    console.log(productData);
+    props.saveProduct(productData);
+    setTitle('');
+    setDate('');
+  }
+  return (
+    <form onSubmit={submitHandler}>
+      <div>
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          onChange={titleChangeHandler}
+          value={title}
+        />
+      </div>
+      <div>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          name="date"
+          id="date"
+          min="2023-01-01"
+          max="2023-12-12"
+          onChange={dateChangeHandler}
+          value={date}
+        />
+      </div>
+      <div>
+        <button type="submit">Add Product</button>
+      </div>
+    </form>
+  );
+};
+
+export default ProductForm;

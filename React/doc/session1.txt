@@ -315,4 +315,31 @@ function App() {
 export default App;
 
 
-props.className - check this 
+============================================================================
+The Concept of Composition(Children Props):
+==========================================
+We can use a Reusable Wrapper component 
+
+const Card = (props) =>{
+    const classes = 'card '+props.className;
+    return <div className={classes}>{props.children}</props>
+}
+
+When we use this custom component as a wrapper , we can then read any component between it using 
+props.children  , the class on custom component can be read only using the props as we see in above
+code we must pass it to the className 
+
+<Card className="">
+    <h1>Any JSX </h1>
+</Card>
+
+==================================================================================
+JSX under the hood:
+==================
+React.createElement('h2',{},
+                            React.createElement('h2',{},'Lets get Started'),
+                            React.createElement(Expenses,{items:expenses})
+);
+
+<h2>Let's get started</h2>
+<Expenses items={expenses}/>

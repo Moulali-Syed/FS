@@ -2,45 +2,37 @@ import './App.css';
 import Card from './components/Card';
 import Item from './components/Item';
 import ItemDate from './components/ItemDate';
+import NewProduct from './components/NewProduct';
+import Products from './components/Products';
 
 function App() {
-  const response = [
+  const items = [
     {
       itemName: 'Nirma',
-      itemDate: '1',
-      itemMonth: 'Jan',
-      itemYear: '1991',
+      date: new Date('2023 04 11'),
     },
     {
       itemName: 'SurfExcel',
-      itemDate: '5',
-      itemMonth: 'Feb',
-      itemYear: '1999',
+      date: new Date('2023 04 11'),
+    },
+    {
+      itemName: 'Tide',
+      date: new Date('2023 04 11'),
     },
     {
       itemName: '555',
-      itemDate: '14',
-      itemMonth: 'Mar',
-      itemYear: '2000',
+      date: new Date('2023 04 11'),
     },
   ];
-  return (
-    <Card>
-      {response.map((item) => {
-        return (
-          <>
-            <Item name={item.itemName}>Hello There From Children</Item>
-            <ItemDate
-              day={item.itemDate}
-              month={item.itemMonth}
-              year={item.itemYear}
-            />
-          </>
-        );
-      })}
 
-      <div className="App">GOOD MORNING REACT</div>
-    </Card>
+  function printProductData(data) {
+    console.log(data);
+  }
+  return (
+    <>
+      <NewProduct printProduct={printProductData} />
+      <Products items={items} />;
+    </>
   );
 }
 
