@@ -159,7 +159,7 @@ Inside controllers folder , create a file --->  createTodo.js
 
 // step1 - import the model
 const Todo = require('../models/Todo');
-// const todo = require('../models/Todo');
+
 
 //define the route handler
 exports.createTodo = async (req, res) => {

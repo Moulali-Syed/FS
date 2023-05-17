@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(230, 210, 185);
+}
+
+.box {
+  /* width: 100vw;
+  height: 100vh; */
+  background-color: rgb(230, 210, 185);
+}

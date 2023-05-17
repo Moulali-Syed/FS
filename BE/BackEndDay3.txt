@@ -1,0 +1,235 @@
+Code for Backend day3 is in BE_Code_2  folder 
+
+//if any error because of mongodb start
+brew services start mongodb-community
+mongodb --config /opt/homebrew/etc/mongod.conf 
+
+In previous class we have created - post api for todoApp
+
+
+lets now create get api :
+
+Now we have to add a controller and add a route 
+
+//adding route inside routes/todos.js 
+
+const express = require('express');
+const router = express.Router();
+
+//import controller
+const { createTodo } = require('../controllers/createTodo');
+const { getTodo } = require('../controllers/getTodo');   //-----------------------------[1]
+
+//define API Routes
+router.post('/createTodo', createTodo);
+router.get('/getTodos', getTodo);               //---------------------------------------[2]
+
+module.exports = router;
+
+----
+//Create a controller to fetch all todos - getTodo.js 
+
+// step1 - import the model
+const Todo = require('../models/Todo');
+
+exports.getTodo = async (req, res) => {
+  try {
+    //fetch all todo items from database
+    const todos = await Todo.find({});
+    //response
+    res.status(200).json({
+      success: true,
+      data: todos,
+      message: 'Entire todos data is fetched',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      data: 'Internal Server Error',
+      error: err.message,
+    });
+  }
+};
+
+//Now we can see through POSTMAN
+http://localhost:3000/api/v1/getTodos - GET 
+
+=================================================================================
+get single todo - api
+
+Now create a controller and add to it routes 
+
+const express = require('express');
+const router = express.Router();
+
+//import controller
+const { createTodo } = require('../controllers/createTodo');
+const { getTodo, getTodoById } = require('../controllers/getTodo'); //---------[1]
+
+//define API Routes
+router.post('/createTodo', createTodo);
+router.get('/getTodos', getTodo);
+router.get('/getTodos/:id', getTodoById);                       //-------------[2]
+
+module.exports = router;
+
+------
+// Create a controller 
+
+exports.getTodoById = async (req, res) => {
+  try {
+    //extract todo item based on id
+    const id = req.params.id;
+    const todo = await Todo.findById({ _id: id });
+
+    //data for given id not found
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        message: 'No data found with given id ',
+      });
+    }
+
+    //if data for given id is found
+    res.status(200).json({
+      success: true,
+      data: todo,
+      message: `Todo ${id} data successfully fetched`,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      data: 'Internal Server Error',
+      error: err.message,
+    });
+  }
+};
+
+=================================================================================
+
+updateTodo api 
+
+1.create a controller 
+2.define a route 
+
+
+//creating route 
+const express = require('express');
+const router = express.Router();
+
+//import controller
+const { createTodo } = require('../controllers/createTodo');
+const { getTodo, getTodoById } = require('../controllers/getTodo');
+const { updateTodo } = require('../controllers/updateTodo'); //---------------------[1]
+
+//define API Routes
+router.post('/createTodo', createTodo);
+router.get('/getTodos', getTodo);
+router.get('/getTodos/:id', getTodoById);
+router.put('/updateTodo/:id', updateTodo);     //--------------------------------[2]
+
+module.exports = router;
+
+---
+// step1 - import the model
+const Todo = require('../models/Todo');
+
+exports.updateTodo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+
+    const todo = await Todo.findByIdAndUpdate(
+      { _id: id },
+      { title, description, updatedAt: Date.now() }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: todo,
+      message: 'data updated successful',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      data: 'Internal Server Error',
+      error: err.message,
+    });
+  }
+};
+
+
+----
+In POSTMAN
+http://localhost:3000/api/v1/updateTodo/64627814ff419d038b4d0a55
+
+and provide data in body
+
+=================================================================================
+
+deleteTodo API 
+
+//creating a route 
+
+const express = require('express');
+const router = express.Router();
+
+//import controller
+const { createTodo } = require('../controllers/createTodo');
+const { getTodo, getTodoById } = require('../controllers/getTodo');
+const { updateTodo } = require('../controllers/updateTodo');
+const { deleteTodo } = require('../controllers/deleteTodo');   //----------------[1]
+
+//define API Routes
+router.post('/createTodo', createTodo);
+router.get('/getTodos', getTodo);
+router.get('/getTodos/:id', getTodoById);
+router.put('/updateTodo/:id', updateTodo);
+router.delete('/deleteTodo/:id', deleteTodo);                //----------------------[2]
+
+module.exports = router;
+
+//create a controller - deleteTodo.js 
+
+// step1 - import the model
+const Todo = require('../models/Todo');
+
+exports.deleteTodo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(req.params.id);
+    await Todo.findByIdAndDelete(id);
+
+    res.json({
+      success: true,
+      message: 'data deleted successfully',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      data: 'Internal Server Error',
+      error: err.message,
+    });
+  }
+};
+
+=================================================================================
+
+Exercise:
+Creating Blog App:
+
+define routes for creating and retrieving posts 
+        /posts/create
+        /posts
+
+define route for liking and unliking post 
+        /likes/like 
+        /likes/unlike 
+
+define route for creating and retrieving comments 
+        /comments/create
+        /comments 

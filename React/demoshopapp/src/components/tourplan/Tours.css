@@ -1,0 +1,29 @@
+.tours-cont {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  /* align-items: center; */
+}
+.tours-cont .heading {
+  padding: 2rem;
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.tour-cont {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow: hidden;
+  row-gap: 3rem;
+  column-gap: 2rem;
+}
+/* .tour-cont {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+} */
