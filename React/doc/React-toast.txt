@@ -1,0 +1,33 @@
+To add toast to react app we can use third party library
+react-toastify   or  react-bootstrap  Toasts  
+
+Step1:
+npm install react-toastify 
+
+
+Step2:
+import below in App.js
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+Step3:
+Wherever we want to display the toast 
+import {toast} from 'react-toastify';
+
+Step4:
+To display the toast , call toast function with the data as argument
+
+toast.success('Item added to cart');
+toast.error('SomeThing went wrong');
+
+Step5:
+Add ToastContainer to index.js 
+
+root.render(
+  <React.StrictMode>
+    <App />
+    <ToastContainer />
+  </React.StrictMode>
+);

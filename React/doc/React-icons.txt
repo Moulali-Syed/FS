@@ -1,0 +1,20 @@
+to add icons 
+
+Step1:
+npm install react-icons 
+
+
+Step2:
+import the icon component that you want from library 
+
+import {FaThumbsUp} from 'react-icons/fa';
+
+Step3:
+use the icon component is JSX code
+
+<FaThumbsUp/>
+
+Step4:
+we can customize the icon 
+
+<FaThumbsUp color="green" size="2em"/>

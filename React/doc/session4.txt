@@ -1,0 +1,319 @@
+Lets learn useEffect Hook:
+
+manage side effects in our application - side effect is a change outside the component being rendered
+
+We can say side effect as when i press a button , it update title or when i press a button 
+it makes an api call or DOM gets updated 
+
+
+Say on the webpage iam displaying window.size initially it is showing 720 
+and then i resized by dragging the window , decreases its size then it is showing 660
+
+-----------------------------------------------------------------------------------------
+Create a react app
+
+npx create-react-app dummy 
+
+useEffect hook:
+In which ever component , we write the useEffect hook after the component is rendered it will 
+execute the code inside useEffect 
+
+-----------------------------------------------------------------------------------------
+Below code will execute the useEffect on each UI render
+
+import logo from './logo.svg';
+import './App.css';
+import { useEffect, useState } from 'react';
+
+function App() {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    console.log('UI rendered');
+  });
+
+  function changeHandler(e) {
+    console.log(text);
+    setText(e.target.value);
+  }
+  return (
+    <div className="App">
+      <input type="text" onChange={changeHandler} />
+    </div>
+  );
+}
+
+export default App;
+
+
+-----------------------------------------------------------------------------------------
+To render only on first render of component completed 
+
+Add an empty dependency array in the useEffect
+
+  useEffect(() => {
+    console.log('UI rendered');
+  }, []);
+-----------------------------------------------------------------------------------------
+to run on first render and whenever dependency changes
+
+  useEffect(() => {
+    console.log('UI rendered');
+  }, [text]);
+
+-----------------------------------------------------------------------------------------
+We can use useEffect to handle unmounting of component  - cleanup task 
+
+for unmounting , for cleanup task we use return inside the useEffect hook 
+
+  useEffect(() => {
+    console.log('Listener added');
+
+    return () => {
+      console.log('Listener removed');
+    };
+  }, [text]);
+-----------------------------------------------------------------------------------------
+Class Base components 
+
+let see 3 states of it      
+    ComponentDidMount
+    ComponentDidUpdate
+    ComponentWillUnMount 
+
+Instead of these 3 ,we can do the same using useEffect 
+-----------------------------------------------------------------------------------------
+
+
+import logo from './logo.svg';
+import './App.css';
+import { useEffect, useState } from 'react';
+
+function App() {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    console.log('Listener added');
+
+    return () => {
+      console.log('Listener removed');
+    };
+  }, [text]);
+
+  function changeHandler(e) {
+    console.log(text);
+    setText(e.target.value);
+  }
+  return (
+    <div className="App">
+      <input type="text" onChange={changeHandler} />
+    </div>
+  );
+}
+
+export default App;
+-----------------------------------------------------------------------------------------
+Window resize event 
+
+import logo from './logo.svg';
+import './App.css';
+import { useEffect, useState } from 'react';
+
+function App() {
+  function getWindowDimension() {
+    const { innerHeight: height, innerWidth: width } = window;
+    return {
+      height,
+      width,
+    };
+  }
+  const [windowDimension, setWindowDimension] = useState(getWindowDimension());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimension(getWindowDimension());
+    }
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <div className="App">
+      <input
+        type="text"
+        value={`${windowDimension.width} ${windowDimension.height}`}
+        onChange={() => console.log('dimension changed')}
+      />
+    </div>
+  );
+}
+
+export default App;
+
+-----------------------------------------------------------------------------------------
+Lets create a Website 
+
+    Top Courses that has the following components 
+
+            App Component - Top level wrapper
+            NavBar Component 
+            Filter Component 
+            Cards Component 
+            Card 
+            Toast Component 
+-----------------------------------------------------------------------------------------
+To add toast in react use 
+    npm i react-toastify
+
+
+see React-toast.txt for detailed usage
+-----------------------------------------------------------------------------------------
+To add React-icons 
+
+Read React-icons.txt for detailed usage 
+
+-----------------------------------------------------------------------------------------
+-->  import toastcontainer and its css file inside index.js 
+--> add the toastcontainer component as last component in index.js 
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+    <ToastContainer />
+  </React.StrictMode>
+);
+
+-----------------------------------------------------------------------------------------
+fetching the api data using fecth inside App.js
+
+import React, { useEffect, useState } from 'react';
+import NavBar from './components/NavBar';
+import Filter from './components/Filter';
+import Cards from './components/Cards';
+import { filterData, apiUrl } from './data';
+import { toast } from 'react-toastify';
+
+const App = () => {
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(apiUrl);
+        const output = await res.json();
+        setCourses(output.data);
+      } catch (err) {
+        toast.error('SomeThing went wrong');
+      }
+    };
+    fetchData();
+  }, []);
+  return (
+    <div>
+      <NavBar />
+      <Filter filterData={filterData} />
+      <Cards courses={courses} />
+    </div>
+  );
+};
+
+export default App;
+
+-----------------------------------------------------------------------------------------
+Create a navbar with an heading
+
+import React from 'react';
+
+const NavBar = () => {
+  return (
+    <div>
+      <nav>
+        <h1>Top Courses</h1>
+      </nav>
+    </div>
+  );
+};
+
+export default NavBar;
+-----------------------------------------------------------------------------------------
+Add the filter component 
+
+import React from 'react';
+
+const Filter = ({ filterData }) => {
+  return (
+    <div>
+      {filterData.map((data) => (
+        <button key={data.id}>{data.title}</button>
+      ))}
+    </div>
+  );
+};
+
+export default Filter;
+
+-----------------------------------------------------------------------------------------
+Create the cards container 
+
+import React from 'react';
+import Card from './Card';
+const Cards = ({ courses }) => {
+  let allCourses = [];
+
+  const getCourses = () => {
+    Object.values(courses).forEach((courseCategory) => {
+      courseCategory.forEach((course) => {
+        allCourses.push(course);
+      });
+    });
+    return allCourses;
+  };
+  return (
+    <div>
+      {!courses ? (
+        <div>
+          <p>No Data Found</p>
+        </div>
+      ) : (
+        getCourses().map((course) => <Card course={course} key={course.id} />)
+      )}
+    </div>
+  );
+};
+
+export default Cards;
+-----------------------------------------------------------------------------------------
+
+Create the Card 
+
+import React from 'react';
+import { FcLike } from 'react-icons/fc';
+const Card = ({ course }) => {
+  return (
+    <div>
+      <div>
+        <img src={course.image.url} alt="" />
+        <div>
+          <button>
+            <FcLike fontSize="1.75rem" />
+          </button>
+        </div>
+      </div>
+      <div>
+        <p>{course.title}</p>
+        <p>{course.description}</p>
+      </div>
+    </div>
+  );
+};
+
+export default Card;
