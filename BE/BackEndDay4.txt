@@ -1,0 +1,251 @@
+Creating Blog APIs
+
+/api/v1/posts/create - POST
+/api/v1/posts   - GET
+/api/v1/comments/create - POST
+/api/v1/likes/like  - POST 
+/api/v1/likes/unlike - POST 
+
+we have 
+        index.js
+        .env file    
+        config folder
+            database.js
+        routes folder 
+        controllers folder 
+        models folder 
+
+============================================================================
+create a folder 
+    BE_Code_4
+
+    npm init -y 
+
+    npm i nodemon
+
+    Add in package.json
+            "scripts":{
+                "start":"node index.js",
+                "dev":"nodemon index.js"
+            }
+
+    create index.js 
+
+    npm i express 
+    npm i dotenv
+    npm i mongoose
+
+    Create 
+        config folder   - database.js
+        controllers folder
+        models folder 
+        routes folder 
+
+============================================================================
+inside config folder - create database.js file 
+
+const mongoose = require('mongoose');
+
+require('dotenv').config();
+
+const database = () => {
+  mongoose
+    .connect(process.env.DATABASE_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log('Database connected successfully');
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log('error connecting to database');
+      process.exit(1);
+    });
+};
+
+module.exports = database;
+
+============================================================================
+index.js file add below code 
+
+const express = require('express');
+const app = express();
+
+//import dotenv to load env data
+require('dotenv').config();
+const PORT = process.env.PORT || 6000;
+
+//middleware to parse json
+app.use(express.json());
+
+//import the route file
+const blog = require('./routes/blog');
+//mount the route
+app.use('/api/v1', blog);
+
+//connect to database
+const database = require('./config/database');
+database();
+
+app.listen(PORT, () => {
+  console.log(`Server is running at ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  res.send(`<h1>This is HomePage</h1>`);
+});
+
+
+============================================================================
+Now create routes - blog.js 
+
+we import controller and we map it with route 
+
+Now lets start creating controller 
+
+    commentController.js
+    likeController.js
+    postController.js 
+
+Now Create models inside models folder 
+    commentModel.js 
+    likeModel.js 
+    postModel.js 
+============================================================================
+
+
+Lets understand the Schema
+
+        When creating post ,iam sending 
+                                title and body 
+                            we can like the post (multiple users can like - array of users)
+                            we can comment on post (multiple users can comment on a post ) 
+
+
+Post 
+    title:String
+    body:String
+    likes: [id,refofLikeModel]
+    comments:[id,refOfCommentModel]
+
+Like 
+    Post:[id,refOfPost]
+    user:String 
+
+Comment 
+    Post:[id,refOfPost]
+    body:String 
+    User:String 
+
+=====================================================================================
+creating models - commentModel.js 
+
+const mongoose = require('mongoose');
+
+const commentSchema = new mongoose.Schema({
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post', //this is reference to POST Model
+  },
+  user: {
+    type: String,
+    required: true,
+  },
+  body: {
+    type: String,
+    required: true,
+  },
+});
+
+module.exports = mongoose.model('Comment', commentSchema);
+
+----
+const mongoose = require('mongoose');
+
+const likeSchema = new mongoose.Schema({
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post',
+  },
+  user: {
+    type: String,
+    required: true,
+  },
+});
+
+module.exports = mongoose.model('Like', likeSchema);
+
+----
+const mongoose = require('mongoose');
+
+const postSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  body: {
+    type: String,
+    required: true,
+  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Like',
+    },
+  ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+});
+
+module.exports = mongoose.model('Post', postSchema);
+
+=====================================================================================
+Creating controllers:
+
+const Post = require('../models/postModel');
+const Comment = require('../models/commentModel');
+
+//business logic
+
+exports.createComment = async (req, res) => {
+  try {
+    //fetch data from request body
+    const { post, user, body } = req.body;
+
+    //create a comment object
+    const comment = new Comment({ post, user, body });
+    //save the new comment into the database
+    const savedComment = await comment.save();
+
+    //find the post by ID, add the new comment to its comment array
+    const updatedPost = await Post.findByIdAndUpdate(
+      post,
+      {
+        $push: { comments: savedComment._id },
+      },
+      { new: true }
+    )
+      .populate('comments') //populate the comments array with comment documents
+      .exec();
+
+    res.json({
+      post: updatedPost,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Error while creating comment',
+    });
+  }
+};
+
+------
+
+
+=====================================================================================
+
+
