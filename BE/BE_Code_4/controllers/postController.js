@@ -16,3 +16,20 @@ exports.createPost = async (req, res) => {
     });
   }
 };
+
+exports.getAllPost = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate('likes')
+      .populate('comments')
+      .exec();
+    res.json({
+      post: posts,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      data: err.message,
+    });
+  }
+};

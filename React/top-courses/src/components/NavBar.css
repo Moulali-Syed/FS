@@ -1,0 +1,9 @@
+nav {
+  background-color: rgb(4, 4, 55);
+  color: white;
+  height: 5vmax;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+}

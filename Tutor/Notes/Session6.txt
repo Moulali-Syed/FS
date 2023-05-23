@@ -1,0 +1,108 @@
+Lets create the folder strcuture 
+
+
+Create routes folder , inside create User folder  - inside User.js 
+
+
+## We create a controller
+const createUser = async (req, res) => {
+  try {
+    res.json({ status: true });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports = { createUser };
+
+## we import the controller to a router file and map it to a route 
+const express = require('express');
+const { createUser } = require('../../controllers/User/User');
+
+const userRouter = express.Router();
+
+userRouter.post('/register', createUser);
+module.exports = userRouter;
+
+
+## we import the router into index.js 
+const express = require('express');
+const userRouter = require('./routes/User/userRouter');
+const app = express();
+
+require('dotenv').config();
+const PORT = process.env.PORT || 5000;
+
+app.use('/api/user', userRouter);
+
+app.listen(PORT, () => {
+  console.log(`Server running at Port ${PORT}`);
+});
+
+
+==========================================================================
+To use body data , we have to use middleware
+body-parser   or   express.json()
+
+// to access  req.body , we need middleware 
+app.use(express.json());//use this in index.js file 
+
+app.use(express.urlencoded({extended:false}));
+
+----
+
+for body parser , we need to install ->  npm i body-parser 
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());//  we must initialize before specifying routes inside index.js 
+app.use(bodyParser.urlencoded({extended:false}));
+
+========================================================================================
+Step1: create controller 
+const createUser = async (req, res) => {
+  try {
+    res.json({ status: true });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    res
+      .status(200)
+      .json({ status: true, message: 'deleted', id, data: req.body });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+module.exports = { createUser, deleteUser };
+
+
+Step2: Create Route 
+const express = require('express');
+const { createUser, deleteUser } = require('../../controllers/User/User');
+
+const userRouter = express.Router();
+
+userRouter.post('/register', createUser);
+userRouter.delete('/delete-user/:id', deleteUser);
+
+module.exports = userRouter;
+
+Step3: 
+const express = require('express');
+const userRouter = require('./routes/User/userRouter');
+const app = express();
+
+require('dotenv').config();
+const PORT = process.env.PORT || 5000;
+
+app.use('/api/user', userRouter);
+
+app.listen(PORT, () => {
+  console.log(`Server running at Port ${PORT}`);
+});
+
+========================================================================================

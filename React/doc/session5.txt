@@ -225,6 +225,10 @@ const Card = ({ course, likedCourses, setLikedCourses }) => {
 
 export default Card;
 ==========================================================================================
+
+get this from css loader generator and paste the code in css file as well 
+
+
 import React from 'react';
 import './Spinner.css';
 

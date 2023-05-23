@@ -19,7 +19,7 @@ exports.createComment = async (req, res) => {
       {
         $push: { comments: savedComment._id },
       },
-      { new: true }
+      { new: true } //this will return the updated post
     )
       .populate('comments') //populate the comments array with comment documents
       .exec();
@@ -31,5 +31,13 @@ exports.createComment = async (req, res) => {
     return res.status(500).json({
       error: 'Error while creating comment',
     });
+  }
+};
+
+exports.dummyContent = async (req, res) => {
+  try {
+    res.send('<h1>THis is dummy page</h1>');
+  } catch (err) {
+    console.log(err);
   }
 };

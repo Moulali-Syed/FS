@@ -1,0 +1,112 @@
+http module:
+http - hyper text transfer protocol 
+it is used to send and receive data over http , it is a built in module in node js
+
+
+const http = require('http');
+
+//create a http server
+const server = http.createServer((req, res) => {
+  res.end('hi from server');
+  console.log('server created');
+});
+
+//to start http server , call the listen method 
+server.listen(4000,"127.0.0.1" () => {
+  console.log('server is running at port 4000');
+});
+
+==========================================================================================
+request parameters:
+
+req.url ==> to get request url
+
+req.method  ==>  GET, POST , PUT , DELETE 
+
+req.headers ===>  this gives information about headers 
+
+==========================================================================================
+
+response methods 
+
+res.end("Hello from server");
+res.write("Hi There");
+
+res.statusCode = 400;
+
+res.setHeader('Content-Type', 'application/json');
+
+//instead of res.setHeader and res.statusCode , we can use res.writeHead 
+  res.writeHead(404, { 'Content-Type': 'image/png' });
+
+==========================================================================================
+MIME types
+
+text/html
+text/css
+application/javascript 
+application/json 
+image/jpeg
+image/png   
+
+==========================================================================================
+
+Creating a server and listening at different routes
+
+const http = require('http');
+
+const PORT = 4000;
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.writeHead(201, { 'Context-Type': 'text/html' });
+    res.write('Hello There');
+    res.end();
+  } else if (req.url === '/about') {
+    res.writeHead(200, { 'Context-Type': 'text/html' });
+    res.write('Chocos');
+    res.end();
+  } else {
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.write('Page Not Found 404');
+    res.end();
+  }
+});
+
+server.listen(PORT, () => {
+  console.log(`Server is running at ${PORT}`);
+});
+
+==========================================================================================
+Express Js:
+
+is an open source , fast, minimalist website to build websites 
+express js is available on npm 
+
+npm i express 
+
+//Creating an express server 
+
+const express = require('express');
+const app = express();
+
+app.use('/', (req, res) => {
+  //   res.status(400).send('<h1>Hello from express</h1>');
+  res.status(200).json({ status: true, message: 'Home Page' });
+});
+
+app.listen(3000, () => {
+  console.log('server running at port 3000  ');
+});
+
+==========================================================================================
+middleware
+
+has access to request and response 
+
+const notFound = (req,res,next)=>{
+    const error = new Error(`Route Not Found: ${req.originalUrl} `);
+    res.status(404);
+    next(error);
+}
+
+app.use(notFound);

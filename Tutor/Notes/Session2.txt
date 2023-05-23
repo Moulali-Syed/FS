@@ -1,0 +1,320 @@
+10 May 2023
+
+Each single file is considered as module in node js
+
+Create a file demo.js with code and export area from it 
+
+const pi = Math.PI;
+let r = 5;
+let a = pi * r * r;
+
+exports.area = a;
+
+
+--
+Create index.js and import the demo.js and access the exported code 
+
+const cir = require('./demo');
+console.log(cir.area);
+
+===================================================================
+node js by default use - 
+  "type": "commonjs",
+
+to use the import export format of ES6 , change the type in package.json
+  "type": "module",
+
+===================================================================
+
+default export , import syntax of ES6 
+
+const pi = Math.PI;
+let r = 5;
+let a = pi * r * r;
+
+export default a;
+
+---
+import a from './demo.js';
+console.log(a);
+
+===================================================================
+Named export - import syntax of ES6 
+
+const pi = Math.PI;
+let r = 5;
+let a = pi * r * r;
+
+export { a };
+----
+import { a } from './demo.js';
+console.log(a);
+
+===================================================================
+Multiple export - import syntax 
+
+const pi = Math.PI;
+let r = 5;
+let a = pi * r * r;
+
+export { a, r };
+
+----
+import { a, r } from './demo.js';
+console.log(a);
+console.log(r);
+===================================================================
+
+custom name for import 
+
+import { a as area, r } from './demo.js';
+console.log(area);
+console.log(r);
+
+===================================================================
+
+commonjs - multiple export import 
+
+const pi = Math.PI;
+let r = 5;
+let a = pi * r * r;
+
+module.exports = { a, r };
+----
+const cir = require('./demo');
+console.log(cir.a);
+console.log(cir.r);
+===================================================================
+import export patterns 
+
+
+//single export - import 
+//******  Pattern 1  ******
+
+const add = (a, b) => {
+  return a + b;
+};
+
+module.exports = add;
+----
+const add = require('./Math');
+console.log(add(2, 3));
+
+
+//******  Pattern 2  ******
+module.exports = (a, b) => {
+  return a + b;
+};
+
+const add = require('./Math');
+console.log(add(2, 3));
+
+
+//******  Pattern 3  ******
+// exporting morethan one variable or function 
+
+const add = (a, b) => {
+  return a + b;
+};
+
+const subtract = (a, b) => {
+  return a - b;
+};
+
+module.exports = { add, subtract };
+---
+const a = require('./Math');
+console.log(a.add(2, 3));
+console.log(a.subtract(5, 1));
+
+
+//******  Pattern 3 - import by destructuring the object  ******
+const add = (a, b) => {
+  return a + b;
+};
+
+const subtract = (a, b) => {
+  return a - b;
+};
+
+module.exports = { add, subtract };
+----
+const a = require('./Math');
+
+const { add, subtract } = a;
+console.log(add(2, 3));
+console.log(subtract(5, 1));
+
+
+//******  Pattern 4  ******
+module.exports.add = (a, b) => {
+  return a + b;
+};
+
+module.exports.subtract = (a, b) => {
+  return a - b;
+};
+
+-----
+const a = require('./Math');
+
+console.log(a.add(2, 3));
+console.log(a.subtract(5, 1));
+
+
+//******  Pattern 5  ******
+exports.add = (a, b) => {
+  return a + b;
+};
+
+exports.subtract = (a, b) => {
+  return a - b;
+};
+
+-----
+const a = require('./Math');
+
+console.log(a.add(2, 3));
+console.log(a.subtract(5, 1));
+===================================================================
+ES Modules from ES6 
+
+to use ES6 Module import export syntax in normal javascript file 
+then file extension must be .mjs 
+
+or it should have package.json - with type:module specified
+
+/********* Pattern 1  *************************/
+/******* export single function **********/
+
+const add = (a, b) => {
+  return a + b;
+};
+
+export default add;
+
+----
+import add from './Math.js';
+console.log(add(2, 3));
+
+/********* Pattern 2  *************************/
+export default (a, b) => {
+  return a + b;
+};
+
+--
+import add from './Math.js';
+console.log(add(2, 3));
+
+/********* Pattern 3  *************************/
+
+const add = (a, b) => {
+  return a + b;
+};
+
+const subtract = (a, b) => {
+  return a - b;
+};
+
+export { add, subtract };
+
+---
+import { add, subtract } from './Math.js';
+console.log(add(2, 3));
+console.log(subtract(5, 5));
+
+/********* Pattern 4  *************************/
+const add = (a, b) => {
+  return a + b;
+};
+
+const subtract = (a, b) => {
+  return a - b;
+};
+
+export { add, subtract };
+---
+import { add as a, subtract as s } from './Math.js';
+console.log(a(2, 3));
+console.log(s(5, 5));
+
+/********* Pattern 5  *************************/
+
+export const add = (a, b) => {
+  return a + b;
+};
+
+export const subtract = (a, b) => {
+  return a - b;
+};
+
+----
+import * as math from './Math.js';
+console.log(math.add(2, 3));
+console.log(math.subtract(5, 5));
+
+===================================================================
+to keep file running on every save , we can use watch mode which is an experimental
+feature ,introduced from nodejs 18 
+
+node --watch filename
+===================================================================
+
+built in modules
+
+
+to import built in module and custom modules  , we use require or ES syntax as well
+
+const http = require('http');
+OR
+import http from 'http';
+
+
+module.exports = (a,b)=>{
+  console.log(a+b)
+}
+
+exports.add = (a,b)=>{
+  console.log(a+b)
+}
+--
+const a = require('./demo');
+
+a.add(1, 2);
+
+-----------
+module.exports = (a, b) => {
+  console.log(a + b);
+};
+
+----
+const a = require('./demo');
+
+a(1, 2);
+
+===================================================================
+os module - is a built in module ,we can get system related properties
+
+
+const os = require('os');
+
+const architecture = os.arch();
+console.log(architecture); //x64
+
+const cpu = os.cpus(); //gives an array of cores available
+console.log(cpu);
+
+const memory = os.totalmem(); //gives ram memory
+console.log(memory);
+
+const freeMemory = os.freemem(); //gives available free ram memory
+console.log(freeMemory);
+
+console.log(os.networkInterfaces()); //gives network and IP address details
+
+console.log(os.platform()); //win32
+
+console.log(os.type()); //Windows_NT
+
+console.log(os.userInfo()); //gives user details
+

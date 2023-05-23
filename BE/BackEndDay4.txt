@@ -228,7 +228,7 @@ exports.createComment = async (req, res) => {
       {
         $push: { comments: savedComment._id },
       },
-      { new: true }
+      { new: true } //this will return the updated post
     )
       .populate('comments') //populate the comments array with comment documents
       .exec();
@@ -243,9 +243,161 @@ exports.createComment = async (req, res) => {
   }
 };
 
+exports.dummyContent = async (req, res) => {
+  try {
+    res.send('<h1>THis is dummy page</h1>');
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 ------
+const Post = require('../models/postModel');
+
+exports.createPost = async (req, res) => {
+  try {
+    const { title, body } = req.body;
+    const post = new Post({ title, body });
+    const savedPost = await post.save();
+
+    res.json({
+      post: savedPost,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: 'error while creating post',
+      data: err.message,
+    });
+  }
+};
+
+exports.getAllPost = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate('likes')
+      .populate('comments')
+      .exec();
+    res.json({
+      post: posts,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      data: err.message,
+    });
+  }
+};
+
+--------
+like and unlike controller 
+
+const Like = require('../models/likeModel');
+const Post = require('../models/postModel');
+
+exports.likePost = async (req, res) => {
+  try {
+    const { post, user } = req.body;
+    const like = new Like({ post, user });
+    const savedLike = await like.save();
+
+    //update the post collection
+    const updatedPost = await Post.findByIdAndUpdate(
+      post,
+      {
+        $push: { likes: savedLike._id },
+      },
+      { new: true }
+    )
+      .populate('likes')
+      .exec();
+
+    res.json({ post: updatedPost });
+  } catch (err) {
+    res.json({
+      message: err.message,
+    });
+  }
+};
+
+//unlike post
+exports.unlikePost = async (req, res) => {
+  try {
+    const { post, like } = req.body;
+    //find and delete the like collection
+    const deletedLike = await Like.findOneAndDelete({ post: post, _id: like });
+    //update the post collection
+    const updatedPost = await Post.findByIdAndUpdate(
+      post,
+      {
+        $pull: { likes: deletedLike._id },
+      },
+      { new: true }
+    );
+
+    res.json({
+      post: updatedPost,
+    });
+  } catch (err) {
+    res.json({
+      data: 'error while unliking post',
+      message: err.message,
+    });
+  }
+};
 
 
 =====================================================================================
 
+routes - blog.js 
+
+const express = require('express');
+
+const router = express.Router();
+
+//Import controller
+const {
+  createComment,
+  dummyContent,
+} = require('../controllers/CommentController');
+const { createPost, getAllPost } = require('../controllers/PostController');
+const { likePost, unlikePost } = require('../controllers/likeController');
+//Create Mapping
+router.post('/comments/create', createComment);
+router.post('/posts/create', createPost);
+router.get('/posts', getAllPost);
+router.post('/likes/like', likePost);
+router.post('/likes/unlike', unlikePost);
+
+router.get('/posts/dummy', dummyContent);
+//export the router
+module.exports = router;
+
+
+===========================================================================
+const express = require('express');
+const app = express();
+
+//import dotenv to load env data
+require('dotenv').config();
+const PORT = process.env.PORT || 6000;
+
+//middleware to parse json
+app.use(express.json());
+
+//import the route file
+const blog = require('./routes/blog');
+//mount the route
+app.use('/api/v1', blog);
+
+//connect to database
+const database = require('./config/database');
+database();
+
+app.listen(PORT, () => {
+  console.log(`Server is running at ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  res.send(`<h1>This is HomePage</h1>`);
+});
 

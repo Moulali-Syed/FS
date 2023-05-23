@@ -1,0 +1,216 @@
+fs module  - is a built in module in node js
+fs module has methoda to read , write , append , delete data from a file
+
+
+sync and async ways of reading file data 
+
+const fs = require('fs');
+
+const readData1 = fs.readFileSync('./data.txt', 'utf-8');
+console.log(readData1);
+
+const readData2 = fs.readFileSync('./data.txt');
+console.log(readData2.toString());
+
+fs.readFile('./data.txt', 'utf-8', (err, data) => {
+  if (err) return console.log(err);
+  console.log(data);
+});
+
+fs.readFile('./data.txt', (err, data) => {
+  if (err) return console.log(err);
+  console.log(data.toString());
+});
+
+
+===================================================================================
+write data to a file 
+
+const fs = require('fs');
+
+fs.writeFileSync('./data.txt', 'Dummy Data 1 ✅✅ written', 'utf-8');
+
+fs.writeFile('./add2.txt', 'Dummy Data 2 written', 'utf-8', (err) => {
+  if (err) return console.log(err);
+  console.log('data written successfully');
+});
+===================================================================================
+
+to see the file stat , we can use fs.stat()
+
+const fs = require('fs');
+
+fs.stat('./data.txt', (err, data) => {
+  if (err) return console.log(err);
+  console.log(data);
+  console.log(data.isFile());
+  console.log(data.isDirectory());
+  console.log(data.size);
+});
+
+const stat = fs.statSync('./data.txt');
+console.log(stat);
+console.log(stat.isFile());
+console.log(stat.isDirectory());
+console.log(stat.size);
+
+===================================================================================
+append data to file - sync and async mode 
+
+const fs = require('fs');
+
+const append = fs.appendFileSync('add1.txt', 'data 1 added');
+
+fs.appendFile('add2.txt', 'data 2 added', (err) => {
+  if (err) return console.log(err);
+  console.log('data written successfully');
+});
+
+===================================================================================
+delete file sync and async mode 
+
+const fs = require('fs');
+
+const d = fs.unlinkSync('add1.txt');
+
+fs.unlink('add2.txt', (err) => {
+  if (err) return console.log(err);
+  console.log('file deleted');
+});
+
+===================================================================================
+******************* path module *******************
+
+const path = require('path');
+
+console.log(path.normalize('./Node/data.txt')); //Node\data.txt
+
+console.log(path.basename('./Node/data.txt')); //data.txt
+
+console.log(path.basename('./data.txt')); //data.txt
+console.log(path.basename('./Node/data.txt')); //data.txt
+
+console.log(path.basename('../../Tutor/Node')); //Node
+
+console.log(path.dirname('../Node/data.txt')); // ../Node
+
+console.log(path.extname('./data.txt')); //.txt
+
+console.log(path.resolve('index.js')); // C:\WebDevelopment\FS\Tutor\Node\index.js
+console.log(path.resolve(__dirname)); //  C:\WebDevelopment\FS\Tutor\Node
+console.log(path.resolve(__filename)); //  C:\WebDevelopment\FS\Tutor\Node\index.js
+
+console.log(path.join('/Node', '/Notes')); // \Node\Notes
+
+===================================================================================
+Node Js - Events 
+
+Any occurence in NodeJs is an event and callback function is the listener
+
+we can think this as in front end we have -  click event , a function that handles the click event 
+
+Node Js handle most of its core API in asynchronous event driven architecture 
+-------
+//create a event.js file with below code 
+const fs = require('fs');
+
+fs.ReadStream('data.txt').on('open', () => {
+  console.log('file open');
+});
+//in index.js we can read the file - event.js 
+require('./event)
+-------
+events module has a built in class EventEmitter , the instance of EventEmitter emits events 
+and listener reacts to events
+
+
+const event = require('events').EventEmitter;
+
+const emitter = new event();
+
+emitter.on('done', (res) => {
+  console.log(res);
+});
+
+//emit the event
+emitter.emit('done', 'hello from Apple');
+
+=========================================================================
+we can add multiple operations on a single callback  
+
+const event = require('events').EventEmitter;
+
+const emitter = new event();
+
+emitter.on('done', (res) => {
+  console.log('done');
+  res.handle = true;
+});
+
+emitter.on('done', (res) => {
+  if (res.handle) {
+    console.log('already done');
+  }
+});
+
+//emit the event
+emitter.emit('done', { handle: false });
+
+=========================================================================
+To run an event only once 
+
+const event = require('events').EventEmitter;
+
+const emitter = new event();
+
+emitter.once('done', (res) => {
+  console.log('done');
+  res.handle = true;
+});
+
+//emit the event
+emitter.emit('done', { handle: false });
+emitter.emit('done', { handle: false });
+
+=========================================================================
+remove the listener 
+
+const event = require('events').EventEmitter;
+
+const emitter = new event();
+
+const evtHandler = (res) => {
+  console.log('done emitting ' + res);
+  emitter.removeListener('done', evtHandler);
+};
+
+emitter.on('done', evtHandler);
+
+//emit the event
+emitter.emit('done', 'hi there');
+emitter.emit('done', 'hi there');
+
+
+=========================================================================
+emit an error:
+
+emitter.emit('error', new Error('emit some error'));
+
+=========================================================================
+
+const event = require('events').EventEmitter;
+
+const emitter = new event();
+
+const evtHandler = (res) => {
+  console.log('done emitting ' + res);
+  emitter.removeListener('done', evtHandler);
+};
+
+emitter.on('done', evtHandler);
+
+//emit the event
+emitter.emit('done', 'hi there');
+emitter.emit('done', 'hi there');
+
+emitter.emit('error', new Error('emit some error'));

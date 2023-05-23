@@ -1,0 +1,116 @@
+Express js routing is done using http methods like get,post,put,delete ,..
+
+
+//we can use render method to display the static pages like html 
+app.get('/about', (req, res) => {
+  res.status(200).render('./index.html');
+});
+
+//sending json data 
+app.get('/', (req, res) => {
+  res.status(200).json({ status: true, name: 'apple' });
+});
+
+//sending html directly 
+app.get('/about', (req, res) => {
+  res.status(200).send('<h1>Hello There</h1>');
+});
+
+===============================================================================
+Creating the GET , POST  , PUT  , DELETE Routes 
+
+const express = require('express');
+
+const app = express();
+app.get('/', (req, res) => {
+  res.status(200).json({ status: true, name: 'apple' });
+});
+
+app.get('/about', (req, res) => {
+  res.status(200).send('<h1>Hello There</h1>');
+});
+
+app.get('/contact', (req, res) => {
+  res.status(200).json({ status: true, message: 'Hello from Contact Page' });
+});
+
+app.post('/create-user', (req, res) => {
+  res.status(200).json({ status: true, message: 'User Created successfully' });
+});
+
+app.delete('/delete-user/:id', (req, res) => {
+  // const id = req.params.id;
+  const { id } = req.params;
+  res
+    .status(200)
+    .json({ status: true, message: `user deletion successful ${id}` });
+});
+app.delete('/delete-user/:id/:id2', (req, res) => {
+  // const id = req.params.id;
+  const { id, id2 } = req.params;
+  res
+    .status(200)
+    .json({ status: true, message: `user deletion successful ${id}` });
+});
+
+app.put('/update-user/:id', (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({ status: true, message: 'user updated successfully' });
+});
+const notFound = (req, res, next) => {
+  const error = new Error(`Route Not Found ${req.originalUrl}`);
+  res.status(404);
+  next(error);
+};
+
+app.use(notFound);
+
+app.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+===============================================================================
+
+MVC Folder structure:
+
+Create a folder 
+    initialize project
+            npm init    or    npm init -y
+
+    install express 
+            npm i express 
+    install dev dependency nodemon 
+            npm i nodemon -D     or  npm i nodemon --save-dev
+
+    To run the app , we can set the scripts
+            "scripts":{
+                "start":"node index.js",
+                "dev":"nodemon index.js"
+            }
+
+            npm run dev 
+            or
+            npm run start or  npm start 
+
+lets install - dotenv , to use .env file variables 
+
+npm i dotenv 
+
+require('dotenv').config();
+
+in index.js - create express app 
+
+    const express = requrie('express');
+    const app = express();
+    const PORT = process.env.PORT || 5000 ;
+
+
+    app.listen(PORT,()=>{
+        console.log(`server is running at port ${PORT}`)
+    })
+
+
+now lets see folder structure 
+    models folder - used to create database structure(Schema)
+    controllers folder  - we connect models to controller ,  we write the functionality here 
+    routes folder  - we define on which route a particular functionality to run 
+    routes will be connected to index.js 

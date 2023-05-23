@@ -1,0 +1,139 @@
+08 - May - 2023
+
+Node Js is an open source and cross platform js runtime to run js outside from web browser
+It is used to build web/window/console application , web apis and hybrid applications
+Node Js is build on chrome v8 engine 
+Node Js is async and event driven js runtime to build for scalable network apps 
+NodeJs based applications 
+        WebApps
+        Hybrid Apps(mobile,desktop)
+        We can create APIs 
+        Streaming services for audio and video 
+
+Node based web servers
+        Netflix
+        LinkedIn
+        Uber
+        Paypal
+        NASA
+
+Node Js based desktop applications 
+        VS Code
+        Brackets
+        atom 
+        compass
+        postman 
+        Discord
+Node Js Performance Secret 
+        Js is single thread for execution 
+        for time taking operations it uses async call back functions 
+
+
+Event Loop - Js uses event loop to handle asynchronous operations 
+
+Check after installing Node 
+    open CMD 
+            node -v
+            npm --v 
+
+we can also use pnpm , yarn instead of npm 
+
+Create a js file in vs code , open terminal and run the file --> node filename
+
+Node JS REPL:
+------------
+    Read
+    Evaluate
+    Print
+    Loop 
+
+to start repl - in terminal write -->  node and click enter 
+
+2+3
+5
+_+3
+8
+
+=============================================================================
+Creating node app:
+
+npm init   or    npm init -y  
+
+give package name,version  , description , entry point (index.js) ,..enter 
+
+we get package.json file  - it records important meta data of our application which is required
+before publishing to npm and also defines , functional attributes that npm uses to identify entry point 
+
+Lets see how to install a package 
+npm i express 
+
+uninstall a package 
+npm uninstall express 
+
+--------------------------------------
+in frontend - we used console method to log messages to console 
+in backend we have it as well 
+
+--------------------------------------
+String Substitution:
+
+console.log('hi %s , how are you?', 'Apple');
+output:  hi Apple , how are you?
+
+console.log('this is %d and this is %d', 2, 3);
+output:  this is 2 and this is 3
+
+--------------------------------------
+get file name 
+
+
+console.log(__filename);//gives the complete path of file 
+C:\WebDevelopment\FS\Tutor\Node\index.js
+
+console.log(__dirname);//gives the folder path , in the file we are in 
+C:\WebDevelopment\FS\Tutor\Node
+
+--------------------------------------
+process 
+
+process - is an object , core module in node js that provides information about present current node js process 
+
+console.log(process.version); //output:gives our nodejs version   v16.14.0
+
+--------------------------------------
+
+//global object
+//global object in node js is same as window object in browser
+console.log(console === global.console); //true
+
+we can add  properties to global in node js
+// global.name = 'Apple';
+// console.log(name); //Apple
+// console.log(global.name); //Apple
+
+-----------------------------------------
+create another file demo.js 
+and write 
+    global.name = "grapes";
+
+now import this demo.js file into index.js file 
+require('./demo');
+console.log(name);//we can access the properties defined in other file into another file 
+which were defined on the global object of node
+
+-----------------------------------------
+create commands in package.json
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+
+
+Add nodemon dependency
+npm i nodemon -D 
+
+
+we can now run using 
+npm run dev 
