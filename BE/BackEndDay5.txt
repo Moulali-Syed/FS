@@ -1,0 +1,201 @@
+Backend Development Basics:
+==========================
+Client - Server Architecture:
+
+client - makes a request
+server - receives a request 
+
+How Internet Works?
+1.user writes ->   www.google.com
+2.DNS will convert it to server address
+3.server sends the data back to response
+
+What is Express?
+Express is a backend web application framework for NodeJs.It provides a set of tools and features
+that enable developers to build server-side applications that handle HTTP requests and responses,
+connect to databases and perform other tasks .Express is designed to be flexible and modular
+allowing developers to add middleware functions and customize applications to meet their specific needs
+
+
+Create a Application using Express:
+----------------------------------
+-->>  npm init -y
+-->>  npm install express
+
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/',(req,res)=>{
+    res.send("Home Page");
+})
+
+app.listen(port,()=>{
+    console.log('server listening to port 3000');
+})
+
+MiddleWare:
+-----------
+In Express , middleware refers to a function that processes incoming HTTP requests
+and can perform various actions such as modifying the request or response objects 
+invoking the next middleware function in the chain or sending a response to the client 
+
+* Middleware functions can be used to perform a variety of tasks, such as
+* Logging: Middleware can be used to logging information abour incoming requests and outgoing responses
+* Authentication: Middleware can be used to authenticate users , check if they are authorized to access 
+                certain resources and redirect them to login pages if necessary 
+* Parsing: MiddleWare can be used to parse incoming request bodies such as JSON , XML or form data 
+* Error Handling: MiddleWare can be used to handle errors and exceptions that occur during the request/response cycle
+* MiddleWare functions are added to Express application using the app.use() method , and they are 
+  executed in order in which they are added to middleware chain . This allows for modular and flexible
+  application design , as different middleware functions can be added or removed as needed
+
+
+//adding middleware
+
+app.use(express.json());
+
+//adding routes
+app.method(path,handler)
+app.get('/',function(){
+    //code here
+})
+
+
+Mounting:
+--------
+In Express.js mounting refers to process of attaching middleware or sub-applications to specific
+paths in the main application .This allow us to create a modular and flexible application structure
+where different parts of the application are responsible for handling different routes and functionalities
+
+When we mount middleware or sub-applications in Express , we specify the path at which they should be 
+mounted using the app.use() method. Here's an example:
+
+In this example , we have two separate router objects , userRouter and productRouter ,
+each defining their own routes and middlewares functions We then mount these routes on specific
+paths using the app.use() method so that any incoming requests that match those paths are routed 
+to the appropriate router and middleware
+
+So, any incoming requests to the /users path will be handled by the middleware and routes 
+defined in the userRouter object , while requests to the /products path will be handled 
+by the productRouter
+
+By using mounting we can create a more organized and modular application structure 
+with each part of application responsible for handling a specific set of routes 
+and functionalities This can make our code easier to maintain and scale over time 
+as we can add or remove modules without affecting the rest of the application 
+
+Testing API Routes:
+------------------
+Create a collection in Postman
+create a request 
+
+
+MongoDB:
+-------
+is a nosql database , is a more scalable (depends on use case ),
+stores in form of documents 
+
+Mongoose:
+---------
+is a Object Data Modelling (ODM) library for MongoDB and NodeJs that provides a higher-level of 
+abstraction layer for working with MongoDB .It simplifies the process of interacting with MongoDB
+database by providing a schema-based solution to model and validate data 
+
+Mongoose provides a way to define data models in Node.js that are mapped to MongoDB collections
+With Mongoose developers can define data schemas that enforce strict data types and validations
+rules , allowing for more structured and reliable data storage
+
+Here are some of the features that Mongoose provides
+Schema definition: Developers can define schemas for data models using Mongoose's Schema definition
+    syntax which includes data type validation , custom validation and other options
+
+Data querying and manipulation: mongoose provides a simple and intutuive way to query and maniupulate
+    data in mongodb using fluent API that includes methods like find() , findOne(), save() and update()
+
+MiddleWare: Mongoose allows developers to define middleware functions that can be executed before or 
+after specific operations such as validating data , encrypting passwords , or triggering notifications
+
+Connection Management:Mongoose provides a connection manager that handles connection polling and
+reconnection in case of network failures
+
+Plugins: Mongoose allows developers to extend this functionality with plugins that can provide 
+    additional features , such as full-text search or geospatial queries 
+
+
+Nodemon:
+-------
+used for keep our server up and running , need not restart everytime on a change 
+
+
+Optimal Folder Structure:
+------------------------
+Routes folders
+Controllers folders 
+Views(Templates) folders
+Models(Schema is defined here)
+DataBase 
+
+MVC:
+----
+MVC stands for Model View Controller which is a software architectural pattern 
+used in web development to separate applications concerns into three interconnected components
+
+Model: This component represents the data and business logic of application .It defines
+       the structure and behaviour of data and manages access to it In a web application 
+       this might include database operations , data validation and application specific business rules
+
+View : This component defines the presentation and user interface of application it is responsible for 
+        rendering data to user in a way that is easy to understand and interact with .In a web application this
+        might include HTML template, css stylesheets and javascript code that handles user interaction
+
+Controller: This component acts as an intermediary between model and view It handles user requests interacts With
+        model to retrieve data and passes the data to view for rendering It also handles user input and updates the model
+        accordingly
+
+By separating the applications concerns into these three components , the MVC pattern promotes a modular and maintainable codebase
+Changes to one component can be made without affecting the others , which makes it easier to
+modify adn update the application over time
+
+MVC is used widely in web development frameworks such as Rails, DJango,Laravel,expressjs .
+By following MVC developers can build scalable , maintainable and testable web applications
+
+different routes:
+----------------
+get
+post
+put
+delete
+
+export syntax:
+-------------
+to export only one function  or an object(default export) 
+    module.exports = myFunction 
+        or
+    module.exports = myObject
+
+to export multiple functions or object from a single file
+    exports.functionName = myFuncDefinition
+    exports.function2Name = myFunc2Definition
+
+
+Schema
+Model
+documents
+Collection 
+
+
+Check mongoose documentation 
+
+Different Types of Status codes 
+
+
+Different Types of Interaction with DB:
+---------------------------------------
+simple db interaction 
+db interaction with multiple dependencies , as seen post linked with comment and link 
+
+
+ref - option in mongoose schema:
+-------------------------------
+
