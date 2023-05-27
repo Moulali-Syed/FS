@@ -1,0 +1,32 @@
+//below code is just for understanding - not the appropriate ts code 
+
+//we create a Queue class which is of generic type , can accept any datatype
+//to make it specific , we made it extend with a NumberQueue 
+
+// Queue - A First First Out Data Structure
+class Queue {
+  data = [];
+  push(item) {
+    this.data.push(item);
+  }
+  pop() {
+    return this.data.shift();
+  }
+}
+class NumberQueue extends Queue {
+  push(item: number): void {
+    super.push(item);
+  }
+  pop(): number {
+    return super.pop();
+  }
+}
+let q1 = new Queue();
+q1.push(123);
+q1.push(456);
+
+
+console.log(q1.pop().toPrecision(1));
+console.log(q1.pop().toPrecision(1));
+
+=========================================================================================

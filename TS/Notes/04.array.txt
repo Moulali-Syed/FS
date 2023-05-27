@@ -1,0 +1,21 @@
+Array is widely used in javascript, so as in typescript
+
+
+let array: number[] = [1, 2, 3, 4];
+
+let array2: Array<number> = [10, 11, 12, 13];
+
+//we can declare array of any length
+array = [1];
+
+//we cannot assign value of other types , other than number , as we mentioned type
+//if assigned a different value , we get a compilation error
+// array = ['apple']; - Type 'string' is not assignable to type 'number'.
+
+//we can declare array of fixed length - which in general programming terms called tuple
+let tuple: [number, number] = [0, 0];
+
+tuple = [1, 2];
+tuple = [3, 8];
+
+// tuple = ['chocos',1] - Type 'string' is not assignable to type 'number'

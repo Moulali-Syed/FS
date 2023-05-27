@@ -1,0 +1,57 @@
+The very first thing we need is to install node js 
+make sure to check in CMD
+ 
+node -v 
+npm --v 
+
+Create a node app 
+    npm init -y
+
+Then install typescript into project
+    npm i typescript
+
+This will install typescript compiler tsc , into this package
+
+Now run the below command to get the typescript config file
+npx tsc --init --rootdir src --outDir lib
+
+we get configuration that tsconfig.json file is created 
+
+Use VSCode Editor - the creator of typescript as well
+
+-------------------------------------------------------------------------
+Now create src folder -->  src/index.ts file 
+
+
+inside index.ts , write below code
+
+let message: string = 'Hello World';
+console.log(message);
+console.log(1);
+
+
+#Now lets compile our code , so that typescript generates corresponding javascript file
+npx tsc 
+
+----
+We can also use the watch mode
+
+npx tsc --watch 
+
+this will keep on watching changes in our ts file and make changes to our js file 
+
+#we can see the code as below in our generated lib/index.js file 
+
+"use strict";
+let message = 'Hello World';
+console.log(message);
+console.log(1);
+
+
+#Now we can run the javascript file 
+node lib/index
+
+--------------------------------------------------------------------------
+The major difference we see is the type being specified in the ts code
+ 
+😊🎉 - Created Hello World using typescript - compiled it - executed the generated js file ✅

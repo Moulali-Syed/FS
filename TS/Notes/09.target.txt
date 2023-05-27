@@ -1,0 +1,10 @@
+in tsconfig.json file we can specify the required version of javascript version
+at the target property and assign a value to it 
+
+
+ "target": "ES2015"
+
+ OR
+ to make it to be most recent js version , specify
+ 
+  "target": "ESNext"

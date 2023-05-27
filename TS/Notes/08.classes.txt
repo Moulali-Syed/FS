@@ -1,0 +1,49 @@
+class Animal {
+  private name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  public move(distanceInMeters: number): void {
+    console.log(`${this.name} moved ${distanceInMeters}m`);
+  }
+}
+
+let lion = new Animal('LION🦁');
+lion.move(10);
+//we cannot access private variables outside class
+// lion.name;//Property 'name' is private and only accessible within class 'Animal' - gives compile time error
+
+
+--------------------------------------------------------------------------
+Inheritance:
+
+we can use protected to make the variables accessible to inherited class 
+
+class Animal {
+  protected name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  public move(distanceInMeters: number): void {
+    console.log(`${this.name} moved ${distanceInMeters}m`);
+  }
+}
+
+let lion = new Animal('LION🦁');
+lion.move(10);
+//we cannot access private variables outside class
+// lion.name;//Property 'name' is private and only accessible within class 'Animal' - gives compile time error
+
+class Bird extends Animal {
+  fly(meters: number): void {
+    console.log(`${this.name} flys ${meters}m`);
+  }
+}
+
+let eagle = new Bird('Eagle');
+eagle.fly(1000);
+eagle.move(200);

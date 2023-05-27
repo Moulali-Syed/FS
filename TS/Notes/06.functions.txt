@@ -1,0 +1,32 @@
+//we can specify datatype for parameter also specify the return type 
+function add(num1: number, num2: number): number {
+  return num1 + num2;
+}
+
+//if function is not returning anything we can mention return type as void 
+function sayHi(message: string): void {
+  console.log(`Hi ${message}`);
+}
+
+//when we pass rest parameter , we have to specify it as an array   
+function sum(...values: number[]) {
+  return values.reduce((acc, curr) => {
+    return (acc += curr);
+  }, 0);
+}
+
+console.log(sum(1, 2, 3));
+
+
+------------------------------------------------------------------
+//specify parameter and their return type , followed by arrow operator and return type
+//below way of using type - is called type aliasing , we can create this once and use it as many times
+//we want
+type Add = (num1: number, num2: number) => number;
+let add: Add;
+add = (num1, num2) => {
+  return num1 + num2;
+};
+
+let sub: Add;
+sub = (num1, num2) => num1 - num2;

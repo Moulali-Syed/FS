@@ -1,0 +1,26 @@
+Primitives in typescript:
+
+These are same as in javascript
+but here we mention them 
+
+
+
+let isPresent: boolean = true;
+let magic: number = 38;
+let hello: string = 'Moulali';
+
+let notdefined: undefined = undefined;
+let notPresent: null = null;
+
+let uniqueVal: symbol = Symbol('tomcat');
+let bigNumber: bigint = 38n;
+
+
+Typenames in typescript generally follows the pascal naming convention
+The only type names that are lower case by default are these above Primitive datatypes 
+
+
+Symbol  - is used to generate unique value
+bigint - must have suffix n , used to store bigger numbers which are out of range of number 
+
+💥⭐ We have Primitive Types 

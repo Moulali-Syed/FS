@@ -1,0 +1,25 @@
+type User = { id: string };
+type Product = { id: string };
+let user: User = { id: 'apple-38' };
+let product: Product = { id: 'chocos-982' };
+
+//we can assign user to product , product to user because they have the same structure
+user = product;
+product = user;
+
+----------------------------------------------------------------------------------------------------
+type Point2D = { x: number; y: number };
+type Point3D = { x: number; y: number; z: number };
+
+let point2D: Point2D = { x: 10, y: 10 };
+let point3D: Point3D = { x: 20, y: 30, z: 40 };
+
+// Extra Info is OK - Point3D has required info by Point2D
+point2D = point3D;
+function takesPoint2D(point: Point2D) {}
+takesPoint2D(point3D);
+
+//** below gives error - Error because of missing info */
+point3D = point2D;
+function takesPoint3D(point: Point3D) {}
+takesPoint3D(point2D); //we cannot invoke by passing a point2D , as it is expecting point3D of 3 parameters
