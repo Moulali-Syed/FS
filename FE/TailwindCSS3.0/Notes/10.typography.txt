@@ -1,0 +1,41 @@
+# font-family
+    <h1 class="font-sans"></h1>
+
+
+# font-size
+    <h1 class="text-xs"></h1>
+
+            we have different variants
+                text-xs
+                text-sm
+                text-base
+                text-lg
+                text-xl ,.... text-9xl
+
+# font-style
+        <h1 class="italic"></h1>
+
+#font-weight
+        <h1 class="font-bold"></h1>
+
+        font-medium , font-light , font-thin,font-extralight , font-semibold, font-extrabold
+        font-black
+
+
+#text-align
+        <h1 class="text-center"></h1>
+
+        text-left  ,  text-center , text-right , text-justify 
+
+
+#color
+    text-black , text-white , text-gray-500 ,....
+
+
+#text-decoration
+    <h1 class="underline decoration-indigo-500"></h1>
+
+    we can also declare style for underline 
+        underline decoration-solid 
+
+

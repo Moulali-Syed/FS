@@ -5,14 +5,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo Website</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="shortcut icon" href="image/image/icon.png" type="image/x-icon" />
+
+	<style>
+ * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  scroll-behavior: smooth;
+}
+
+header {
+  border: 2px solid red;
+  padding: 50px;
+  background-color: crimson;
+}
+header > a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 0 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+header > a:hover {
+  color: black;
+}
+section {
+  height: 400px;
+  width: 1000px;
+  margin: 0 auto;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(239, 234, 127),
+    rgb(227, 99, 125)
+  );
+  text-align: center;
+  padding: 20px;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+}
+section img {
+  width: 400px;
+}
+footer {
+  border: 2px solid black;
+  width: 1000px;
+  margin: auto;
+  background-color: #363333;
+  text-align: center;
+  padding: 50px 0;
+}
+footer > a {
+  color: white;
+  text-decoration: none;
+}
+
+	</style>
   </head>
-  <body>
-    <div>hi</div>
-    <div>how</div>
-    <div>are</div>
-    <div>you</div>
-    <script src="./script.js"></script>
+    <body>
+    <header>
+      <a href="">Home</a><a href="">Contact</a><a href="">About</a>
+    </header>
+    <section>
+      <h1>Welcome to First Website</h1>
+      <img
+        src="https://cdn.pixabay.com/photo/2014/12/08/17/52/horse-561221_640.jpg"
+        alt="Horse"
+      />
+    </section>
+    <footer>
+      <a href="#">INSTAGRAM</a>
+    </footer>
   </body>
 </html>

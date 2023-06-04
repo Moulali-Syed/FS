@@ -1,0 +1,31 @@
+//say we want the below code , which runs dependent on one another
+
+const delay = () => {
+  setTimeout(() => {
+    console.log('1s');
+    setTimeout(() => {
+      console.log('2s');
+      setTimeout(() => {
+        console.log('3s');
+      }, 3000);
+    }, 2000);
+  }, 1000);
+};
+
+delay();
+
+
+//we can do this in  a better way using async await
+
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+const time = async () => {
+  await delay(1000);
+  console.log('1s');
+  await delay(2000);
+  console.log('2s');
+  await delay(3000);
+  console.log('3s');
+};
+
+time();

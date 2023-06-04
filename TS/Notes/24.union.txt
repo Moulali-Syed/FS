@@ -1,0 +1,59 @@
+One amazing feature within typescript type system is union 
+
+function formatCommandLine(input: any) {
+  let line = '';
+  if (typeof input === 'string') {
+    line = input.trim();
+  } else {
+    line = input.map((x: string) => x.trim()).join(' ');
+  }
+  return line;
+}
+
+console.log(formatCommandLine('apple  '));
+
+console.log(formatCommandLine([' apple  ', 'banana  ']));
+
+console.log(formatCommandLine(1991)); //this gives error at runtime
+
+
+#
+
+fortunately typescript allows us to define a union of types , say our function can accept string or array of string 
+
+
+function formatCommandLine(input: string | string[]) {
+  let line = '';
+  if (typeof input === 'string') {
+    line = input.trim();
+  } else {
+    line = input.map((x: string) => x.trim()).join(' ');
+  }
+  return line;
+}
+
+console.log(formatCommandLine('apple  '));
+
+console.log(formatCommandLine([' apple  ', 'banana  ']));
+
+console.log(formatCommandLine(1991)); //now this gives error at compile time
+
+
+
+# 
+we can still separate like type aliasing 
+
+type valid = string | string[];
+function formatCommandLine(input: valid) {
+  let line = '';
+  if (typeof input === 'string') {
+    line = input.trim();
+  } else {
+    line = input.map((x: string) => x.trim()).join(' ');
+  }
+  return line;
+}
+
+console.log(formatCommandLine('apple  '));
+
+console.log(formatCommandLine([' apple  ', 'banana  ']));

@@ -1,0 +1,27 @@
+The reason any is added to typescript is to allow 
+easy migration of typescript code into javascript
+
+-------------------------------------------------------------------
+let someLegacyCode: any;
+
+//think below code should have returned a string ,
+someLegacyCode = loadString();
+// because there is no type check , the above line can return anything
+someLegacyCode.trim(); //code can blow over here , if it received something other than a string
+
+//*************************** here comes unknown *******************************/
+//here comes the unknown , handy
+
+let someLegacyCode2: unknown;
+
+someLegacyCode2 = loadString();
+//now typescript will give compile time error , allow us to add sanity checks
+if (typeof someLegacyCode2 === 'string') {
+  someLegacyCode2.trim();
+}
+
+-----------------------------------------------------------------------------
+If u have time for code migration go with unknown , it helps in understanding code
+better
+
+If no time then go with any 

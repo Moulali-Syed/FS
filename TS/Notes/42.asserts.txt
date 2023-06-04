@@ -1,0 +1,27 @@
+//revise it again - look from other sources as well
+
+type Person = {
+  name: string;
+  dateOfBirth?: Date;
+};
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(message);
+}
+
+function assertDate(value: unknown): asserts value is Date {
+  if (value instanceof Date) return;
+  else throw new TypeError('value is not a Date');
+}
+function loadPerson() {}
+
+const maybePerson = loadPerson();
+assert(maybePerson != null, 'Could not load Person');
+console.log('Name: ', maybePerson.name);
+
+assertDate(maybePerson.dateOfBirth);
+console.log('Date of Birth'maybePerson.dateOfBirth.toISOString());
+
+
+we mostly use user defined type gaurds for application code 
+for Application tests , we use Assertions and Functions 

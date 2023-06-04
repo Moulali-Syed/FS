@@ -1,0 +1,67 @@
+Creating a package
+
+#
+create a new directory
+    mkdir packageName
+
+#
+    cd packageName
+
+#
+    npm init -y
+
+#
+    npm i typescript -D 
+
+#
+    npx tsc --init --rootDir src --outDir lib --sourceMap --declaration --declarationMap
+
+#
+    now open this folder , in IDE
+
+#
+    Create entry point
+        src/index.ts 
+
+        we can write whatever code we want to write in this package 
+        
+        export function isPalindrome(str:string):boolean{
+            return str===str.split('').reverse().join('');
+        }
+
+#
+    make changes to package.json , our main application entry file will be generated in lib folder 
+
+        "main":"lib",
+        "types":"lib"
+        "scripts":{
+            "build": "tsc"
+        }
+    
+#
+    execute the build
+
+        npm run build 
+
+    this generates output in lib folder
+
+#
+    now we can publish to npm 
+        npm publish 
+
+
+==========================================================================
+Now lets see how to consume this package 
+
+    npm i packageName 
+
+
+Now we can use this package 
+    import {isPalindrome} from packageName;
+
+    console.log(isPalindrome('madam'));
+    console.log(isPalindrome('apple'));
+
+Now we can compile and run the code 
+    npx tsc 
+    node lib/index.js 

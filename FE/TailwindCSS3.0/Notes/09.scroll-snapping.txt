@@ -1,0 +1,11 @@
+container with images scrollable
+
+
+<div class="flex overflow-x-auto snap-x space-x-4">
+    <div class="scroll-ml-4 w-80 snap-start flex-shrink-0 h-48 bg-gray-800"></div>
+    <div class="scroll-ml-4 w-80 snap-start flex-shrink-0 h-48 bg-red-800"></div>
+    <div class="scroll-ml-4 w-80 snap-start flex-shrink-0 h-48 bg-green-800"></div>
+    <div class="scroll-ml-4 w-80 snap-start flex-shrink-0 h-48 bg-blue-800"></div>
+    <div class="scroll-ml-4 w-80 snap-start flex-shrink-0 h-48 bg-yellow-800"></div>
+</div>
+

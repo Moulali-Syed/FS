@@ -1,0 +1,17 @@
+Type assertion:
+
+as keyword(recommended)   or angle brackets syntax(not recommended)
+
+
+function load(): any {}
+let hello = load();
+
+//u dont want to do this runtime type checks , instead we can use tell
+if (typeof hello === 'string') {
+  console.log(hello.trim());
+}
+
+//below is recommended way , which supports in JSX as well
+console.log((hello as string).trim());
+
+console.log(<string>hello.trim());

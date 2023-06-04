@@ -1,0 +1,27 @@
+Add the CDN for tailwind
+
+in head tag:
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+
+Add below script tag 
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+Add the css classes:
+
+    <h1 class="bg-gray-800">My name is Apple</h1>
+
+
+bg-gray-800 ---> this class adds a background color of gray 
+ we have 50, 100,200,300,400,....900
+
+making text color white 
+    <h1 class="bg-gray-800 text-white">My name is Apple</h1>
+
+
+we can add padding , margin , shadow
+
+    <h1 class="bg-gray-900 text-white p-2 m-4 shadow">My name is Apple</h1>

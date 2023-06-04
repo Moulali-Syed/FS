@@ -1,0 +1,11 @@
+lets look how can we create a react app
+
+npx create-react-app example-app --template typescript
+
+npm start
+
+build static files
+npm run build
+
+//we can run the react app locally 
+npx serve build 

@@ -1,0 +1,41 @@
+type Add = (x: number, y: number) => number;
+
+const add: Add = (x: number, y: number) => {
+  return x + y;
+};
+
+-------------------------------------------
+
+we can declare as below as well ,both are similar
+
+type Add = {
+  (x: number, y: number): number;
+};
+
+const add: Add = (x: number, y: number) => {
+  return x + y;
+};
+-------------------------------------------
+
+we can use interface syntax as well , this is open for interface merging 
+
+interface Add {
+  (x: number, y: number): number;
+}
+
+const add: Add = (x: number, y: number) => {
+  return x + y;
+};
+
+-------------------------------------------
+type Add = {
+  (x: number, y: number): number;
+  (x: number, y: number, z: number): number;
+  debugName?: string;
+};
+
+const add: Add = (x: number, y: number, z?: number) => {
+  return x + y + (z != null ? z : 0);
+};
+
+add.debugName = 'Addition Function';

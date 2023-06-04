@@ -1,0 +1,56 @@
+type Point2D = {
+  x: number;
+  y: number;
+};
+
+type Point3D = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+we can see above we have the same code , with dupliation defined in both of type 
+
+we can use intersection to specify this
+
+type Point2D = {
+  x: number;
+  y: number;
+};
+
+type Point3D = Point2D & {
+  z: number;
+};
+
+
+here we are saying , the Point3D has all the members of Point2D 
+
+================================================================
+type Person = {
+  name: string;
+};
+
+type Email = {
+  email: string;
+};
+
+type Phone = {
+  phone: string;
+};
+
+function contact(details: Person & Email & Phone) {
+  console.log(`Dear ${details.name} . We have received
+    an email at ${details.email} will call you shortly at ${details.phone}`);
+}
+contact({ name: 'Apple', email: 'apple@email.com', phone: '1000080000' });
+
+=================================================================
+we can extract in type alias 
+
+type ContactDetails = Person & Email & Phone;
+
+function contact(details: ContactDetails) {
+  console.log(`Dear ${details.name} . We have received
+    an email at ${details.email} will call you shortly at ${details.phone}`);
+}
+contact({ name: 'Apple', email: 'apple@email.com', phone: '1000080000' });

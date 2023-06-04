@@ -1,0 +1,7 @@
+unknown and any :
+
+any --> completely by pass the typescript type system
+
+unknown --> can be considered as more type safe version of any
+
+the only similarity between any and unknown is they can accept any value 

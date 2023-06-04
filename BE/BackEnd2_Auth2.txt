@@ -1,0 +1,204 @@
+We have seen hashing 
+famous algo - hsa 256 , md5 for hashing
+encryption - des , aes 
+
+-------------------------------------------------------------------------------
+Lets see Login validation 
+
+1.we fetch email,password from req body
+2.check if email or password is empty - show message fill all details
+3.check email exists in database 
+    if user doesnot exist - show message - Please Signup 
+4.check the password is correct 
+      if incorrect - show password invalid 
+      if correct password - Then try creating JWT server sends this token to client 
+            using jwt we can do this
+            jwt.sign(payload,secret,options,callbackFunction)
+
+To compare password , we use compare function of bcrypt 
+-------------------------------------------------------------------------------
+npm i jsonwebtoken
+
+check auth.js file inside - AuthApp folder
+
+const jwt = require('jsonwebtoken');
+
+exports.login = async (req, res) => {
+  try {
+    //fetch data from req body
+    const { email, password } = req.body;
+    //validate email and password
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Please fill all the details carefully' });
+    }
+
+    //find the user in database
+    let user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+      });
+    }
+
+    const payload = {
+      email: user.email,
+      id: user._id,
+      role: user.role,
+    };
+
+    //verify password and generate jwt token
+    if (await bcrypt.compare(password, user.password)) {
+      //password match
+      let token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: '2h',
+      });
+
+      user = user.toObject();
+      user.token = token;
+      user.password = undefined;
+
+      const options = {
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      };
+      //cookie name , cookie data , options(3 parameters passed for cookie method)
+      res.cookie('token', token, options).status(200).json({
+        success: true,
+        token,
+        user,
+        msg: 'user logged in successfully',
+      });
+    } else {
+      //password not matched
+      return res
+        .status(403)
+        .json({ success: false, msg: 'Incorrect password' });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false, msg: 'login failure' });
+  }
+};
+
+
+-------------------------------------------------------------------------------
+middleware 
+
+Check for authentication , as we send a jwt token 
+we can use protected routes 
+
+
+We have sent the role in payload , while creating a token , based on that 
+parse the token and find the role , then display page accordingly
+
+
+Create a folder  - middlewares  - create a file auth.js 
+
+
+//auth , isStudent , isAdmin
+
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+exports.auth = (req, res, next) => {
+  try {
+    //extract jwt token
+    //we can fetch token from header / body/cookies
+    const token = req.body.token;
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Token missing' });
+    }
+
+    //verfiy the token
+    try {
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decode);
+      req.user = decode;
+    } catch (err) {
+      return res
+        .status(401)
+        .json({ success: false, messsage: 'token in invalid' });
+    }
+    next();
+  } catch (err) {
+    return res.status(401).json({
+      success: false,
+      message: 'Something went wrong , while verifying token',
+    });
+  }
+};
+
+exports.isStudent = async (req, res, next) => {
+  try {
+    if (req.user.role !== 'Student') {
+      return res
+        .status(401)
+        .json({ success: false, msg: 'This is a protected route for student' });
+    }
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      msg: 'user role not matching',
+    });
+  }
+};
+
+exports.isAdmin = async (req, res, next) => {
+  try {
+    if (req.user.role !== 'Admin') {
+      return res.status(401).json({
+        success: false,
+        msg: 'This is a protected route for Admin',
+      });
+    }
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      msg: 'user role not matching',
+    });
+  }
+};
+
+---------------
+const express = require('express');
+const userauthRouter = express.Router();
+
+const { login, signup } = require('../controllers/auth.js');
+const { auth, isStudent, isAdmin } = require('../middlewares/auth.js');
+
+userauthRouter.post('/login', login);
+userauthRouter.post('/signup', signup);
+
+//Protected Routes - access is based on role
+
+userauthRouter.get('/test', auth, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to Protected Route for TESTS',
+  });
+});
+
+userauthRouter.get('/student', auth, isStudent, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to Protected Route for Students',
+  });
+});
+
+userauthRouter.get('/admin', auth, isAdmin, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to Protected Route for Admin',
+  });
+});
+module.exports = userauthRouter;
+
+--------------------------------------
+Read about
+jwt.sign()
+jwt.verify()
+bcrypt.compare()

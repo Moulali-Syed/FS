@@ -1,0 +1,27 @@
+function reverseSortedArray(arr: readonly number[]): number[] {
+  //sort and reverse will mutate original array , so when we mark input array as
+  //readonly we donot have sort and reverse unavailable on the input array
+  //to make it available ,we create a copy using slice() method and then
+  //sort and reverse the array
+  return arr
+    .slice()
+    .sort((a, b) => a - b)
+    .reverse();
+}
+
+console.log(reverseSortedArray([11, 13, 7, 32, 19, 76]));
+
+=========================================================
+similarly we can create a tuple as readonly
+
+type Point = readonly [number, number];
+
+function move(point: Point, x: number, y: number) {
+  return [point[0] + x, point[1] + y];
+}
+
+const point: Point = [0, 0];
+const moved = move(point, 10, 10);
+
+console.log(moved); //[10,10]
+console.log(point); //[0,0]

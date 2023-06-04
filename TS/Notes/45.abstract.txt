@@ -1,0 +1,37 @@
+abstract - is used to declare abstract class and abstract variables 
+
+we cannot create object for a abstract class
+
+============================================================================
+abstract class Command {
+  abstract commandLine(): string;
+
+  execute() {
+    console.log('Executing: ', this.commandLine());
+  }
+}
+
+class GitResetCommand extends Command {
+  commandLine(): string {
+    return 'git reset --hard';
+  }
+}
+
+class GitFetchCommand extends Command {
+  commandLine(): string {
+    return 'git fetch --all';
+  }
+}
+
+new GitFetchCommand().execute();
+new GitResetCommand().execute();
+
+
+#
+we cannot create object of abstract class
+#
+we declare abstract methods in abstract class , it means no function definition
+
+#
+the main usage of abstract class is whichever class inherits abstract class
+it must provide implementation of the abstract method , else throws a compile time error 

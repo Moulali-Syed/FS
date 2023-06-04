@@ -1,0 +1,28 @@
+non null assertion - help typescript using post fix exclamation mark ! 
+
+telling typescript explicitly that something is already assigned as 
+it doesnot do a deep check
+
+non null assertion are compile time only and has no impact at run time
+
+type Point = { x: number; y: number };
+
+let point: Point;
+function initialize() {
+  point = { x: 0, y: 0 };
+}
+
+initialize();
+console.log(point!.x + '  ' + point!.y);
+
+===========================================================
+Though we have this non null assertion , always better to use as below
+
+type Point = { x: number; y: number };
+
+function initialize(): Point {
+  return { x: 0, y: 0 };
+}
+
+let point = initialize();
+console.log(point.x + '  ' + point.y);

@@ -1,0 +1,87 @@
+Lets learn how to integrate mongodb cloud- Atlas
+
+our request reaches a route , its corresponding controller
+will get triggered , it interacts with the db using model
+
+
+
+Look the Dummy-MERN-App-master folder for code
+
+Step1:
+Make sure to have a .env file in both frontend and backend folder
+
+in the frontend - .env file , name must be as below
+REACT_APP_BASE_URL="http://localhost:4000/api/v1"
+
+
+Step2:
+Open google search for - mongodb atlas login 
+and do sign up with google
+
+Then fill - something like - learn MongoDB , i'm just exploring , javascript
+
+Step3:
+we will be redirected to a url similar as below
+https://cloud.mongodb.com/v2/642945f21d141a7a7e82abc4#/clusters
+
+Step4:
+Below the Atlas logo , we can see a dropdown , saying Project 0 
+click on drop down , create New Project 
+Give a name to it  -  DummyProject , click on Next
+Click on Create Project
+
+Step5:
+Click on Build a Database
+Select M0 - Free
+Select region - Mumbai
+Click on Create 
+
+
+Step6:
+Save the username and password
+
+syedmoulali1997
+x8fVJqLOTjw3fUHU
+
+Click on Create User
+Click on Finish and Close
+Click on Go To Databases
+
+
+
+Step7:
+Click on Connect
+Click on Compass
+copy the connection string and paste inside the .env file of backend folder
+mongodb+srv://syedmoulali1997:<password>@cluster0.1fpkib8.mongodb.net/
+
+Now replace the <password> with actual password 
+
+Step8:
+provide a database name
+
+DATABASE_URL = "mongodb+srv://syedmoulali1997:x8fVJqLOTjw3fUHU@cluster0.1fpkib8.mongodb.net/moulaliNewDatabase"
+
+
+---------------------------------------------------------------------
+Now go to backend  folder in terminal 
+
+npm install
+npm run dev
+
+Similarly goto frontend folder and install node modules
+npm install
+npm run start
+
+Then copy the cloud db url and connect using MongoDB compass 
+paste the db url in compass 
+click on connect
+
+
+Now go to frontend and click on Add Employee
+fill the details
+
+
+now we can see data is stored in database , go to compass and refresh
+
+

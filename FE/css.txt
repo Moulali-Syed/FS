@@ -429,7 +429,7 @@ left:20px;
 
 ---
 <this will get sticked to the position mentioned though we scroll, mostly used in navbar>
-aticky behaves like a regular element until reaches the defined offset and then becomes fixed 
+sticky behaves like a regular element until reaches the defined offset and then becomes fixed 
 position:sticky; 
 top:0;
 

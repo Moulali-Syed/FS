@@ -1,0 +1,23 @@
+in tailwindConfig.js , add the 
+    darkMode:'class'
+
+
+<div class="dark">
+    <div class="dark:bg-gray-500 dark:text-white"></div>
+</div>  
+
+
+when ever we add dark class at parent container level , then all that inside gets applied darkmode 
+
+--------------------
+import {useState} from 'react';
+
+function App(){
+    const [x,setX] = useState(false);
+
+    return (
+        <div class={x? 'dark' :''} onClick={()=>setX(x=>!x)}>
+            <div class="dark:bg-gray-500 dark:text-white"></div>
+        </div>          
+    )
+}

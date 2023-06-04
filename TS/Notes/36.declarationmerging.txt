@@ -1,0 +1,25 @@
+typescript supports interface merging
+
+a use case for that is using a node js framework like express
+
+//say express has the below code defined in it 
+export interface Request {
+  body: any;
+}
+
+//we want to add something additional to it 
+export interface Request {
+  json: any;
+}
+
+//because of declaration merging supported by typescript interface 
+//it is possible to merge them both and use as below
+function handleRequest(req: Request) {
+  req.body;
+  req.json;
+}
+
+
+
+//type alias doesnot support , declaration merging
+//then we must use the interface 

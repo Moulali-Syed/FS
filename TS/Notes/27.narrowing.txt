@@ -1,0 +1,74 @@
+function padLeft(value: string, padding: string | number) {
+  if (typeof padding === 'string') {
+    return padding + value;
+  }
+  if (typeof padding === 'number') {
+    console.log(Array(padding));
+    return Array(padding + 1).join('$') + value;
+  }
+
+  throw new Error(`Expected Number or String , got ${padding}`);
+}
+
+const res = padLeft('Bold', 8);
+console.log(res);
+
+
+//as above , in case of primitive types union , we can narrow down using the typeof 
+//operator , but we cannot discriminate the same way for the non primitive types 
+
+=========================================================================
+in case of non primitive class
+
+we can use instanceof 
+
+class Cat {
+  meow() {
+    console.log('meow');
+  }
+}
+
+class Dog {
+  bark() {
+    console.log('woof');
+  }
+}
+
+type Animal = Cat | Dog;
+
+function speak(animal: Animal) {
+  if (animal instanceof Cat) {
+    animal.meow();
+  }
+
+  if (animal instanceof Dog) {
+    animal.bark();
+  }
+}
+
+===================================================================
+in case of object , we check whether a particulat property exists in the object
+
+
+type Square = {
+  size: number;
+};
+
+type Rectangle = {
+  width: number;
+  height: number;
+};
+type Shape = Square | Rectangle;
+
+function area(shape: Shape) {
+  if ('size' in shape) {
+    return shape.size * shape.size;
+  }
+
+  if ('width' in shape) {
+    return shape.width * shape.height;
+  }
+}
+
+console.log(area({ size: 5 })); //25
+console.log(area({ width: 10, height: 15 })); //150

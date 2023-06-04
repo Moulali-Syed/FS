@@ -1,0 +1,9 @@
+when we initialize typescript project using 
+npx tsc --init
+
+in tsconfig.json file , by default we see the "strict": true
+
+
+in addition to this , we have many properties
+
+try to use strict as true 

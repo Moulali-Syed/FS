@@ -1,0 +1,11 @@
+shadows:
+
+<button class="mt-12 px-3 py-2 bg-indigo-500 text-white rounded
+ shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500/80
+ text-sm font-semibold">Subscribe</button>
+
+we can apply border-radius using -->  rounded , rounded-md , rounded-lg , rounded-sm ,...
+
+shadow-indigo-500/50  this means we are specifying shadow color and opacity
+
+hover:shadow-indigo-500/80

@@ -1,0 +1,39 @@
+The standard of accessing env variables with in node is using the process
+
+//we can see that we are getting an error on process variable
+//Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`
+//process is not defined anywhere in our code base and we expect node js to provide us
+console.log('Logged in User: ' + process.env.USER);
+
+//for this we can simply decalre a process variable of type any
+//below is syntax of type declaration
+//we cannot provide value for the declaration
+// declare const process: any;
+
+//we can create declarations in separate file as well
+//these files has a extension of  .d.ts
+
+//create a file env.d.ts and create the declaration
+// declare const process: any;
+
+//we can declare by ourself, but there is a more better way
+
+//remove the env.d.ts file and try to compile the code
+//it provides us with a suggestion
+//npm i --save-dev @types/node
+
+//now install it
+//npm i @types/node
+
+//then compile ur code , then no errors will be there
+
+//we can use the node js built in modules
+import fs from 'fs';
+fs.writeFileSync('hello.txt', 'hi there');
+
+//lets talk about 3rd party packages
+//install express
+//npm i express
+//this needs external type declarations
+//so install types
+//npm i @types/express

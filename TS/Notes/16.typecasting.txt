@@ -1,0 +1,8 @@
+const leet: string = '1338';
+
+const num: number = +leet;
+
+console.log(typeof num);
+
+
+//we can do typecasting similar to javascript

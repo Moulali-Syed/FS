@@ -1,0 +1,50 @@
+we can mark the optional values in type declarations 
+
+type Person = {
+  name: string;
+  email: string;
+  phone?: string;
+};
+
+const bruce: Person = {
+  name: 'Bruce',
+  email: 'bruce@gmail.com',
+};
+
+const alfred: Person = {
+  name: 'Alfred',
+  email: 'alfred@gmail.com',
+  phone: '1300080808',
+};
+
+
+=====================================================================
+class Point {
+  //we can mark class parameters as optional , then typescript makes them undefined
+  x?: number;
+  y?: number;
+}
+
+//we can either give an appropriate value or can assign undefined
+const point = new Point();
+console.log(point.x); //undefined
+
+point.x = 0;
+point.x = undefined;
+
+=====================================================================
+
+we can also use union type , with class members to make it accept of different types of values
+
+class Point {
+  //we can mark class parameters as optional , then typescript makes them undefined
+  x?: number | null;
+  y?: number;
+}
+
+//we can either give an appropriate value or can assign undefined
+const point = new Point();
+console.log(point.x); //undefined
+
+point.x = 0;
+point.x = undefined;

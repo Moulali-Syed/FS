@@ -1,0 +1,83 @@
+definite:
+---------
+
+//declaring a variable
+let dice: number;
+
+function rollDice() {
+  dice = Math.floor(Math.random() * 6) + 1;
+}
+
+rollDice();
+//using non null assertion to tell typescript explicitly that the dice value is assigned
+//as typescript doesnot see if the value is assigned other than at time of declaring
+// so it is thinking it might be still not assigned a value
+console.log('current dice value is ' + dice!);
+
+//i rolled a dice again , still i have to assign non null assertion
+rollDice();
+console.log('current dice value is ' + dice!);
+
+===============================================================
+Now lets see how to overcome this non null assertion everytime , we can do using 
+definite , saying that this value will be assigned compulsory
+
+yani compiler tume fikar mat karo , a value jaroor assign karenge , maan le apna baat
+iss tarah bolne ke liye hamey ! (exclamation mark ) denaa hothaa hai , variable ko declare
+karte waqt
+
+
+
+//declaring a variable , ab mere ko itminaan hai , tum jab kabhi bhi bulaaye jaaoge
+//tumey value kiya hee gaya hogaa
+let dice!: number;
+
+function rollDice() {
+  dice = Math.floor(Math.random() * 6) + 1;
+}
+
+rollDice();
+
+console.log('current dice value is ' + dice);
+
+rollDice();
+console.log('current dice value is ' + dice);
+
+
+======================================================================
+definite is also upto compile time only , its upto us to ensure correctness     
+
+=====================================================================
+class Point {
+  x: number;
+  y: number;
+  constructor() {
+    this.x = Math.random();
+    this.y = Math.random();
+  }
+
+  moveRandom() {
+    this.x = Math.random();
+    this.y = Math.random();
+  }
+}
+
+
+we can see code duplication in code , same in the constructor and moveRandom 
+method is written , to make compiler make sure that value is assigned 
+we can mark the class variable definite(!)
+
+
+----
+class Point {
+  x!: number;
+  y!: number;
+  constructor() {
+    this.moveRandom();
+  }
+
+  moveRandom() {
+    this.x = Math.random();
+    this.y = Math.random();
+  }
+}

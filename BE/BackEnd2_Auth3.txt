@@ -1,0 +1,68 @@
+Lets learn 
+cookie-parser
+3 ways to fetch token , and the better way among 3
+Testing
+
+-------------------------------------------------------
+cookie-parser , is used to fetch cookie data 
+
+Our token can be coming from - req header / req body / cookie 
+
+Among these 3 , token from header is considered secure
+which is Bearer Token 
+
+-------------------------------------------------------
+cookie-parser:
+
+npm i cookie-parser 
+
+In index.js add the middleware 
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+--------
+inside middleware folder , auth.js try fetching token in different ways 
+Read why Bearer token , fetching token from request header is considered secure 
+
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+exports.auth = (req, res, next) => {
+  try {
+    //extract jwt token
+    //we can fetch token from header / body/cookies
+    console.log(req.body.token);
+    console.log(req.cookies.token);
+    // console.log(req.header('Authorization').replace('Bearer ', ''));
+
+    const token =
+      // req.body.token ||
+      // req.cookies.token ||
+      // req.header('Authorization').replace('Bearer ', '');
+      req.body.token || req.cookies.token || req.header('Authorization');
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Token missing' });
+    }
+
+    //verfiy the token
+    try {
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decode);
+      req.user = decode;
+    } catch (err) {
+      return res
+        .status(401)
+        .json({ success: false, messsage: 'token in invalid' });
+    }
+    next();
+  } catch (err) {
+    return res.status(401).json({
+      success: false,
+      message: 'Something went wrong , while verifying token',
+    });
+  }
+};

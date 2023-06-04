@@ -1,0 +1,30 @@
+
+we generally write the instance variables, in a class as below 
+
+class Person {
+  public name: string;
+  public age: number;
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+const adam = new Person('Adam', 120000);
+console.log(adam.name);
+console.log(adam.age);
+
+
+//we can use them directly in constructor , typescript takes care of their initialization
+
+class Person {
+  constructor(public name: string, public age: number) {}
+}
+
+const adam = new Person('Adam', 120000);
+console.log(adam.name);
+console.log(adam.age);
+
+
+# 
+we can specify any access modifier based on the need , public , protected , private or readonly

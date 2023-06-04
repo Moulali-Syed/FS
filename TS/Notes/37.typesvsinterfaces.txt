@@ -1,0 +1,41 @@
+
+export interface InputProps {
+  type: 'text' | 'email';
+  value: string;
+  onChange: (newValue: string) => void;
+}
+
+-------------------------
+we can do same using type alias as well  
+
+export type InputProps = {
+  type: 'text' | 'email';
+  value: string;
+  onChange: (newValue: string) => void;
+};
+
+-------------------------------
+but with type alias we can separate and have them computed
+
+
+type InputType = 'text' | 'email';
+type InputValue = 'value';
+type InputOnChange = (newValue: string) => void;
+
+export type InputProps = {
+  type: InputType;
+  value: string;
+  onChange: InputOnChange;
+};
+
+======================================================
+type 
+    supports
+
+            unions  ,  intersection(&) , primitives , shorthand functions , advanced type functions 
+
+--------
+interface 
+    supports 
+            Declaration merging
+            Familiarity(extends)

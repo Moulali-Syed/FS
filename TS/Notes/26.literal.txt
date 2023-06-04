@@ -1,0 +1,44 @@
+we mostly use literal along with union 
+
+it is like mentioning that the variable can only take the specified values
+anything other than that result in a compile time error
+
+
+let direction: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+
+//any value other than the above 4 will result in compile time error
+
+direction = 'SOUTH';
+
+//below will result in compile time error
+// Type '"NORTH_EAST"' is not assignable to type '"NORTH" | "SOUTH" | "EAST" | "WEST"'.ts(2322)
+// direction = 'NORTH_EAST';
+
+
+==============================================
+type CardinalDirection = 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+let direction: CardinalDirection;
+
+//any value other than the above 4 will result in compile time error
+
+direction = 'SOUTH';
+
+//now we can use the literal any number of times
+function move(distanceMeters: number, direction: CardinalDirection) {
+  console.log(`Moving ${distanceMeters} meters towards ${direction}`);
+}
+
+==================================================================
+type DiceValue = 1 | 2 | 3 | 4 | 5 | 6;
+
+function rollDice() {
+  return (Math.floor(Math.random() * 6) + 1) as DiceValue;
+}
+
+//if we try to do as below
+//we get compile time error
+// This comparison appears to be unintentional because the types 'DiceValue' and '7' have no overlap.ts(2367)
+if (rollDice() === 7) {
+  throw new Error('Not possible');
+}
+

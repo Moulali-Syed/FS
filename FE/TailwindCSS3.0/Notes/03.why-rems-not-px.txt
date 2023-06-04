@@ -1,0 +1,12 @@
+Why to use rems and not px?
+
+we see mostly everything is in rem units
+
+mt-1 , mb-1 , mx-1, my-1 
+pt-1 , pb-1 , px-1 , py-1
+space-x-1 , space-y-1
+
+
+rem - are more customizable than px 
+
+1rem is 16px by default 

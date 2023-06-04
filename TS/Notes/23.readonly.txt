@@ -1,0 +1,30 @@
+type Point = { readonly x: number; y: number };
+
+const point: Point = {
+  x: 1,
+  y: 1,
+};
+
+//as in javascript we cannot reassign a const variable
+// point = { x: 10, y: 20 };//Cannot assign to 'point' because it is a constant
+
+//Cannot assign to 'x' because it is a read-only property.
+// point.x = 10;
+point.y = 20;
+
+//we can mark properties in object as readonly
+
+======================================================================================
+
+class Animal {
+  //name is readonly property , we can combine with access modifiers
+  public readonly name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+
+const ani = new Animal('Lion');
+// Cannot assign to 'name' because it is a read-only property
+// ani.name = 'tom';
+console.log(ani);

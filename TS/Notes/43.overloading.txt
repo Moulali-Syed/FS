@@ -1,0 +1,16 @@
+//we can overload the function to correctly ensure the return type 
+
+function reverse(string: string): string;
+function reverse(stringArray: string[]): string[];
+
+function reverse(stringOrStringArray: string | string[]) {
+  if (typeof stringOrStringArray === 'string') {
+    return stringOrStringArray.split('').reverse().join('');
+  } else {
+    return stringOrStringArray.reverse();
+  }
+}
+console.log(reverse('hello'));
+console.log(reverse(['a', 'p', 'p', 'l', 'e']));
+
+==================================================================================

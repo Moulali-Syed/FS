@@ -1,0 +1,21 @@
+//if we use any as type , the function can accept any value
+//but at run time it can blow up
+/*
+function log(value: any) {
+  console.log(value.toFixed(2));
+}
+
+log(12.38);
+// log('hello'); - this results in a run time error
+*/
+
+//to avoid this , use unknown
+
+function log2(value: unknown) {
+  //need to check the type
+  if (typeof value === 'number') {
+    console.log(value.toFixed(2));
+  }
+}
+log2(100);
+log2('hi'); //this call will not throw error

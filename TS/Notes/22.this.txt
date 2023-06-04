@@ -1,0 +1,50 @@
+class Person {
+  private age: number;
+  constructor(age: number) {
+    this.age = age;
+  }
+
+  increaseAge(): void {
+    this.age++;
+    console.log(this.age);
+  }
+
+  returnAge(): number {
+    return this.age;
+  }
+}
+
+let p1 = new Person(10);
+//in javascript functions considered as first class objects - we can store them in a variable
+//when we try to call based on variable
+//we get - TypeError: Cannot read properties of undefined (reading 'age')
+//because normal function declaration methods depends on the invocation
+const incAge = p1.increaseAge;
+incAge();
+
+------------------------------------
+To overcome we can use arrow functions 
+
+class Person {
+  private age: number;
+  constructor(age: number) {
+    this.age = age;
+  }
+
+  increaseAge = (): void => {
+    this.age++;
+    console.log(this.age);
+  };
+
+  returnAge = (): number => {
+    return this.age;
+  };
+}
+
+let p1 = new Person(10);
+//in javascript functions considered as first class objects - we can store them in a variable
+//when we try to call based on variable
+//we get - TypeError: Cannot read properties of undefined (reading 'age')
+//because normal function declaration methods depends on the invocation
+const incAge = p1.increaseAge;
+incAge();

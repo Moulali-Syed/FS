@@ -1,0 +1,233 @@
+Authentication: Identity verification 
+I have to store the user as a verified user 
+
+
+Authorization:  Access rights (like permission for dashboard, registered user)
+Say i have a website , in which we have different pages for a logged in user , admin user , general user 
+this display of webpage is based on the authorization 
+
+
+Lets see a signup flow 
+
+1.get the data like emailId, password
+2.check if email is valid
+3.check if the email is already registered
+4.check if password strength
+5.hash the password using bcrypt
+6.store in DB using save or create method
+
+
+Lets see a Login flow:
+1.get the details emailId, password
+2.check the validations for emailId 
+3.check in db if email user exists
+4.match the password 
+
+----------------------------------------------------------------------------------------------
+Json Web Tokens and Cookies:
+JWT is a secure way for information transmission , whenever we login to a application
+server generates a json web token 
+
+jwt is generated based on 3 things - header , payload , signature 
+in header we define - based on which algorithm i want to hash 
+payload - the data we pass to server as a user
+signature - we use a secret key 
+This generates a json webtoken , in an encrypted format 
+this token will be given to client by server , this way client need not login
+multiple times , he needs to login only once
+
+Now client will use this JWT to prove its authenticity , on every request
+
+-------------------------------------------------------------------------------------------------
+Cookies:
+server can create a cookie , and we store in browser cookies 
+we can use this to authenticate and authorize 
+
+we can see preferences , shopping cart data 
+
+-------------------------------------------------------------------------------------------------
+Now lets write code for signup and signin of user
+
+
+Create a folder - AuthApp 
+cd AuthApp
+
+initialize node app 
+        npm init -y
+
+Create index.js file 
+
+Install express
+    npm i express 
+    npm i nodemon -D
+
+In package.json add the scripts 
+    "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    }
+
+Install mongoose and dotenv
+    npm i mongoose dotenv 
+
+-------------------------------------------
+Now first lets start with setup
+
+###
+Create a Schema  -  inside models - User.js 
+
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ['Student', 'Admin', 'Visitor'],
+  },
+});
+
+module.exports = mongoose.model('user', userSchema);
+
+###
+Create a dotenv file 
+
+PORT = 4000
+DB_URL = "mongodb+srv://syedmoulali1997:x8fVJqLOTjw3fUHU@cluster0.1fpkib8.mongodb.net/AuthDatabase"
+JWT_SECRET = apple
+
+###
+Create config folder - database.js
+
+const mongoose = require('mongoose');
+
+require('dotenv').config();
+
+exports.dbConnect = () => {
+  mongoose
+    .connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log('DB Connection successful');
+    })
+    .catch((err) => {
+      console.log('error connecting database');
+      console.log(err);
+      process.exit(1);
+    });
+};
+
+###
+Create a routes folder - user.js , define the routes
+
+const express = require('express');
+const userauthRouter = express.Router();
+
+const { login, signup } = require('../controllers/auth.js');
+
+userauthRouter.post('/login', login);
+userauthRouter.post('/signup', signup);
+
+modules.exports = userauthRouter;
+
+
+###
+Create a index.js file 
+
+const express = require('expresss');
+const app = express();
+
+require('dotenv').config();
+const PORT = process.env.PORT || 4000;
+
+app.use(express.json());
+
+const { dbConnect } = require('./config/database');
+dbConnect();
+
+const user = require('./routes/user');
+app.use('/api/v1', user);
+
+app.listen(PORT, () => {
+  console.log(`App is listening at ${PORT}`);
+});
+
+===========================================================================
+Now lets use bcrypt to hash our password 
+
+npm i bcrypt 
+
+
+###
+Creating a controller for signup and encrypting password , storing encrypted password 
+
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
+
+//signup route handler
+exports.signup = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    //check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ success: false, msg: 'email already registered' });
+    }
+
+    //secure the password
+    let hashedPassword;
+    try {
+      hashedPassword = await bcrypt.hash(password, 10);
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ success: false, msg: 'error in hashing password' });
+    }
+
+    //create user in DB
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    return res.status(200).json({
+      success: true,
+      msg: 'user registered successfully',
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      msg: 'user cannot be registered , please try again later',
+    });
+  }
+};
+
+===========================================================================
+Fetch data from req body
+Check for already registered users 
+if user already registered , return response 
+hash the password 
+        successful - store in variable 
+        error - throw error 
+insert user entry to DB 
+Return the response 
+ 

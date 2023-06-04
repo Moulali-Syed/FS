@@ -1,0 +1,18 @@
+Sometimes the default styles which tailwind provides are not enough
+
+we use placeholder syntax , inside square brackets give the custom 
+
+<div class="mt-[200px]"></div>
+
+bg-[#dfdfdf]
+
+text-[72px]
+
+------------------------------
+we can also specify the property and value as well
+
+<div class="[background:#3e3e3e] [opacity:0.5] hover:[opacity:1]"></div>
+
+try to not use escape hatches if they already exist in tailwind
+
+<div class="bg-gray-900 opacity-50 hover:opacity-100"></div>

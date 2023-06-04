@@ -1,0 +1,15 @@
+breakpoints:
+
+sm  - 640px
+md  - 768px
+lg  - 1024px
+xl  - 1280px
+2xl - 1536px
+
+
+all these applies based on min-width , it is mobile first approach
+
+//when screen size is above 640px , bg-gray-700 color is applied
+<h1 class="sm:bg-gray-700 text-white sm:text-2xl">Hi There</h1>
+
+text-2xl , text-4xl 

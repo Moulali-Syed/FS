@@ -1,0 +1,26 @@
+javascript runtime has 2 values to specify the absence of a value 
+
+undefined and null
+
+something that is uninitialized , run time returns undefined 
+if something is not present at moment, run time returns null 
+
+
+let notDefined: undefined = undefined;
+let notPresent: null = null;
+
+console.log(null == undefined); //true
+console.log(null == null); //true
+console.log(undefined === undefined); //true
+console.log(null === undefined); //false
+
+function decorate(value: string | null | undefined) {
+  if (value == null) {
+    return value;
+  }
+  return `${value.trim()} is string`;
+}
+console.log(decorate('apple'));
+
+console.log(decorate(null));
+console.log(decorate(undefined));

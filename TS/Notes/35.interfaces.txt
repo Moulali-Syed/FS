@@ -1,0 +1,51 @@
+interface looks very similar to type aliases
+
+
+using type Alias:
+
+type Point2D = {
+  x: number;
+  y: number;
+};
+
+type Point3D = Point2D & {
+  z: number;
+};
+
+export const point: Point3D = {
+  x: 10,
+  y: 10,
+  z: 10,
+};
+
+
+
+-----------------
+using interface
+
+interface Point2D {
+  x: number;
+  y: number;
+}
+
+interface Point3D extends Point2D {
+  z: number;
+}
+
+export const point: Point3D = {
+  x: 10,
+  y: 10,
+  z: 10,
+};
+
+---------------------------------------------------------------------
+interface are same like type alias , they are part of compile time checking
+and are not part of generated js code 
+
+
+There are two key reasons for interface to exist in typescript
+
+one reason is the familiarity for developers coming from other programming languages
+example: they get to use extends keyword and create type hierarchy , for a more familiar syntax
+
+The other key reason is -> interface declaraion merging

@@ -1,0 +1,12 @@
+We need to create a css file and link it to html file in traditional way 
+
+tailwind , will restrict some styles
+
+it has some restrictions , for paddding , color 
+
+It will be tiresome , while building 
+
+Tailwind does 2 things for us
+
+1.Every html element is a complete a widget in itself - the code should have tailwind enabled
+2.

@@ -1,0 +1,45 @@
+typescript sets the type to  never when a function will never return a value
+
+//const fail: (message: string) => never
+const fail = (message: string) => {
+  throw new Error('error' + message);
+};
+
+//in case of infinite while loop
+const demo = () => {
+  while (true) {
+    console.log('hi');
+  }
+};
+
+=====================================================================
+never can be explicitly defined as a return type 
+
+type Square = {
+  kind: 'square';
+  size: number;
+};
+
+type Rectangle = {
+  kind: 'rectangle';
+  width: number;
+  height: number;
+};
+
+type Shape = Square | Rectangle;
+
+function area(s: Shape) {
+  if (s.kind === 'square') {
+    return s.size * s.size;
+  }
+
+  if (s.kind === 'rectangle') {
+    return s.width * s.height;
+  }
+
+  //this below line ensures code correctness , if in future we add a additional type Circle , we immediately
+  //get compile time error , because Circle is not handled in the area function
+  const ensureAllCasesAreHandled: never = s;
+  //make sure to return , so that typescript can correctly infers the return
+  return ensureAllCasesAreHandled;
+}

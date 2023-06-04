@@ -1,0 +1,18 @@
+Till now , we have seen we cannot directly run the ts file using node
+
+we have to compile it --> npx tsc 
+Then execute the generated javascript file  --->  node lib/index.js
+
+Instead we can download a package ts-node   
+    npm i ts-node 
+
+Now we can directly run the ts file
+    npx ts-node src/index.ts 
+
+
+#
+we can also create a command in package.json - scripts section
+
+"script":{
+    "start":"ts-node src/index.ts"
+}

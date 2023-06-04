@@ -1,0 +1,22 @@
+type NameFields = { firstName: string; lastName: string };
+
+function addFullName<T extends NameFields>(obj: T): T & { fullName: string } {
+  return {
+    ...obj,
+    fullName: `${obj.firstName} ${obj.lastName}`,
+  };
+}
+
+const john = {
+  email: 'john@gmail.com',
+  firstName: 'John',
+  lastName: 'Doe',
+};
+
+const newObj = addFullName(john);
+console.log(newObj);
+console.log(newObj.fullName);
+console.log(newObj.firstName);
+
+const jane = addFullName({ firstName: 'jane', lastName: 'Austen' });
+console.log(jane.fullName);
