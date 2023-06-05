@@ -1,0 +1,35 @@
+80 minutes - flowcharts and 6 problems
+82 minutes - getting started with java ,
+40 minutes - how is data stored 
+105 minutes - conditionals and loops , 5 problems
+50 minutes - Patterns-1
+60 miuntes - Patterns-2 , 4 pattern problems
+70 minutes - Operators&For loops , 7 problems
+100 miuntes - Functions and Scopes
+100 miuntes - Arrays , 6 problems
+120 miuntes - Searching and Sorting , 6 problems
+180 minutes - Stings and 2D Arrays , 6 problems
+120 minutes - 2d arrays
+100 miuntes - TIme complexity - 5 problems
+150 minutes - Recursion-part-1 , 5 problems
+150 minutes - Recursion part-2 , 5 problems
+80 minutes - TIme and space complexity 
+90 minutes - Recursionpart -3 , 11 problems
+OOPS part1,2,3 - 10 hours
+90 minutes - BackTracking
+152 miuntes - LinkedList-1 , 5 problems
+135 minutes - Linked List 2 , 6 problems
+105 minutes - Stacks , 3 problems
+80 minutes - Queue , 2problems
+100 miuntes - Trees
+125 minutes - Binary Trees 1 , 2 problems
+165 minutes - Binary Trees 2 , 5 problems
+110 minutes - BST1 - 3 problems
+95 minutes - BST2 - 3 problems
+170 minutes - Hashmaps , 4 problems
+200 minutes - DP1 , 3 problems
+200 minutes - DP2 , 6 problems
+200 minutes - priority Queue -1
+200 minutes - priority Queue - 2
+400 minutes - Graphs 1,2
+200 minutes - Tries and Huffman Coding

@@ -1,0 +1,457 @@
+Lets learn image upload, video upload , file size reducer
+
+Lets first register with Cloudinary a cloud based platform
+
+1.Go to https://cloudinary.com/users/register_free
+2.Register with Google
+3.Then in node app 
+        npm i cloudinary 
+4.In Express.js application configure cloudinary with your account credentials
+
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({ 
+  cloud_name: 'your_cloud_name', 
+  api_key: 'your_api_key', 
+  api_secret: 'your_api_secret',
+  secure: true
+});
+
+5.Upload media to cloudinary 
+    const file = req.files.file;
+    cloudinary.uploader.upload(file.tempFilePath,function(err,result){
+        if(err){
+            console.log(err.message);
+            return res.status(500).send('Error in uploading file')
+        }else{
+            console.log(result);
+            return res.status(200).send('File Uploaded to Cloudinary')
+        }
+    })
+
+6.Now we can use cloudinary urls into our application 
+
+--------------------------------------------------------------------------------------------
+Nodemailer:
+helps to send mails , it supports both traditional and modern email protocols 
+such as SMTP , IMAP , POP3 , OAuth2 .Lets explore nodemailer and how to use it in an application 
+
+1.install nodemailer 
+    npm i nodemailer 
+
+2.const nodemailer = require('nodemailer');
+3.Create a transport object , which can help to send email , we are specifying the mail that can help
+    to send mail 
+
+    const transporter = nodemailer.createTransport(
+        {
+            service:'gmail',
+            auth:{user:'example@gmail.com',pass:'password'}
+        }
+    )
+
+4.Now we can use transporter object to send mail 
+
+    const mailOptions  = {
+        from :'example@gmail.com',
+        to:'recipient@gmail.com',
+        subject:'Test Email ',text:'This is a test email'
+    }
+
+    transporter.sendMail(mailOptions,(err,info)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log('email sent: '+info.response)
+        }
+    } )
+
+5.Nodemailer also supports for advanced email features such as attachments and HTML Content
+    here is an example of how to send an email with attachment 
+
+    const mailOptions  = {
+        from :'example@gmail.com',
+        to:'recipient@gmail.com',
+        subject:'Test Email ',
+        text:'This is a test email',
+        attachments:[{filename:'document.pdf',path:'/path/to/document.pdf'}]
+    }
+In the above example we have added an attachments property to the mailOptions object. This property 
+includes an array of objects that represents each attachment
+
+--------------------------------------------------------------------------------------------
+
+express-fileupload package:
+
+express-fileupload is a middleware for Express that makes it easy to handle file
+uploads in a web application .It simplifies the uploading of files to server by handling
+all of necessary operations for you ,including processing files ,creating a temporary directory
+and deleting files once they have been processed 
+
+1.install   
+    npm i express-fileupload
+
+2.Usage 
+    const express = require('express');
+    const fileUpload = require('express-fileupload');
+    const app = express();
+    app.use(fileUpload());
+
+This above sinppet sets up express-fileupload as middleware in your express application 
+this middleware is used for all routes that are defined after it 
+
+3.Configuration
+    express-fileupload comes with a variety of configuration options that you can use to 
+    customize its behaviour 
+
+    Here are some of most common options
+    limits: An object that sets limits on the file size that can be uploaded 
+            By default there is no limits on the file size 
+            the limits object can contain following properties
+                fileSize : the maximum size in bytes of each uploaded file
+                files: the maximum number of files that can be sent in a single request
+
+    abortOnLimit: If true , the middleware will abort the request if any of the limits are exceeded 
+                  If false, it will continue processing the request and report an error in the req.files object
+
+    responseOnLimit: The message that is sent back in response if any of the limits are exceeded
+
+    useTempFiles: If true , the middleware will use temporary files to store uploaded files 
+                    this is useful if you need to process large files that wont fit in memory 
+
+    tempFileDir: The directory where temporary files will be stored
+
+    createParentPath: If true , the middleware will create the parent directories of the upload 
+    directory if they dont exist 
+
+4.Handling File Uploads:
+    Once we have the express-fileupload set up as middleware , you can handle the fileuploads in your
+    routes by accessing the req.files object .This object contains information about uploaded files 
+    including their name , size , content 
+
+    Here is an example of how to handle a file upload in a route 
+
+    app.post('/upload',(req,res)=>{
+        if(!req.files || Object.keys(req.files).length === 0){
+            return res.status(400).send('No files were uploaded');
+        }
+
+        const file = req.files.file;
+        //use the mv method to place file on server
+        file.mv('/path/to/save/file',(err)=>{
+            if(err){
+                return res.status(500).send(err);
+            }
+            res.send('File Uploaded');
+        })
+    })
+
+--------------------------------------------------------------------------------------------
+
+express.urlencoded()
+
+in Express.js express.urlencoded() is a middleware function that is used to parse 
+incoming request bodies in a URL - encoded format 
+
+When a form is a submitted through a POST request with content-type set to 
+"application/x-www-form-urlencoded" , the data in the request body is encoded
+in a key-value pair format , where each key-value pair is separated by & character
+and each key , value are separated by = character .For example
+
+name=John+Doe&email=john%40example.com 
+
+The express.urlencoded() middleware helps us to parse the encoded data and makes it available
+in the req.body object for Express application This allows us to easily access the form data
+submitted in the request body 
+
+The extended option in express.urlencoded() detemines how the values in the request body are parsed
+If it is set to true , the values ca be any type and the parsing is done using the qs library .If it is set to
+false , the values are limited to strings and arrays and the parsing is done using the querystring library 
+Setting extended to true allows us to handle more complex data structures in the request body
+
+Here is an example of how to use express.urlencoded() middleware in an Express application
+
+const express = require('express');
+const app = express();
+app.use(express.urlencoded({extended:true}));
+app.post('/login',(req,res)=>{
+    const username = req.body.username;
+    const password = req.body.password;
+
+    //do something with username and password 
+});
+
+In this example, the express.urlencoded() middleware is added to the application using
+the app.use() method .Then in the POST route for the /login endpoint , we access the username
+and password values from the req.body object , which contains the parsed form data 
+
+--------------------------------------------------------------------------------------------
+fileupload()  vs cloudinary.uploader.upload()
+
+are two different methods used for uploading files in an express.js application
+
+fileupload() is a middleware used to handle file uploads in an express application.it parses 
+the HTTP request containing the file and stores it on the servers file system or memory as per the 
+configuration .This middleware can be used to handle files of various formats like
+images ,videos, audio etc 
+
+On the otherhand cloudinary.uploader.upload() is a method provided by the cloudinary package for uploading 
+files directly to cloud .Cloudinary is a cloud-based service that provides a platform for storing , managing and delivering images and videos
+With Cloudinary you can upload files from your local machine to cloud and manipulate them in various ways like
+cropping ,resizing , applying filters etc 
+
+The main difference between fileupload() and cloudinary.uploader.upload() is the location where the file is uploaded
+with fileupload() the file is uploaded to servers file system or memory , whereas with cloudinary.uploader.upload() the file is
+uploaded directly to the cloud 
+
+Another important difference is that cloudinary.uploader.upload() provides additional functionality
+like resizing ,cropping, applying filters to uploaded file ,It also provides secure URL generation and CDN 
+delivery of the uploaded files, which can improve the performance of your application 
+ 
+In Summary , fileupload() is used for handling file uploads to server , while cloudinary.uploader.upload() is used for uploading files to cloud and manipulating them
+The choice between the two depends on specific requirements of your application
+--------------------------------------------------------------------------------------------
+What is __dirname?
+
+__dirname is a special global variable in Node.js that refers to directory name of the current module It provides the absolute path of directory that contains the currently executing javascript file 
+For example, if your node.js application is located in /home/user/myapp and you have a file named server.js in the root directory of ur application , the value of __dirname in that file will be
+/home/user/myapp 
+
+This variable can be useful in various scenarios where you need to refer to absolute path of file or directory in your node.js application , such as when you're reading or writing files , resolving 
+relative paths or setting up routes for your server 
+
+Here's an example of how you can use __dirname to read a file loacted in same directory as your node.js application
+
+const fs  = require('fs');
+const path = require('path');
+
+const filePath = path.join(__dirname,'data.txt');
+fs.readFile(filePath,'utf-8',(err,data)=>{
+    if(err) throw err;
+    console.log(data);
+})
+
+In this example __dirname is used to construct the absolute path of data.txt file , which is located in same directory as server.js file.The path.join() method is used to concatenate
+the directory name with file name , and the resulting path is passed to fs.readFile() method to read contents of file 
+
+--------------------------------------------------------------------------------------------
+Lets create an application 
+which stores media on cloud storage
+and sends mail on successful upload 
+
+we create 4 controllers 
+    1.Image Upload 
+            upload on cloudinary(image can be .jpeg,.png )
+            make an entry to DB
+
+    2.video upload 
+            upload on cloudinary (video can be mp4 ,mov )
+            make an entry to DB 
+    3.Image Reduce upload 
+            upload to cloudinary(say <2MB)
+            create entry to DB
+    4.local file upload 
+            we store on server 
+
+Create a folder - FileUpload 
+->  npm init -y 
+
+Create folder structure 
+    config       - database.js  , cloudinary.js 
+    controllers  - with  fileUpload.js
+    models       - File.js 
+    routes       - FileUpload.js 
+    .env
+    index.js 
+
+npm i express mongoose dotenv 
+
+goto package.json , scripts 
+
+"start":"node index.js"
+"dev":"nodemon index.js"
+
+---------
+database.js - to connect to mongoDB 
+
+const mongoose = require('mongoose');
+
+require('dotenv').config();
+
+exports.connect = () => {
+  mongoose
+    .connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log('DB Connection successful');
+    })
+    .catch((err) => {
+      console.log(err.message);
+      process.exit(1);
+    });
+};
+
+--------
+to connect to cloudinary - config/cloudinary.js 
+
+--> npm i cloudinary
+
+now write below code in cloudinary.js 
+
+const cloudinary = require('cloudinary').v2;
+
+exports.cloudinaryConnect = () => {
+  try {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+--------
+Now go to cloudinary website and signup for free 
+
+using google 
+go to settings 
+Access key  - copy the key -->  API_KEY =  186642868853386
+API_SECRET = H_L4NRx9_dbodcIkVUdEVhBixp8
+
+go to dashboard and copy the cloud_name     
+CLOUD_NAME = dcd7xv0uy
+
+-------
+We defined the .env file as below:
+
+port = 4000
+DB_URL = "mongodb+srv://syedmoulali1997:x8fVJqLOTjw3fUHU@cluster0.1fpkib8.mongodb.net/FileUploadDatabase"
+CLOUD_NAME = dcd7xv0uy
+API_KEY = 186642868853386
+API_SECRET = H_L4NRx9_dbodcIkVUdEVhBixp8
+
+-------
+Now go to index.js 
+
+//create app
+const express = require('express');
+const app = express();
+
+//find the PORT
+require('dotenv').config();
+const PORT = process.env.PORT || 4000;
+
+//add middleware
+app.use(express.json());
+//add the middleware for uploading files
+//we have to install npm i express-fileupload   or we can use multer
+const fileupload = require('express-fileupload');
+app.use(fileupload());
+
+//connect to DB
+const dbConnect = require('./config/database');
+dbConnect.connect();
+
+//connect to cloud
+const cloudinary = require('cloudinary');
+cloudinary.cloudinaryConnect();
+
+//mount the route
+const Upload = require('./routes/FileUpload');
+app.use('/api/v1/upload', Upload);
+
+//activate server
+app.listen(PORT, () => {
+  console.log('server is up n running');
+});
+
+--------
+now go to routes/FileUpload.js 
+
+const express = require('express');
+const router = express.Router();
+
+const {
+  imageUpload,
+  videoUpload,
+  imageReducerUpload,
+  localFileUpload,
+} = require('../controllers/fileUpload');
+
+//define api routes
+router.post('/imageUpload', imageUpload);
+router.post('/videoUplaod', videoUpload);
+router.post('/imageReducerUpload', imageReducerUpload);
+router.post('/localFileUpload', localFileUpload);
+
+module.exports = router;
+
+-------
+Now lets create Schema - models/File.js
+
+const mongoose = require('mongoose');
+
+const fileSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+  },
+  tags: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+});
+
+module.exports = mongoose.model('File', fileSchema);
+
+
+--------
+Now lets start creating - controllers/fileUpload.js 
+
+const File = require('../models/File');
+
+//local file upload handler function
+exports.localFileUpload = async (req, res) => {
+  try {
+    //fetch file
+    const file = req.files.file;
+    console.log('FILE ', file);
+
+    //the path on which i want to store on server , extracting the uploaded file extension
+    let path =
+      __dirname + '/files/' + Date.now() + `.${file.name.split('.')[1]}`;
+    console.log(path);
+
+    file.mv(path, (err) => {
+      if (err) console.log(err);
+    });
+
+    res.json({
+      success: true,
+      message: 'Local File Uploaded successfully',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+Now we can test in postman
+
+http://localhost:4000/api/v1/upload/localFileUpload
+
+POST Request 
+select Body - select form-data 
+provide a Key - give the name as file(this must match with the name in the controller at time of fetching)
+select file type 
+upload the file 
+and click on send
+Now we can see file gets uploaded 

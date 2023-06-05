@@ -1,0 +1,460 @@
+Node js is a javascript run time env 
+
+we can build - web apps, hybrid apps , desktop apps 
+it uses event loop to handle async operations 
+
+process 
+console.log(process.version);//gives node js version
+
+//global , same as window in browser 
+
+npm i express 
+npm uninstall express 
+
+npm i nodemon -D 
+
+//String and digit Substitution
+console.log('%s is a good one','Apple');
+console.log('%d is a number ',1);
+
+//we can add in package.json - under scripts 
+
+"start":"node index.js"
+"dev":"nodemon index.js"
+
+console.log(__filename);
+console.log(__dirname);
+
+------------------------------------------------------------------------------------------------------------------------------------------
+"type":"commonjs"
+
+
+####
+const add = (a, b) => {
+  return a + b;
+};
+
+module.exports = add;
+
+const sum = require('./script');
+console.log(sum(2, 3));
+
+####
+exports.add = (a, b) => {
+  return a + b;
+};
+
+const a = require('./script');
+console.log(a.add(2, 3));
+
+####
+const add = (a, b) => {
+  return a + b;
+};
+const sub = (a, b) => {
+  return a - b;
+};
+
+module.exports = { add, sub };
+
+const a = require('./script');
+console.log(a.add(2, 3));
+console.log(a.sub(10, 2));
+
+####
+const add = (a, b) => {
+  return a + b;
+};
+
+export default add;
+
+import add from './script.js';
+console.log(add(2, 3));
+
+####
+export const add = (a, b) => {
+  return a + b;
+};
+
+export const sub = (a, b) => {
+  return a - b;
+};
+
+import { add, sub } from './script.js';
+
+console.log(add(2, 3));
+console.log(sub(19, 8));
+
+####
+const add = (a, b) => {
+  return a + b;
+};
+
+const sub = (a, b) => {
+  return a - b;
+};
+
+export { add, sub };
+
+import { add, sub } from './script.js';
+
+console.log(add(2, 3));
+console.log(sub(19, 8));
+
+####
+const add = (a, b) => {
+  return a + b;
+};
+
+const sub = (a, b) => {
+  return a - b;
+};
+const hi = 'Apple';
+
+export default hi;
+export { add, sub };
+
+import hi, * as a from './script.js';
+
+console.log(a.add(2, 3));
+console.log(a.sub(19, 8));
+console.log(a.default);
+console.log(hi);
+
+####
+to keep a file in running mode 
+node --watch filename
+
+####
+os Module
+
+import os from 'os';
+
+console.log(os.arch());
+
+console.log(os.freemem());
+console.log(os.totalmem());
+console.log(os.cpus());
+console.log(os.platform());
+console.log(os.networkInterfaces());
+console.log(os.type());
+console.log(os.userInfo());
+
+------------------------------------------------------------------------------------------------------------------------------------------
+##### 
+fs module 
+
+const fs = require('fs');
+
+//** read file */
+const data = fs.readFileSync('./demo.txt', 'utf-8');
+console.log(data);
+
+fs.readFile('./demo33.txt', 'utf-8', (err, data) => {
+  if (err) {
+    console.log(err.message);
+    return;
+  }
+  console.log(data);
+});
+
+// ** write file */
+fs.writeFileSync('./file1.txt', 'This is file1.txt , from a sync operation');
+
+fs.writeFile(
+  './file2.txt',
+  'This is file2.txt from a async operation',
+  (err) => {
+    if (err) return console.log(err.message);
+    console.log('File creation successful');
+  }
+);
+
+// ** append file */
+fs.appendFileSync('./file1.txt', ' appending synchronously');
+fs.appendFile('./file2.txt', ' appending async ', (err) => {
+  if (err) return console.log(err.message);
+  console.log('data append successful');
+});
+
+//** file stat */
+const f = fs.statSync('./file1.txt');
+console.log(f);
+console.log(f.isDirectory());
+console.log(f.isFile());
+console.log(f.size);
+
+fs.stat('./file2.txt', (err, data) => {
+  if (err) return console.log(err.message);
+  console.log(data);
+  console.log(data.isFile());
+  console.log(data.isDirectory());
+  console.log(data.size);
+});
+
+//** delete file */
+fs.unlinkSync('./file1.txt');
+fs.unlink('./file2.txt', (err) => {
+  if (err) return console.log(err.message);
+  console.log('file deletion successful');
+});
+
+
+####
+path module 
+const path = require('path');
+
+console.log(path.normalize('..//abc/a.txt'));
+console.log(path.basename('./abc/a.txt')); //--> a.txt
+console.log(path.dirname('./abc/a.txt')); //--> ./abc
+console.log(path.join('./abc/a.txt', './xyz/x.txt')); //--> abc\a.txt\xyz\x.txt
+console.log(path.extname('a.xls')); //.xls
+console.log(path.resolve('index.js')); // --> C:\WebDevelopment\FS\Tutor\folder1\index.js
+
+####
+events
+const event = require('events').EventEmitter;
+const emitter = new event();
+
+emitter.on('open', () => {
+  console.log('its open');
+});
+
+emitter.emit('open');
+
+emitter.on('hi', (data) => {
+  console.log(data);
+});
+emitter.emit('hi', 'hi there');
+
+//single event , multiple call backs can be added
+emitter.on('e', (res) => {
+  console.log(res);
+});
+emitter.on('e', (res) => {
+  if (res.handle) {
+    console.log(res.handle);
+  }
+});
+
+emitter.emit('e', { handle: true });
+
+//emit only once
+emitter.once('one', () => {
+  console.log('Good Morning');
+});
+
+emitter.emit('one');
+emitter.emit('one');
+
+// remove Listener
+const evtHandler = () => {
+  console.log('iam an event');
+  emitter.removeListener('i', evtHandler);
+};
+emitter.on('i', evtHandler);
+
+emitter.emit('i');
+emitter.emit('i');
+
+//error
+emitter.emit('error', new Error('Error in some event'));
+
+------------------------------------------------------------------------------------------------------------------------------------------
+####
+creating server using http module of node 
+
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.end('hello from server');
+  } else if (req.url === '/about') {
+    res.end('About page');
+  }
+});
+
+server.listen('4000', () => {
+  console.log('server is running');
+});
+
+####
+req.url
+req.headers
+req.method
+
+
+####
+res.statusCode = 200
+res.setHeader('Content-Type','application/json')
+
+res.writeHead(200,{'Content-type':'application/json'})
+
+res.write('Hello There');//will be seen on webpage
+
+
+####
+creating server using express 
+
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.status(200).send('hi from home page');
+});
+
+app.get('/about', (req, res) => {
+  res.status(200).json({ success: true });
+});
+app.listen(4000, () => {
+  console.log('server is running');
+});
+
+
+#####
+example for middleware 
+
+const express = require('express');
+const app = express();
+
+const auth = (req, res, next) => {
+  console.log('authorized');
+  next();
+};
+app.get('/', auth, (req, res) => {
+  res.send('hi this is home page');
+});
+
+app.listen(4000, () => {
+  console.log('server is running at port 4000');
+});
+
+------------------------------------------------------------------------------------------------------------------------------------------
+to send static files:
+res.render('./index.html')
+
+to send json data
+res.json({success:true})
+
+to send some data 
+res.send('<h1>Hi there</h1>');
+
+####
+to get parameters from req url 
+const {id} = req.params; 
+or
+const id = req.params.id;
+
+####
+npm i express mongoose dotenv 
+npm i nodemon -D 
+
+scripts:
+"start":"node index.js"
+"dev":"nodemon index.js"
+
+folders
+  config
+  models
+  controllers
+  routes 
+  middleware
+files 
+  index.js
+  .env 
+
+to access from .env file 
+require('dotenv').config();
+
+process.env.PORT 
+
+------------------------------------------------------------------------------------------------------------------------------------------
+create a folder 
+      config
+      middleware
+      controller
+      models
+      routes 
+        index.js
+        .env 
+
+npm i express dotenv 
+
+inside .env , define PORT 
+ PORT = 4000
+
+const createUser = async (req, res) => {
+  try {
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    res.json({
+      success: true,
+      id: id,
+    });
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+module.exports = { createUser, deleteUser };
+
+--
+const express = require('express');
+const userRouter = express.Router();
+
+const { createUser, deleteUser } = require('../controllers/userController.js');
+
+userRouter.post('/create', createUser);
+
+userRouter.delete('/delete/:id', deleteUser);
+module.exports = userRouter;
+
+---
+const express = require('express');
+const app = express();
+
+require('dotenv').config();
+
+const PORT = process.env.PORT;
+
+app.use(express.json());
+
+const userRouter = require('./routes/user');
+app.use('/api/v1', userRouter);
+
+app.listen(PORT, () => {
+  console.log('server is running');
+});
+
+------------------------------------------------------------------------------------------------------------------------------------------
+Install mongoDB 
+Add Grepper extension in chrome
+
+MongoDB is NoSQL database , which stores data in form json 
+NoSQL - collections , documents ,fields,ODM(Mongoose)             SQL -tables , rows , columns , ORM(Sequelize)
+
+NoSQL - $lookup  , SQL - Joins 
+
+select * from tableName ;           db.collectionName.find()
+select * from tableName limit 1;    db.collectionName.findOne()
+create TABLE employee(name VARCHAR2(20));   db.createCollection('employee')
+Insert into employee values('Apple');       db.employee.insert({name:'Apple'})
+
+
+mongosh
+show dbs
+use dbName
+show collections 
+db 
+db.test.help()
+db.createCollection('demo')
+db.collectionName.insert({name:'Apple'})
+db.collectionName.find()
+------------------------------------------------------------------------------------------------------------------------------------------
