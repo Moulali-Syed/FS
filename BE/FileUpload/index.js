@@ -11,7 +11,12 @@ app.use(express.json());
 //add the middleware for uploading files
 //we have to install npm i express-fileupload   or we can use multer
 const fileupload = require('express-fileupload');
-app.use(fileupload());
+app.use(
+  fileupload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+  })
+);
 
 //connect to DB
 const dbConnect = require('./config/database');

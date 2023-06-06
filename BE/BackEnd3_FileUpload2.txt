@@ -1,43 +1,24 @@
-const File = require('../models/File');
+Go to Cloudinary website --> Media Library --> Folders ---> create a new folder 
+
+Lets see imageUpload()
+            we fetch data 
+            validate whether the file type is supported 
+            if valid upload to cloudinary 
+            save in DB
+            send success response 
+
+
+------------------------------------------------------------------------------------------------------------------------
+upload image to cloudinary 
+
 const cloudinary = require('cloudinary').v2;
-
-//local file upload handler function
-exports.localFileUpload = async (req, res) => {
-  try {
-    //fetch file
-    const file = req.files.file;
-    console.log('FILE ', file);
-
-    //the path on which i want to store on server
-    let path =
-      __dirname + '/files/' + Date.now() + `.${file.name.split('.')[1]}`;
-    console.log(path);
-
-    //add path to move function
-    file.mv(path, (err) => {
-      if (err) console.log(err);
-    });
-
-    res.json({
-      success: true,
-      message: 'Local File Uploaded successfully',
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 function isFileTypeSupported(type, supportedTypes) {
   return supportedTypes.includes(type);
 }
 
-async function uploadFileToCloudinary(file, folder, quality) {
+async function uploadFileToCloudinary(file, folder) {
   const options = { folder };
-  console.log(file.tempFilePath);
-  if (quality) {
-    options.quality = quality;
-  }
-  options.resource_type = 'auto';
   return await cloudinary.uploader.upload(file.tempFilePath, options);
 }
 
@@ -87,6 +68,38 @@ exports.imageUpload = async (req, res) => {
   }
 };
 
+
+---- in index.js add the parameters for fileupload ----
+const fileupload = require('express-fileupload');
+app.use(
+  fileupload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+  })
+);
+
+---- in routes/FileUpload.js add the path ----
+router.post('/imageUpload', imageUpload);
+
+------------------------------------------------------------------------------------------------------------------------
+videoUpload 
+      same as imageUpload 
+            data fetch 
+            validation for file types and limit the size
+            upload to cloudinary
+            db save 
+            success response 
+
+
+//make sure to set the resource_type to auto 
+async function uploadFileToCloudinary(file, folder) {
+  const options = { folder };
+  console.log(file.tempFilePath);
+  options.resource_type = 'auto';
+  return await cloudinary.uploader.upload(file.tempFilePath, options);
+}
+
+//controller for video upload 
 //video upload
 exports.videoUpload = async (req, res) => {
   try {
@@ -109,7 +122,7 @@ exports.videoUpload = async (req, res) => {
     }
 
     console.log('Uploading file');
-    const response = await uploadFileToCloudinary(file, 'learncode');
+    const response = await uploadFileToCloudinary(file, learncode);
     console.log(response);
 
     //db entry
@@ -133,6 +146,24 @@ exports.videoUpload = async (req, res) => {
     });
   }
 };
+
+//Add the route inside routes/FileUpload.js 
+router.post('/videoUplaod', videoUpload);
+
+--------------------------------------------------------------------------------------------
+Image Size Reducer (we used quality attribute , try to do by changing height attribute)
+
+async function uploadFileToCloudinary(file, folder, quality) {
+  const options = { folder };
+  console.log(file.tempFilePath);
+  if (quality) {
+    options.quality = quality;
+  }
+  options.resource_type = 'auto';
+  return await cloudinary.uploader.upload(file.tempFilePath, options);
+}
+
+
 
 //Image reducer upload
 exports.imageReducerUpload = async (req, res) => {
@@ -183,3 +214,27 @@ exports.imageReducerUpload = async (req, res) => {
     });
   }
 };
+
+
+//Add the Route 
+router.post('/imageReducerUpload', imageReducerUpload);
+
+=======================================================================================
+What is markdown formatting?
+
+it is a lightweight markup language used to format and structure text 
+popular for formatting text based content 
+
+to create heading 
+# This is heading 
+
+create a bulleted list (astrisk followed by space)
+* Item1 * Item2 * Item3 
+
+make text bold 
+**text here**
+
+make text italic
+*text here*
+
+Supported by many platforms like github, stackOverflow..
