@@ -1,3 +1,32 @@
+Nodemailer:
+
+Lets first see about - pre and post middleware 
+
+post middleware - once we created a entry into DB and perform some task just after that 
+                  we can use post middleware
+
+//we have   save , init , validate , remove
+schema.post('save',function(){
+    console.log('saved')
+})
+
+pre middleware - if we want to do anything just before creating entry to DB we can use 
+                 pre middleware
+
+=========================================================================================
+Nodemailer  - sends mail from NodeJs
+
+npm i nodemailer 
+
+
+go to gmail - security - 2 factor authentication - go to bottom - app password 
+give some name - click generate , copy the generated password , never share it 
+
+
+
+Step1:
+Inside Schema file define the post middleware
+
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 
@@ -48,3 +77,15 @@ fileSchema.post('save', async function (doc) {
   }
 });
 module.exports = mongoose.model('File', fileSchema);
+
+
+Step2: get the password from gmail , never share it
+port = 4000
+DB_URL = "mongodb+srv://syedmoulali1997:x8fVJqLOTjw3fUHU@cluster0.1fpkib8.mongodb.net/FileUploadDatabase"
+CLOUD_NAME = dcd7xv0uy
+API_KEY = 186642868853386
+API_SECRET = H_L4NRx9_dbodcIkVUdEVhBixp8
+
+MAIL_HOST = smtp.gmail.com
+MAIL_USER = syedmoulali1997@gmail.com
+MAIL_PASS = password here 
