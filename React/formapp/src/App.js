@@ -1,7 +1,13 @@
 // import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import Form from './components/Form';
 
+function App() {
+  return <Form />;
+}
+
+/*
 function App() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -113,5 +119,5 @@ function App() {
     </div>
   );
 }
-
+*/
 export default App;
