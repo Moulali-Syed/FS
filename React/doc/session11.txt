@@ -1,0 +1,10 @@
+Lets create a random gif generator project 
+
+check the folder --->  random-gif-starter
+
+install axios
+    npm i axios  (to make http calls)
+
+We will learn fetching API Data and creation of custom hook
+
+55 minutes

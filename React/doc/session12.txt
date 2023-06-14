@@ -1,0 +1,15 @@
+Lets learn Context API , 
+
+previously we have seen prop drilling , we are sending data from component to component 
+
+Instead of unnecessary prop drilling , we can use context api to send props where ever 
+required
+
+Context API 
+        1.create context
+        2.Provide context
+        3.Consume context 
+
+
+
+Code in blogs-context  folder

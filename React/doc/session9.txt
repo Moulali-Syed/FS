@@ -1,0 +1,16 @@
+lets create a project using react router
+
+home page , login page , signup page , dashboard page 
+
+for code look in the folder -->  study-notion-react-router 
+
+-------------------------------------------------------------------
+inside src folder
+                    To place assets --> assets folder 
+                    To place pages  --> pages folder
+                    for components  --> components folder 
+
+
+51 minutes
+
+session 10 included in same project
