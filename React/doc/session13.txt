@@ -1,0 +1,7 @@
+code is in blogs-context2
+
+We are trying to fetch data from api url , based on its parameters
+
+to access any search parameter from url we use useSearchParams() hook 
+
+useLocation() hook
