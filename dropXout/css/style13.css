@@ -1,0 +1,48 @@
+.container {
+  height: 500px;
+  width: 500px;
+  background-color: rgb(235, 202, 140);
+  border: 10px solid orange;
+  border-radius: 10px;
+
+  /* flex */
+  display: flex;
+}
+
+.box {
+  height: 100px;
+  width: 100px;
+  background-color: orange;
+  margin: 2px;
+}
+
+/* media query */
+/* max-width ka a matlab hai ke , 0 to 720px tak ho tab isme defined styles apply hojayengey */
+@media (max-width: 720px) {
+  .container {
+    flex-direction: column;
+    background-color: green;
+  }
+}
+
+/* iska matlabh hai 0px se 480px tak  */
+@media (max-width: 480px) {
+  .container {
+    background-color: bisque;
+  }
+}
+
+/* min-width se matlabh hai ke -  800px ke baad apply hoga  */
+@media (min-width: 800px) {
+  .container {
+    background-color: pink;
+  }
+}
+
+/* we can specify a combination */
+@media (max-width: 1000px) and (min-width: 900px) {
+  .box {
+    font-family: sans-serif;
+    background-color: red;
+  }
+}

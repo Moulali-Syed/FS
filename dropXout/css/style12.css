@@ -1,0 +1,61 @@
+.container {
+  width: 50vw;
+  height: 50vh;
+  margin: 40px;
+  border: 10px solid black;
+  border-radius: 10px;
+  background-color: #444;
+
+  /* flex properties on container */
+  /* flex items will come in a row */
+  display: flex;
+
+  /* we can change flex-direction: default is row | column  | column-reverse | row-reverse*/
+  /* flex-direction: column; */
+
+  /* horizontal aliging*/
+  /* justify-content: center; */
+  /* we can specify - left , right , space-around,space-between ,center , flex-start,flex-end*/
+
+  /* vertically align flex items */
+  /* align-items: center; */
+  /* we can specify - flex-start,flex-end, baseline */
+
+  /* to make flex items to be in multiple lines , default is nowrap */
+  flex-wrap: wrap;
+
+  /* align-content -will work only if we have flex-wrap property set */
+  /* align-content: flex-end; */
+  /* flex-start | flex-end | space-around | space-between */
+}
+
+.box {
+  width: 90px;
+  height: 90px;
+  border: 5px solid orange;
+  border-radius: 10px;
+  background-color: rgb(205, 174, 118);
+  margin: 2px;
+}
+
+/* flex item  properties */
+
+.box1 {
+  /* order: 1; */
+
+  flex-grow: 1;
+  flex-shrink: 2;
+  flex-basis: 300px;
+  /* short hand */
+  flex: 0 1 auto;
+
+  align-self: center;
+}
+
+.box2 {
+  align-self: flex-end;
+}
+
+.box3 {
+  align-self: flex-start;
+}

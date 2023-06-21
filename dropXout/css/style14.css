@@ -1,0 +1,16 @@
+.border {
+  height: 200px;
+  width: 500px;
+  background-color: blueviolet;
+  border: 5px solid black;
+  padding: 20px;
+}
+
+.content {
+  height: 200px;
+  width: 500px;
+  background-color: antiquewhite;
+  box-sizing: border-box;
+  border: 5px solid red;
+  padding: 20px;
+}

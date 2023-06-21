@@ -1,0 +1,18 @@
+h1 {
+  display: inline;
+
+  border: 2px solid black;
+}
+
+#span {
+  display: block;
+}
+
+p {
+  /* doesnot take space on webpage */
+  /* display: none;
+   */
+
+  /* will be on webpage - just not visible */
+  visibility: hidden;
+}

@@ -1,0 +1,17 @@
+/* 
+Box model
+
+    margin
+        border
+            padding
+                content
+
+*/
+
+.hello {
+  height: 100px;
+  width: 200px;
+  border: 5px solid;
+  padding: 20px;
+  margin: 50px;
+}

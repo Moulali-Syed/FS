@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- favicon , we can create at this site - https://www.favicon.cc/ and download and use it-->
+    <link
+      rel="shortcut icon"
+      href="https://cdn.pixabay.com/photo/2023/06/02/15/39/church-8035968__340.jpg"
+      type="image/x-icon"
+    />
+    <title>HTML2</title>
+    <style>
+      table,
+      td,
+      th {
+        border: 2px solid orange;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- links -->
+    <a href="https://google.com">Google</a>
+    <!-- _blank , open in a new page  , _self is default behaviour-->
+    <a href="https://google.com" target="_blank">Google</a>
+    <a href="https://google.com"
+      ><img
+        src="https://cdn.pixabay.com/photo/2023/06/02/15/39/church-8035968__340.jpg"
+        alt="Image"
+    /></a>
+
+    <!-- mail -->
+    <a href="mailto:mailid@gmail.com">Contact via email</a>
+
+    <!-- --------------- Table ------------------------ -->
+
+    <table style="width: 100%">
+      <tr>
+        <th style="width: 50%">Sno</th>
+        <th colspan="2">Name</th>
+      </tr>
+      <tr>
+        <td rowspan="2">1</td>
+        <td>Apple</td>
+        <td>Shimla</td>
+      </tr>
+      <tr>
+        <!-- <td>2</td> -->
+        <td>Tommy</td>
+        <td>Shelbe</td>
+      </tr>
+    </table>
+  </body>
+</html>

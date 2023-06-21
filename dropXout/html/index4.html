@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="index.php" method="post">
+      <label for="firstname">FirstName</label>
+      <input
+        type="text"
+        id="firstname"
+        name="fname"
+        placeholder="Enter Your FirstName"
+      />
+
+      <br />
+      <br />
+      <label for="lastname">LastName</label>
+      <input
+        type="text"
+        id="lastname"
+        name="lname"
+        placeholder="Enter Your LastName"
+      />
+      <br /><br />
+      <label for="pwd">Password</label>
+      <input
+        type="password"
+        name="pwd"
+        id="pwd"
+        placeholder="Enter Your Password"
+      />
+
+      <br /><br />
+      <p>choose gender</p>
+      <input type="radio" name="gender" id="male" value="male" />
+      <label for="male">Male</label>
+
+      <input type="radio" name="gender" id="female" value="female" />
+      <label for="female">Female</label>
+
+      <br /><br />
+      <p>select interested sport (u can select multiple too)</p>
+      <input type="checkbox" name="sports" id="cricket" value="cricket" />
+      <label for="cricket">Cricket</label>
+
+      <input type="checkbox" name="sports" id="football" value="football" />
+      <label for="football">FootBall</label>
+
+      <br /><br />
+      <input type="date" name="" id="" />
+      <label for="date">DOB</label>
+      <input type="datetime-local" name="" id="date" />
+      <br /><br />
+      <label for="file">Upload File</label>
+      <input type="file" name="file" id="file" />
+      <br /><br />
+      <input type="color" name="color" id="" /><br /><br />
+      <input type="hidden" name="" /><br /><br />
+
+      <input list="fruits" />
+      <datalist id="fruits">
+        <option value="apple"></option>
+        <option value="grapes"></option>
+        <option value="banana"></option>
+      </datalist>
+      <br /><br />
+
+      <label for="fruit">SelectFruit</label>
+      <select id="fruit" size="2" multiple>
+        <option value=""></option>
+        <option value="apple">Apple</option>
+        <option value="grapes">Grapes</option>
+        <option value="banana">Banana</option>
+      </select>
+      <br /><br />
+
+      <input type="button" value="ClickMe!" />
+      <input type="submit" value="Submit" />
+      <input type="reset" value="Reset" />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+/* universal selector - applies to all html elements */
+* {
+  color: red;
+}
+
+/* element selector */
+h1 {
+  color: orange;
+}
+
+/* class selector */
+.para {
+  font-weight: bold;
+}
+
+/* id selector */
+#demo {
+  font-family: sans-serif;
+}
+
+/* multiple element selectors */
+h1,
+p {
+  font-size: 12px;
+}

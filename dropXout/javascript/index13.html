@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #container {
+        height: 400px;
+        width: 400px;
+        background-color: rgb(225, 180, 96);
+        position: relative;
+        border: 2px solid orange;
+        border-radius: 4px;
+      }
+
+      #inside {
+        height: 50px;
+        width: 50px;
+        background-color: beige;
+        position: absolute;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="inside"></div>
+    </div>
+    <p>
+      <button onclick="move()">Animate</button>
+    </p>
+
+    <p><button onclick="move2()">Animate2</button></p>
+    <script src="./script13.js"></script>
+  </body>
+</html>

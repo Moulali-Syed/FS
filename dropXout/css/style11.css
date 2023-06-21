@@ -1,0 +1,10 @@
+.box {
+  height: 100px;
+  width: 100px;
+  background-color: crimson;
+  /* float: left; */
+  float: right;
+}
+.container {
+  /* clear: both; */
+}

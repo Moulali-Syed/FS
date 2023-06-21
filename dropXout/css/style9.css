@@ -1,0 +1,47 @@
+.container {
+  background-color: rgb(142, 185, 230);
+  height: 200px;
+  width: 400px;
+}
+.box {
+  background-color: yellow;
+  height: 100px;
+  width: 100px;
+}
+
+/* by default position is static */
+/* we cannot apply top and left properties */
+
+/* ---------------------- */
+
+/* position:relative */
+/* we can give top, left - they can be positive and negative as well */
+.box {
+  position: relative;
+  top: -20px;
+  left: -40px;
+}
+
+/* position:fixed */
+.box {
+  position: fixed;
+  top: 40px;
+  left: 100px;
+}
+
+/* position:absolute */
+.container {
+  position: relative;
+  overflow: scroll;
+}
+.box {
+  position: absolute;
+  top: 150px;
+}
+
+/* position:sticky */
+.box {
+  position: sticky;
+  top: 20px;
+  left: 20px;
+}

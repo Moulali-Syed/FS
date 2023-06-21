@@ -1,0 +1,27 @@
+/* using color names */
+h1 {
+  color: orange;
+  border: 2px solid orange;
+}
+
+/* using rgb and rgba  - a here is alpha refers to opacity */
+/* values for rgb ranges from 0 to 255 */
+/* 000 - black , 255,255 */
+p {
+  color: rgb(121, 199, 43);
+}
+
+#opac {
+  color: rgba(121, 199, 43, 0.5);
+}
+
+/* hexdecimal colors */
+/* values range from 00 to ff */
+#hex {
+  color: #ff88cc;
+}
+
+/* hsl , hsla */
+#wheel {
+  color: hsl(220, 20%, 30%);
+}

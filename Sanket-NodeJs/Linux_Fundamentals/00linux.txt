@@ -1,0 +1,144 @@
+Linux
+
+How we can run linux cli 
+
+ubuntu is based on unix
+
+REPL - read evaluate print loop
+
+REPL - it reads and evaluates then prints and keep on running in loop 
+
+--------------------------------------------------------------------------------
+
+NOTE: for any linux command you can check the usage and different
+input flags it expects by running the command followed by --help 
+
+--------------------------------------------------------------------------------
+#check the current working directory
+        pwd
+
+#print the directory content
+        ls 
+    listing of files
+
+#change directory 
+        cd dir_name
+
+#go back by one folder level
+        cd ..
+
+#go two folders back    
+        cd ../..
+
+#go back to home directory
+        cd ~
+
+cd / ---> is root directory
+cd ~ ---> home directory which is sub directory of root directory
+
+#clear terminal
+    clear 
+
+#ls  with different flags 
+        ls -l 
+
+    this shows who is owner of file , permissions to files (read,write),date
+
+        ls -a 
+    this shows hidden folders as well 
+
+        ls -lh
+    works like ls -l , but also gives size of file 
+
+
+#create a new folder
+        mkdir dir_name 
+
+#create a new file 
+        touch filename.extension
+
+        touch readme.md
+    
+#see content of file (prints the whole content of file)
+        cat filename.txt
+
+#remove a file 
+        rm filename.txt
+
+#remove a folder
+        rmdir folder_name
+
+#remove folder , when folder is not empty
+        rmdir -r folder_name 
+
+#forceful removal ** never use it
+        rmdir -rf folder_name
+
+
+--------------------------------------------------------------------------------
+vim is a text editor 
+
+#to create a new file or to open an existing file (if file doesnot exist it creates new file, if present it opens it)
+vim filename.txt 
+or
+vi filename.txt 
+
+esc+:q ---> to exit vim 
+
+
+# by default when we open file using vi , it is in normal mode
+using which we can navigate file 
+
+
+#to write data to file  , we have to press i - this enters insert mode 
+
+#after writing to a file , to keep our changes use the command to quit -->  esc+:wq 
+
+#if file has some changes and we want to exit without saving -->  esc+:q!
+
+#we can navigate file using arrow keys 
+
+# we can also use to navigate file 
+        l - right 
+        h - left 
+        k - top 
+        j - bottom 
+
+
+#in normal mode , if we press double d --> dd , this will delete the line 
+
+
+#in normal mode , go to top of file --->  gg 
+
+#in normal mode , go to last line of file  ---> G
+
+#in normal mode , w ---> it can make u jump one word
+#in normal mode , 2w ---> it can make u jump 2 words 
+#in normal mode , d2w1 --> then this will delete 2 words 
+
+#replace all 
+    :%s/foo/bar -----> replace all occurences of foo with bar 
+
+#copy and paste
+ in normal mode -->  yw copies one word
+ in normal mode -->  yy copies a whole line 
+ in normal mode -->  p is used to paste 
+
+--------------------------------------------------------------------------------
+tail filename.ext
+
+tail -n 3 filename.ext
+
+---
+
+head filename.extension
+
+head -n 3 filename.extension
+
+----
+echo "hello world"
+
+----
+echo "hi there" > demo.txt 
+
+this will write hi there into the demo.txt file 

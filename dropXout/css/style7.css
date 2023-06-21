@@ -1,0 +1,44 @@
+h1 {
+  color: orange;
+  background-color: blue;
+  text-align: center;
+  text-transform: uppercase;
+  /* direction: rtl; */
+  text-decoration: underline;
+  letter-spacing: 3px;
+  word-spacing: 10px;
+
+  /* horizontal vertical blur-radius color */
+  text-shadow: 2px 1.3px 5px orange;
+}
+
+p {
+  text-indent: 100px;
+}
+
+/* font  */
+
+#ff {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: sans-serif;
+  font-style: italic;
+}
+/* we can also import google fonts , and paste in html head , and use the font-family */
+
+/* Styling links */
+/* LVHA */
+a {
+  color: orange;
+  text-decoration: none;
+}
+
+a:visited {
+  color: green;
+}
+a:hover {
+  color: crimson;
+}
+a:active {
+  color: yellow;
+}

@@ -1,0 +1,30 @@
+/*  */
+body {
+  background-color: orange;
+}
+
+h1 {
+  background-color: blue;
+}
+div {
+  border: 2px solid red;
+  height: 400px;
+  width: 400px;
+  background-image: url('https://images.pexels.com/photos/17104745/pexels-photo-17104745/free-photo-of-light-dark-sign-wall.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load');
+
+  background-size: cover;
+  /* background-size: 100% 100%; */
+  /* background-position: 20%;
+   */
+  background-position: center;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+}
+#bg {
+  border: 2px solid red;
+  height: 400px;
+  width: 400px;
+  background: aqua
+    url('https://images.pexels.com/photos/17104745/pexels-photo-17104745/free-photo-of-light-dark-sign-wall.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load')
+    center center/cover no-repeat fixed;
+}
