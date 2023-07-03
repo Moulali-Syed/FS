@@ -1,0 +1,10 @@
+input {
+  display: block;
+  padding: 1rem;
+  margin-bottom: 10px;
+}
+
+button {
+  color: black;
+  background-color: orange;
+}

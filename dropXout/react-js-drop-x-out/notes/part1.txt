@@ -1,0 +1,59 @@
+What is UI?
+User Interface refers to visual elements and interactive features of an application or website
+that enables user to interact with the software
+
+React is a popular javascript library
+
+it is pre written code that can be used by software developers to help them build 
+application more quickly and efficiently 
+
+
+Difference between library and framework?
+React - is a library , more flexibility for developer in choosing how to 
+        structure there application 
+
+framework - is more structured and opiniated  approach to build ui applications ,
+            program flow will be on framework 
+
+
+
+Install Node Js and Vs code 
+
+create react application
+npx create-react-app app-name
+
+
+
+-------------------------------------------------------------
+React folder structure
+
+public folder - index.html file 
+
+src - App.js , index.js (index.js is entry point)
+
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+----
+import './App.css';
+
+function App() {
+  return <div className="App">Welcome to React</div>;
+}
+
+export default App;
+
+-------------------------------------------------------------
+
+
+

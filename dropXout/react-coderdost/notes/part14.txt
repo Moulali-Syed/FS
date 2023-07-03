@@ -1,0 +1,206 @@
+forward Ref, useDeffered , useTransition
+=========================================
+Profiler API:
+Profiler measures how often a React application renders and what the cost of 
+rendering is . Its purpose is to identify the parts of application that are slow 
+and may benefit from optimizations such as memoization
+
+wrap the component which ever u want to measure performance with <Profiler></Profiler>
+
+const callbackFn = ({id,phase , actualDuration,baseDuration,startTime,commitTime,interactions})=>{
+    console.log(id,phase , actualDuration,baseDuration,startTime,commitTime,interactions)
+}
+
+<Profiler id="somename" onRender={callbackFn}>
+    <Component/>
+</Profiler>
+
+----------
+We can use Profiler in react dev tools in browser - Go to Profiler , click on start 
+profiling 
+
+==================================================================================
+
+StrictMode:
+enables development-only behaviours 
+        your component will re-render an extra time  to find bugs caused by impure rendering
+        useEffect also runs twice to find bugs caused by missing Effect cleanup
+        component will be checked for usage of deprecated APIs
+
+==================================================================================
+forwardRef
+
+This is used when a child component has to send reference to parent component 
+
+kaho ke mere pas child component mey input element hai , mi chahatha ke parent 
+component ke button se child component ka input mey focus ho jaaye , tab hamey 
+forwardRef use kar sakte hai , forwardRef ka second parameter - ref hogaa
+
+import React, { useRef } from 'react';
+import ChildComponent from './ChildComponent';
+
+const ParentComponent = () => {
+  const inputRef = useRef(null);          //------------(1) parent mey useRef se aik ref banao
+
+  const clickHandler = () => {
+    inputRef.current.focus();
+  };
+  return (
+    <div>
+      <ChildComponent ref={inputRef} />     //--------------(2) child ko pas karo
+      <button onClick={clickHandler}>Click</button>  //-------------------(5) ref par ab koi bhi action perform karo 
+    </div>
+  );
+};
+
+export default ParentComponent;
+
+--
+import React, { forwardRef } from 'react';
+
+const ChildComponent = forwardRef((props, ref) => {  //--------------(3) child mey as a second parameter accept karo
+  return (
+    <div>
+      <input type="text" ref={ref} />  //--------------------(4) ref ko element ko diyo
+    </div>
+  );
+});
+
+export default ChildComponent;
+==================================================================================
+useImperativeHandle:
+
+this hook works along with useRef and forwardRef 
+
+in the child component , we pass the ref to useImperativeHandle as 1st parameter ,
+then we define a function as a 2nd parameter that returns something to us ,3rd
+parameter is an empty dependency array 
+
+useImperativeHandle aik aisaa hook hai , jis se ham control kar sakte hai 
+parent se pas kiye gaye ref ko 
+
+aur chaho tho custom methods define kar sakte ho
+
+import React, { useRef } from 'react';
+import ChildComponent from './ChildComponent';
+
+const ParentComponent = () => {
+  const inputRef = useRef(null);
+
+  const clickHandler = () => {
+    inputRef.current.focus();
+  };
+
+  const popHandler = () => {
+    inputRef.current.showPopUp();
+  };
+  return (
+    <div>
+      <ChildComponent ref={inputRef} />
+      <button onClick={clickHandler}>Click</button>
+      <button onClick={popHandler}>showPopUP</button>
+    </div>
+  );
+};
+
+export default ParentComponent;
+---
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+
+const ChildComponent = forwardRef((props, ref) => {
+  const iRef = useRef(null);
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        focus: () => iRef.current.focus(),
+        showPopUp: () => alert('hi'),
+      };
+    },
+    []
+  );
+  return (
+    <div>
+      <input type="text" ref={iRef} />
+    </div>
+  );
+});
+
+export default ChildComponent;
+
+useImperativeHandle ko ham proxy pattern bhi kah sakte hai
+ismey ham access control kar rahe hai , parent se jo ref aayaa hai usko kuch hee 
+access provide karte hai 
+==================================================================================
+
+useLayoutEffect - bilkul bhi use mat karo 
+
+iska aik usage hai ki - Measuring layout before the browser repaints the screen 
+
+useLayoutEffect is identical how we define a useEffect hook 
+
+useEffect and useLayoutEffect are very similar but the major difference is when they run 
+useEffect is asynchronous , useLayoutEffect is synchronous 
+
+useEffect runs after the dom updates 
+useLayoutEffect runs along with dom update when it is painting on screen 
+
+Always prefer to use useEffect hook , if it doesnot works then use useLayoutEffect
+
+
+import { useState, useRef, useLayoutEffect } from 'react';
+
+function Tooltip() {
+  const ref = useRef(null);
+  const [tooltipHeight, setTooltipHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    const { height } = ref.current.getBoundingClientRect();
+    setTooltipHeight(height);
+  }, []);
+
+}
+==================================================================================
+
+useTransition , useDefferedValue 
+
+These are used to prioritize rendering 
+
+useDefferedValue:
+
+say iam loading data on a button click and i want my app to be responsive and not get stuck
+because of continual updates , then i can use the useDefferedValue hook , which can update the 
+new value once all the data is fetched
+
+import { useState, useDeferredValue } from 'react';
+
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+  // ...
+}
+
+and we use the deferredQuery everywhere
+==================================================================================
+useTransition hook:
+
+ With this hook, you can specify any state updates as non-urgent
+
+tumey jab pataa ho ke , kis wale state updates se delay ho saktaa hai tab , iss hook se 
+unko non-urgent kar sakte ho 
+
+
+The startTransition function returned by useTransition lets you mark a state update as a transition.
+
+function TabContainer() {
+  const [isPending, startTransition] = useTransition();
+  const [tab, setTab] = useState('about');
+
+  function selectTab(nextTab) {
+    startTransition(() => {
+      setTab(nextTab);
+    });
+  }
+  // ...
+}

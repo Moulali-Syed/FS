@@ -1,0 +1,145 @@
+props:
+
+import React from 'react';
+import Book from './Book';
+
+const BookList = () => {
+  return (
+    <div>
+      <Book
+        image="https://images-na.ssl-images-amazon.com/images/G/01/Books/Kids/BOTM/BOTYSF_Kids_BHP_Tile.jpg"
+        title="Best Kids Book 2023"
+        price="1000"
+      />
+      <Book
+        image="https://images-na.ssl-images-amazon.com/images/I/91pJQMkd5dL._AC_UL254_SR254,254_.jpg"
+        title="Too Late"
+        price="300"
+      />
+      <Book
+        image="https://images-na.ssl-images-amazon.com/images/I/91c9eorep5L._AC_UL127_SR127,127_.jpg"
+        title="Fourth Wing"
+        price="400"
+      />
+      <Book
+        image="https://images-na.ssl-images-amazon.com/images/I/81c9SSbG3OL._AC_UL127_SR127,127_.jpg"
+        title="Teach to Be Rich"
+        price="700"
+      />
+    </div>
+  );
+};
+
+export default BookList;
+
+--
+import React from 'react';
+
+const Book = (props) => {
+  return (
+    <div className="book">
+      <img src={props.image} alt="kid" />
+      <h1>{props.title}</h1>
+      <p>${props.price}</p>
+      <button>Add To Cart</button>
+    </div>
+  );
+};
+
+export default Book;
+
+
+======
+
+
+map function , with key 
+
+import React from 'react';
+import Book from './Book';
+
+const BookList = () => {
+  const books = [
+    {
+      id: 1,
+      image:
+        'https://images-na.ssl-images-amazon.com/images/G/01/Books/Kids/BOTM/BOTYSF_Kids_BHP_Tile.jpg',
+      title: 'Best Kids Book 2023',
+      price: '1000',
+    },
+    {
+      id: 2,
+      image:
+        'https://images-na.ssl-images-amazon.com/images/I/91pJQMkd5dL._AC_UL254_SR254,254_.jpg',
+      title: 'Too Late',
+      price: '300',
+    },
+    {
+      id: 3,
+      image:
+        'https://images-na.ssl-images-amazon.com/images/I/91c9eorep5L._AC_UL127_SR127,127_.jpg',
+      title: 'Fourth Wing',
+      price: '400',
+    },
+    {
+      id: 4,
+      image:
+        'https://images-na.ssl-images-amazon.com/images/I/81c9SSbG3OL._AC_UL127_SR127,127_.jpg',
+      title: 'Teach to Be Rich',
+      price: '700',
+    },
+  ];
+  return (
+    <div>
+      {books.map((book) => (
+        <Book key={book.id} {...book} />
+      ))}
+    </div>
+  );
+};
+
+export default BookList;
+
+====================================================================
+import and export 
+
+
+export default Component;
+
+import Component from './fileName';
+------
+
+export {Hi,Hello};
+import {Hi,Hello} from './fileName';
+
+-------
+export {Hi,Hello as Bye};
+import {Hi.Bye} from './fileName';
+
+-------
+export {Hi};
+import {Hi as Hey} from './fileName';
+
+====================================================================
+useState hook:
+
+import { useState } from 'react';
+import './App.css';
+import BookList from './BookList';
+
+function App() {
+  const [state, setState] = useState(0);
+
+  const clickHandler = () => {
+    setState(state + 1);
+  };
+  return (
+    <div className="App">
+      <h1>{state}</h1>
+      <button onClick={clickHandler}>Click</button>
+    </div>
+  );
+}
+
+export default App;
+
+

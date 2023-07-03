@@ -1,0 +1,258 @@
+Redux is a state management library
+
+Redux is a pattern of data flow 
+
+Redux is independent of Frameworks , can be used with any javascript project
+
+------------------------------------------------------------------------
+We need data from a child component to parent component  , then we do Lifting the state up
+and to pass the data to some other component we pass them as props 
+
+Thus araises the prop drilling problem , so to overcome the Lifting state up and prop drilling 
+we can use Redux  - helps in Global state management 
+
+In Redux we have a Store , which we can access it from anywhere , we can change it from anywhere
+
+Redux ko use kar ke ham , state access karte hai aur update karte hai , yahee pura concern hai redux ke baare mey
+
+
+------------------------------------------------------------------------
+When to use Redux?
+
+Big Applications
+High frequency of state changes 
+------------------------------------------------------------------------
+Redux Pattern 
+
+Example:
+
+        mera bank account mey 200$ balance hai  (sarey state changes Store mey hothey hai)
+            mi kuch 100$ deposit kiya , tho bank mera balance update karta hai 300$ 
+            (action perform ho raha , state update kar rahe)
+            mi gaya  100$ withdraw kiya, tho bank mera balance update karta hai 200$
+            (action perform ho raha , state update kar rahe)
+
+
+        /----\
+        |bank| (Store)
+          |
+          deposit (action)  - action has type and payload [type:deposit , payload:100]
+          withdraw(action) - action has type and payload [type:deposit , payload:100]
+
+          action directly cannot update state , action should trigger the Reducer function 
+          which has logic to update state 
+
+          we use dispatch - to perform an action 
+
+          state , dispatch , reducer  - a sab store mey hothey hai
+          action ham khud jaha jaroorat ho waha bana lete hai  
+
+------------------------------------------------------------------------
+middlewares 
+
+    agar hamey action dispatch karte hai - iske baad bhi koi aisaa logic ho sakta hai
+    jaisey ke koi validation ya koi api call ho sakta hai , aur a complete hone ke baad 
+    action trigger ho aur reducer function ko trigger kare phir state update ho jaye 
+
+
+------------------------------------------------------------------------
+Lets first understand - redux concepts 
+
+ham first - package.json ko initialize kar detey hai
+        npm init -y 
+
+        npm install redux 
+
+# Now lets start creating Store 
+
+import { createStore } from 'redux';
+
+//iam storing state updates in an array , using subscribe
+const history = [];
+//Store
+const store = createStore(reducer);
+
+//reducer is a function that helps in state update
+//ye hamey naya state return karta hai
+function reducer(state = { amount: 1 }, action) {
+  if (action.type === 'increment') {
+    return { amount: state.amount + 1 };
+  }
+  return state;
+}
+
+//checking the global state
+// console.log(store.getState()); //instead of calling this getState function to know the state update
+//we can make a subscription to this getState , so that we can know whenever the state update happens
+
+store.subscribe(() => {
+  history.push(store.getState());
+  console.log(history);
+});
+
+setInterval(() => {
+  store.dispatch({ type: 'increment' });
+}, 1000);
+
+3 main principles for redux     
+        1.Single Source of Truth (Global State)
+        2.Immutable Updates(State read only)
+        3.Reducer should be pure (No side effects)
+
+
+------------------------------------------------------------------------
+
+Now lets use a middleware 
+
+import the applyMiddleware and also install a middleware - 
+    npm i redux-logger
+
+
+import { createStore, applyMiddleware } from 'redux';
+import logger from 'redux-logger';
+
+//iam storing state updates in an array , using subscribe
+const history = [];
+
+//action name constants
+const inc = 'increment';
+const dec = 'decrement';
+const incByAmount = 'incrementByAmount';
+
+//Store
+const store = createStore(reducer, applyMiddleware(logger.default));
+
+//reducer is a function that helps in state update
+//ye hamey naya state return karta hai
+function reducer(state = { amount: 1 }, action) {
+  if (action.type === inc) {
+    return { amount: state.amount + 2 };
+  }
+  if (action.type === dec) {
+    return { amount: state.amount - 1 };
+  }
+  if (action.type === incByAmount) {
+    return { amount: state.amount + action.payload };
+  }
+  return state;
+}
+
+// Action Creators
+function increment() {
+  return { type: inc };
+}
+
+function decrement() {
+  return { type: dec };
+}
+
+function incrementByAmount(value) {
+  return { type: incByAmount, payload: value };
+}
+
+setInterval(() => {
+  //   store.dispatch({ type: 'increment' });
+  //   store.dispatch({ type: 'decrement' });
+  //   store.dispatch({ type: 'incrementByAmount', payload: 100 });
+
+  store.dispatch(incrementByAmount(300));
+}, 2000);
+
+------------------------------------------------------------------------
+
+now lets see how we can make an api call from server ,
+we need redux thunk 
+
+for now lets create a file --->  db.json 
+
+lets create a fake server , for this install , json-server 
+npm i -g json-server
+
+Now we can run the json file using json-server 
+    json-server db.json 
+
+we get the api up and running and will show the url on which it is running 
+
+now lets install axios to make api calls
+    npm i axios 
+
+---------
+
+Lets first understand why do we need redux-thunk 
+
+
+say i need to do a api call and get some data from it , so i created a async function 
+but this is not accepted as an action , we will get error as actions must be plain objects
+as async function returns promise , we cannot use it 
+
+
+
+Below code has the problem because we are using async function and for api call using axios 
+
+
+import { createStore, applyMiddleware } from 'redux';
+import logger from 'redux-logger';
+import axios from 'axios';
+
+//iam storing state updates in an array , using subscribe
+const history = [];
+
+//action name constants
+const init = 'init';
+const inc = 'increment';
+const dec = 'decrement';
+const incByAmount = 'incrementByAmount';
+
+//Store
+const store = createStore(reducer, applyMiddleware(logger.default));
+
+//reducer is a function that helps in state update
+//ye hamey naya state return karta hai
+function reducer(state = { amount: 1 }, action) {
+  switch (action.type) {
+    case init:
+      return { amount: action.payload };
+    case inc:
+      return { amount: state.amount + 1 };
+    case dec:
+      return { amount: state.amount - 1 };
+    case incByAmount:
+      return { amount: state.amount + action.payload };
+    default:
+      return state;
+  }
+}
+
+//Async API call
+// async function getUser() {
+//   console.log(data);
+// }
+
+// getUser();
+// Action Creators
+async function initUser() {
+  const { data } = await axios.get('http://localhost:3000/accounts/1');
+  return { type: init, payload: data.amount };
+}
+function increment() {
+  return { type: inc };
+}
+
+function decrement() {
+  return { type: dec };
+}
+
+function incrementByAmount(value) {
+  return { type: incByAmount, payload: value };
+}
+
+setInterval(() => {
+  //   store.dispatch({ type: 'increment' });
+  //   store.dispatch({ type: 'decrement' });
+  //   store.dispatch({ type: 'incrementByAmount', payload: 100 });
+
+  // store.dispatch(incrementByAmount(300));
+
+  store.dispatch(initUser());
+}, 2000);
+

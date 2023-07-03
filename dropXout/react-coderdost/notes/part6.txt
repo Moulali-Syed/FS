@@ -1,0 +1,122 @@
+Forms , Event Objects , Lifting the state up
+=============================================
+Lifting the state up 
+
+React follows unidirectional data flow , lets see how we can send data from child to parent
+
+we see lifting state up , controlled component 
+
+controlled component: linking the state and the input element using value attribute 
+
+
+---------------- App.js -------------
+import './App.css';
+import { useState } from 'react';
+import videoDB from './data/data';
+import AddVideo from './components/AddVideo';
+import VideoList from './components/VideoList';
+
+function App() {
+  const [videos, setVideos] = useState(videoDB);
+
+  function addVideos(vid) {
+    setVideos([
+      ...videos,
+      {
+        id: videos.length + 1,
+        ...vid,
+      },
+    ]);
+  }
+
+  return (
+    <>
+      <div className="App" onClick={() => console.log('parent triggered')}>
+        <AddVideo videos={videos} getVideo={addVideos} />
+        <VideoList videos={videos} />
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+------------- AddVideo  ------------------
+import React, { useState } from 'react';
+import './AddVideo.css';
+
+const initialState = {
+  time: '1 month ago',
+  channel: 'HappyChannel4',
+  isVerified: true,
+  title: '',
+  views: '',
+};
+const AddVideo = ({ getVideo }) => {
+  const [video, setVideo] = useState(initialState);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    getVideo(video);
+    setVideo(initialState);
+  };
+  const changeHandler = (e) => {
+    e.stopPropagation();
+    setVideo({ ...video, [e.target.name]: e.target.value });
+  };
+  return (
+    <form>
+      <input
+        type="text"
+        placeholder="title"
+        onChange={changeHandler}
+        name="title"
+        value={video.title}
+      />
+      <input
+        type="text"
+        placeholder="views"
+        onChange={changeHandler}
+        name="views"
+        value={video.views}
+      />
+
+      <div>
+        <button onClick={handleSubmit}>Add Video</button>
+      </div>
+    </form>
+  );
+};
+
+export default AddVideo;
+
+-------------- VideoList ------------------
+import React from 'react';
+import Video from './Video';
+import PlayButton from './PlayButton';
+const VideoList = ({ videos }) => {
+  return (
+    <div>
+      {' '}
+      {videos.map((video, index) => (
+        <Video
+          key={index}
+          id={video.id}
+          title={video.title}
+          views={video.views}
+          time={video.views}
+          channel={video.channel}
+          isVerified={video.isVerified}
+        >
+          <PlayButton
+            onPlay={() => console.log('Video is Playing', video.title)}
+            onPause={() => console.log('Video is Paused', video.title)}
+          >
+            {video.title}
+          </PlayButton>
+        </Video>
+      ))}
+    </div>
+  );
+};
+
+export default VideoList;

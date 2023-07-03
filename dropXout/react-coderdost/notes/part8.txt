@@ -1,0 +1,207 @@
+useReducer hook:
+
+this is used to handle state , useReducer hook combines state logic 
+
+const [state,dispatch] = useReducer(reducer,initialState);
+
+dispatch - accept a action object
+reducer is a function , which accepts two parameters - 1.state 2.action
+
+
+
+import './App.css';
+import { useReducer, useState } from 'react';
+import videoDB from './data/data';
+import AddVideo from './components/AddVideo';
+import VideoList from './components/VideoList';
+
+function App() {
+  const [editableVideo, setEditableVideo] = useState(null);
+
+  function videoReducer(videos, action) {
+    switch (action.type) {
+      case 'ADD':
+        return [
+          ...videos,
+          {
+            id: videos.length + 1,
+            ...action.payload,
+          },
+        ];
+      case 'DELETE':
+        return videos.filter((vid) => vid.id !== action.payload);
+      case 'UPDATE':
+        const index = videos.findIndex((vid) => vid.id === action.payload.id);
+        const newVideos = [...videos];
+        newVideos.splice(index, 1, action.payload);
+        setEditableVideo(null);
+        return newVideos;
+      default:
+        return videos;
+    }
+  }
+
+  // const [videos, setVideos] = useState(videoDB);
+  const [videos, dispatch] = useReducer(videoReducer, videoDB);
+
+  function editVideo(id) {
+    setEditableVideo(videos.find((vid) => vid.id === id));
+  }
+
+  return (
+    <>
+      <div className="App" onClick={() => console.log('parent triggered')}>
+        <AddVideo dispatch={dispatch} editableVideo={editableVideo} />
+        <VideoList videos={videos} dispatch={dispatch} editVideo={editVideo} />
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+----------------------------------
+import React, { useEffect, useState } from 'react';
+import './AddVideo.css';
+
+const initialState = {
+  time: '1 month ago',
+  channel: 'HappyChannel4',
+  isVerified: true,
+  title: '',
+  views: '',
+};
+const AddVideo = ({ dispatch, editableVideo }) => {
+  const [video, setVideo] = useState(initialState);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editableVideo) {
+      dispatch({ type: 'UPDATE', payload: video });
+    } else {
+      dispatch({ type: 'ADD', payload: video });
+    }
+    setVideo(initialState);
+  };
+
+  const changeHandler = (e) => {
+    e.stopPropagation();
+    setVideo({ ...video, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    if (editableVideo) {
+      setVideo(editableVideo);
+    }
+  }, [editableVideo]);
+
+  return (
+    <form>
+      <input
+        type="text"
+        placeholder="title"
+        onChange={changeHandler}
+        name="title"
+        value={video.title}
+      />
+      <input
+        type="text"
+        placeholder="views"
+        onChange={changeHandler}
+        name="views"
+        value={video.views}
+      />
+
+      <div>
+        <button onClick={handleSubmit}>
+          {editableVideo ? 'Edit' : 'Add'} Video
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default AddVideo;
+
+----------------------------
+import React from 'react';
+import Video from './Video';
+import PlayButton from './PlayButton';
+const VideoList = ({ videos, editVideo, dispatch }) => {
+  return (
+    <div>
+      {' '}
+      {videos.map((video, index) => (
+        <Video
+          key={index}
+          id={video.id}
+          title={video.title}
+          views={video.views}
+          time={video.views}
+          channel={video.channel}
+          isVerified={video.isVerified}
+          editVideo={editVideo}
+          dispatch={dispatch}
+        >
+          <PlayButton
+            onPlay={() => console.log('Video is Playing', video.title)}
+            onPause={() => console.log('Video is Paused', video.title)}
+          >
+            {video.title}
+          </PlayButton>
+        </Video>
+      ))}
+    </div>
+  );
+};
+
+export default VideoList;
+
+
+----------------------------
+import React from 'react';
+import './Video.css';
+
+const Video = ({
+  id,
+  title,
+  channel,
+  views,
+  time,
+  isVerified,
+  children,
+  editVideo,
+  dispatch,
+}) => {
+  return (
+    <>
+      <div className="container">
+        <button
+          className="close"
+          onClick={() => dispatch({ type: 'DELETE', payload: id })}
+        >
+          X
+        </button>
+        <button className="edit" onClick={() => editVideo(id)}>
+          Edit
+        </button>
+        <div className="pic">
+          <img
+            src={`https://picsum.photos/id/${id}/160/90`}
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">
+          {channel} {isVerified && '✅'}
+        </div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+        <div>{children}</div>
+      </div>
+    </>
+  );
+};
+
+export default Video;

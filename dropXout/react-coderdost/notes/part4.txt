@@ -1,0 +1,296 @@
+Events , Event Handler , Synthetic Event Object 
+
+click , mouseover , mouseout
+keydown, keyup , keypress
+
+===============================================================================
+onClick
+
+import React from 'react';
+import './PlayButton.css';
+
+const PlayButton = ({ message, children }) => {
+  function handleClick() {
+    console.log(message);
+  }
+  return <button onClick={handleClick}>{children}</button>;
+};
+
+export default PlayButton;
+
+import PlayButton from './components/PlayButton';
+function App(){
+    return (
+          <PlayButton message="hi - play">Play</PlayButton>
+          <PlayButton message="Bye - paused">Pause</PlayButton>
+    )
+}
+
+--------------------------------------------------------------------------------------
+button with different functionality:
+
+        <div style={{ clear: 'both' }}>
+          <PlayButton
+            message="a custom event triggered"
+            onClick={() => console.log('custom event logged message')}
+          >
+            CustomEvents
+          </PlayButton>
+
+          <PlayButton
+            message="a custom event 2 triggered"
+            onClick={() => alert('custom event triggered')}
+          >
+            CustomEvent2
+          </PlayButton>
+        </div>
+
+import React from 'react';
+import './PlayButton.css';
+
+const PlayButton = ({onClick }) => {
+
+  return <button onClick={onClick}>{children}</button>;
+};
+
+export default PlayButton;
+
+-----------------------------------------------------------------------------------------------
+import React from 'react';
+import './PlayButton.css';
+
+const PlayButton = ({ message, children, onClick }) => {
+  //   function handleClick() {
+  //     console.log(message);
+  //   }
+  return <button onClick={() => onClick(message)}>{children}</button>;
+};
+
+export default PlayButton;
+
+
+        <div style={{ clear: 'both' }}>
+          {/* <PlayButton message="hi - play">Play</PlayButton>
+          <PlayButton message="Bye - paused">Pause</PlayButton> */}
+          <PlayButton
+            message="a custom event triggered"
+            onClick={(msg) => console.log(msg)}
+          >
+            CustomEvents
+          </PlayButton>
+
+          <PlayButton
+            message="a custom event 2 triggered"
+            onClick={(msg) => alert(msg)}
+          >
+            CustomEvent2
+          </PlayButton>
+        </div>
+
+-----------------------------------------------------------------------------------------------
+multiple events 
+
+import React from 'react';
+import './PlayButton.css';
+
+const PlayButton = ({ onPlay, onPause, children }) => {
+  let playing = false;
+  function handleClick() {
+    if (playing) {
+      onPause();
+    } else {
+      onPlay();
+    }
+    playing = !playing;
+  }
+  return <button onClick={handleClick}>{children}</button>;
+};
+
+export default PlayButton;
+
+        <div style={{ clear: 'both' }}>
+          <PlayButton
+            onPlay={() => console.log('Video is Playing')}
+            onPause={() => console.log('Video is Paused')}
+          >
+            CustomEvents
+          </PlayButton>
+        </div>
+
+=================================================================================
+Synthetic Events 
+
+we can stop event bubbling using --->  e.stopPropagation();
+
+in forms we generally use --> e.preventDefault() , helps page not to refresh on form submission
+
+=================================================================================
+import './App.css';
+import PlayButton from './components/PlayButton';
+import Video from './components/Video';
+import videos from './data/data';
+function App() {
+  return (
+    <>
+      <div className="App" onClick={() => console.log('parent triggered')}>
+        <div>Videos</div>
+        {videos.map((video, index) => (
+          <Video
+            key={index}
+            id={video.id}
+            title={video.title}
+            views={video.views}
+            time={video.views}
+            channel={video.channel}
+            isVerified={video.isVerified}
+          >
+            <PlayButton
+              onPlay={() => console.log('Video is Playing', video.title)}
+              onPause={() => console.log('Video is Paused', video.title)}
+            >
+              {video.title}
+            </PlayButton>
+          </Video>
+        ))}
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+---
+import React from 'react';
+import './Video.css';
+
+const Video = ({ id, title, channel, views, time, isVerified, children }) => {
+  return (
+    <>
+      <div className="container">
+        <div className="pic">
+          <img
+            src={`https://picsum.photos/id/${id}/160/90`}
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">
+          {channel} {isVerified && '✅'}
+        </div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+        <div>{children}</div>
+      </div>
+    </>
+  );
+};
+
+export default Video;
+
+---
+import React from 'react';
+import './PlayButton.css';
+
+const PlayButton = ({ onPlay, onPause, children }) => {
+  let playing = false;
+  function handleClick(e) {
+    // console.log(e);//Synthetic Event
+    e.stopPropagation();
+
+    if (playing) {
+      onPause();
+    } else {
+      onPlay();
+    }
+    playing = !playing;
+  }
+  return <button onClick={handleClick}>{children}</button>;
+};
+
+export default PlayButton;
+
+
+============================================================================
+import React, { useEffect, useState } from 'react';
+import './AssignmentOne.css';
+const AssignmentOne = () => {
+  const [c, setC] = useState('');
+  let hover = 'hover';
+  function handleMouseover() {
+    setC('inc');
+  }
+  function handleMouseOut() {
+    setC('');
+  }
+  function submitHandler(e) {
+    e.preventDefault();
+  }
+  function keypresshandler(e) {
+    if (e.key == 'Enter') {
+      alert(e.target.value);
+    }
+  }
+  function printHandle() {
+    window.print();
+  }
+  return (
+    <div>
+      <div>
+        <img
+          src="https://cdn.pixabay.com/photo/2023/06/15/10/03/surfing-8065035_640.jpg"
+          alt="high waves"
+          onMouseOver={handleMouseover}
+          onMouseOut={handleMouseOut}
+          className={`${hover} ${c}`}
+        />
+      </div>
+      <div>
+        <button
+          onClick={() => console.log('clicked')}
+          onDoubleClick={() => alert('doubly clicked')}
+        >
+          Click
+        </button>
+      </div>
+      <div>
+        <input
+          type="text"
+          name=""
+          id=""
+          onFocus={() => console.log('input box is focused')}
+          onBlur={() => console.log('out of input box')}
+        />
+      </div>
+      <div>
+        <p
+          onCopy={() => alert('text copied')}
+          onCut={() => alert('tried cutting')}
+          onPaste={() => console.log('pasted')}
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius
+          mollitia sint reprehenderit magnam deleniti odit? Qui optio est odit.
+          Hic, nobis aliquam! Laboriosam cupiditate asperiores repellendus rem
+          consequuntur eos veritatis.
+        </p>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={submitHandler}>
+        <input type="text" />
+        <button>Submit</button>
+      </form>
+
+      {/* keypress */}
+      <div>
+        <input type="text" onKeyDown={keypresshandler} />
+      </div>
+
+      <div>
+        <button onClick={printHandle}>Print</button>
+      </div>
+    </div>
+  );
+};
+
+export default AssignmentOne;

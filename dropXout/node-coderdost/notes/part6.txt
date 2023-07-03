@@ -1,0 +1,144 @@
+NoSQL Database
+
+        has Collections and Documents 
+
+Consider a University database -  that has different collections for storing data of Students ,Courses,Teachers
+    Document will be somewhat to json - but it is BSON
+
+            {
+                object_id:"5delabs98",
+                name:"Apple",
+                age:1,
+                course:"nodejs"
+            }
+
+object_id acts as a primary key  
+
+We can compare - SQL database with NoSQL as 
+            Table - Collection
+            rows  - document 
+   columns/fields - fields  
+
+======================================================================================
+goto mongodb site - Products - CommunityServer
+install as per platform and lastest version 
+
+download and install mongoshell
+======================================================================================
+
+# to list the available databases
+        show dbs 
+
+# switch to a particular Database (if the db is present it will switch otherwise it will create a new one and switch to it)
+        use dbName
+
+# to see all collections inside a database 
+        show collections 
+
+# to exit  a database 
+        exit()
+
+# creating a collection
+        db.collectionName.insertOne({'fieldName':'fieldValue'})
+
+    example:
+        db.products.insertOne({'title':'iphone'})
+
+# list all the documents inside a collection 
+        db.collectionName.find()
+
+    example:
+        db.products.find()
+
+every document has a unique Object_id value 
+
+# insert multiple documents in a collection
+        db.collectionName.insertMany([])
+
+    example:
+        db.products.insertMany([
+     {
+      "id": 2,
+      "title": "iPhone X",
+      "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+      "price": 899,
+      "discountPercentage": 17.94,
+      "rating": 4.44,
+      "stock": 34,
+      "brand": "Apple",
+      "category": "smartphones",
+      "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/2/1.jpg",
+        "https://i.dummyjson.com/data/products/2/2.jpg",
+        "https://i.dummyjson.com/data/products/2/3.jpg",
+        "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Samsung Universe 9",
+      "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
+      "price": 1249,
+      "discountPercentage": 15.46,
+      "rating": 4.09,
+      "stock": 36,
+      "brand": "Samsung",
+      "category": "smartphones",
+      "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
+      "images": ["https://i.dummyjson.com/data/products/3/1.jpg"]
+    }])
+
+# find a particular document (first parameter we pass is the filtering criteria)
+        db.collectionName.findOne({"key":value})
+
+        example
+            db.products.findOne({id:1})
+            db.products.findOne({title:'OPPOF19'})
+
+    db.products.find({title:'OPPOF19'})
+            output will be in array , because there can be more than one product with same title    
+
+# find a particular document by matching value
+        db.collectionName.find({title:{$eq:'OPPOF19'}})
+
+    example
+        db.products.find({title:{$eq:'OPPOF19'}})
+
+    by default find checks for equality only 
+
+# find using greater than
+        db.products.find({price:{$gt:300}})
+
+# find using less than 
+        db.products.find({price:{$lt:300}})
+
+# find using multiple criteria  (AND)
+        db.products.find({rating:{$gt:4.5},id:{$gt:1}})
+
+        db.products.find({$and:[{rating:{$gt:4.5}},{id:{$gt:1}}]})
+
+    above both are same , so we can directly use the first way 
+
+# find using multiple criteria (OR)
+        db.products.find({$or:[{rating:{$gt:4.5}},{id:{$gt:1}}]})
+
+# sort the documents  (1 - ascending order , -1 descending order)
+        db.products.find({price:{$gt:400}}).sort('price',1)
+
+# limiting the number of results 
+        db.products.find({price:{$gt:400}}).sort('price',1).limit(3)
+
+# count of number of documents 
+        db.products.countDocuments()
+
+        we can apply filter on countDocuments as well 
+            db.products.countDocuments({price:{$gt:500}})
+
+
+======================================================================================
+
+
+
+
+======================================================================================

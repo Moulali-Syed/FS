@@ -1,0 +1,192 @@
+Conditional Rendering and map
+------------------------------
+
+Conditional Rendering , we can use ternary operator
+
+import React from 'react';
+import './Video.css';
+
+const Video = ({ title, channel, views, time, isVerified }) => {
+  return (
+    <>
+      <div className="container">
+        <div className="pic">
+          <img
+            src="https://cdn.pixabay.com/photo/2023/03/27/18/06/bird-7881393_640.jpg"
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">
+          {channel} {isVerified ? '✅' : '❌'}
+        </div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Video;
+
+==================================================================================
+We can use short circuting if we need only one value 
+
+import React from 'react';
+import './Video.css';
+
+const Video = ({ title, channel, views, time, isVerified }) => {
+  return (
+    <>
+      <div className="container">
+        <div className="pic">
+          <img
+            src="https://cdn.pixabay.com/photo/2023/03/27/18/06/bird-7881393_640.jpg"
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">
+          {channel} {isVerified && '✅'}
+        </div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Video;
+
+
+=================================================================================
+map with key prop
+
+import './App.css';
+import Video from './components/Video';
+
+function App() {
+  let videos = [
+    {
+      id: 1,
+      title: 'Cute Little Bird',
+      views: '10K',
+      time: '1 year ago',
+      channel: 'HappyChannel1',
+      isVerified: true,
+    },
+    {
+      id: 2,
+
+      title: 'Cute Little Bird',
+      views: '50K',
+      time: '1 year ago',
+      channel: 'HappyChannel2',
+      isVerified: true,
+    },
+    {
+      id: 3,
+      title: 'Adorable Bird',
+      views: '100K',
+      time: '1 month ago',
+      channel: 'HappyChannel',
+      isVerified: false,
+    },
+  ];
+  return (
+    <>
+      <div className="App">
+        <div>Videos</div>
+        {videos.map((video, idx) => (
+          <Video key={idx} {...video} />
+        ))}
+
+        {videos.map((video, index) => (
+          <Video
+            key={index}
+            id={video.id}
+            title={video.title}
+            views={video.views}
+            time={video.views}
+            channel={video.channel}
+            isVerified={video.isVerified}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+=================================================================================
+
+maintain the data to be rendered in a separate file and export it 
+
+data.js
+
+let videos = [
+  {
+    id: 1,
+    title: 'Cute Little Bird',
+    views: '10K',
+    time: '1 year ago',
+    channel: 'HappyChannel1',
+    isVerified: true,
+  },
+  {
+    id: 2,
+
+    title: 'Cute Little Bird',
+    views: '50K',
+    time: '1 year ago',
+    channel: 'HappyChannel2',
+    isVerified: true,
+  },
+  {
+    id: 3,
+    title: 'Adorable Bird',
+    views: '100K',
+    time: '1 month ago',
+    channel: 'HappyChannel',
+    isVerified: false,
+  },
+];
+export default videos;
+
+
+---
+import './App.css';
+import Video from './components/Video';
+import videos from './data/data';
+function App() {
+  return (
+    <>
+      <div className="App">
+        <div>Videos</div>
+        {videos.map((video, idx) => (
+          <Video key={idx} {...video} />
+        ))}
+
+        {videos.map((video, index) => (
+          <Video
+            key={index}
+            id={video.id}
+            title={video.title}
+            views={video.views}
+            time={video.views}
+            channel={video.channel}
+            isVerified={video.isVerified}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+=============================================================================================
+HomeWork

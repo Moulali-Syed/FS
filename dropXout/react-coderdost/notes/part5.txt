@@ -1,0 +1,63 @@
+state, useState hook
+=====================
+using javascript variables , we cannot update DOM based on the variable change
+
+state variables are tracked by react , on changing state variables we can update DOM 
+
+===============================================================================
+
+useState hook example:
+
+
+import React from 'react';
+import { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const incrementHandler = (e) => {
+    e.stopPropagation();
+    setCount((count) => count + 1);
+    //   setCount(count + 1);
+    console.log(count);
+  };
+  return (
+    <>
+      <h1>{count}</h1>
+      <button onClick={incrementHandler}>Click</button>
+    </>
+  );
+};
+
+export default Counter;
+
+===============================================================================
+Example of play pause button using useState 
+
+import React, { useState } from 'react';
+import './PlayButton.css';
+
+const PlayButton = ({ onPlay, onPause, children }) => {
+  const [playing, setPlaying] = useState(false);
+  function handleClick(e) {
+    // console.log(e);//Synthetic Event
+    e.stopPropagation();
+
+    if (playing) {
+      onPause();
+    } else {
+      onPlay();
+    }
+    setPlaying(!playing);
+  }
+  return (
+    <button onClick={handleClick}>
+      {children} - {playing ? '⏸️' : '▶️'}
+    </button>
+  );
+};
+
+export default PlayButton;
+
+
+===============================================================================

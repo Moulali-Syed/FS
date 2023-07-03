@@ -1,0 +1,187 @@
+Client  -   Server  architecture
+
+
+Browser  - WebServer - Database
+
+the request we do from Client is sent to WebServer , then server sends back a response 
+
+Server understands http protocol
+
+When we send a request from client to server 
+the request has following things in it 
+
+        request type(get/post/put/delete/patch) (requestline - method/pathToBeAccessed)
+        headers(userAgent / accept-content / accept-language / cookie)
+        body(the data we want to send to server)
+
+The response format will be something as below
+    status line - 200 OK
+    headers - server/content-type /content-length /expires
+    body - data sent from server
+
+
+Common response status codes
+    2XX(Success) - 200 OK |  201 Created | 202: Accepted
+    3XX(Redirections) - 301:Moved Permanently | 302 : Found
+    4XX(Client Error) - 400:Bad Request | 401:Unauthorised | 403:Forbidden | 404:Not Found |405:Method Not Allowed
+    5XX(Server Error) - 500:Internal Server Error | 502:Bad Gateway 
+
+=======================================================================================
+code in part 2
+
+create a folder part2 
+
+initialize node app , -y all default options
+        npm init -y 
+
+    
+Creating server using Node Js -  http module
+
+
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  //we can set header
+  res.setHeader('Dummy', 'Dummy Value');
+  res.end('<h1>Hello from Server</h1>');
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+
+----------
+
+sending json data - we need to setHeader and convert to json data 
+
+const http = require('http');
+
+const data = { name: 'apple' };
+
+const server = http.createServer((req, res) => {
+  //we can set header
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(data));
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+
+--------------
+sending html data and setting header 
+
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  //we can set header
+  res.setHeader('Content-Type', 'text/html');
+  res.end('<h1>Hello from server</h1>');
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+
+====================================================================================
+
+read html file and send in response 
+
+const http = require('http');
+const fs = require('fs');
+
+const htmlData = fs.readFileSync('./index.html', 'utf-8');
+const server = http.createServer((req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.end(htmlData);
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+
+====================================================================================
+read json file and send in response 
+
+const http = require('http');
+const fs = require('fs');
+
+const jsonData = fs.readFileSync('./data.json', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(jsonData);
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+
+====================================================================================
+
+Creating Routes:
+
+const http = require('http');
+const fs = require('fs');
+
+const jsonData = fs.readFileSync('./data.json', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  switch (req.url) {
+    case '/':
+      res.setHeader('Content-Type', 'text/html');
+      return res.end('<h1>Hello World</h1>');
+    case '/json':
+      res.setHeader('Content-Type', 'application/json');
+      return res.end(jsonData);
+    default:
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      return res.end('<h1>No Such Route</h1>');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+
+============================================================
+below is an example of server side rendering , based on json data 
+and html file - this is like using template engine
+
+
+const http = require('http');
+const fs = require('fs');
+
+const jsonData = JSON.parse(fs.readFileSync('./data.json', 'utf-8'));
+const htmlFile = fs.readFileSync('./index.html', 'utf-8');
+
+const products = jsonData['products'];
+
+const server = http.createServer((req, res) => {
+  console.log(req.url + '**** req.url ***');
+  if (req.url.startsWith('/product')) {
+    const id = req.url.split('/')[2];
+    console.log(id + '   is id ');
+    const product = products.find((prod) => prod.id === +id);
+    console.log(product);
+    let newData = htmlFile
+      .replace('**url**', product.thumbnail)
+      .replace('**title**', product.title)
+      .replace('**price**', product.price);
+    res.end(newData);
+    return;
+  }
+  switch (req.url) {
+    case '/':
+      res.setHeader('Content-Type', 'text/html');
+      return res.end('<h1>Hello World</h1>');
+    default:
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      return res.end('<h1>No Such Route</h1>');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('server is running at port 3000');
+});
+

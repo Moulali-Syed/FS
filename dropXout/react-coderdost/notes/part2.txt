@@ -1,0 +1,271 @@
+Components , Props , JSX
+
+
+Components - are functions which return UI 
+
+Component name must start with capital letter **
+
+#Lets create Components 
+    create a folder - components , inside src folder 
+        Create Video.js and Video.css 
+
+
+React.Fragment or <></> must be used as a enclosing component when we are returning
+multiple elements from a component 
+
+Video.js 
+
+import React from 'react';
+import './Video.css';
+
+const Video = () => {
+  return (
+    <div>
+      <img
+        src="https://cdn.pixabay.com/photo/2023/03/27/18/06/bird-7881393_640.jpg"
+        alt="little bird"
+      />
+      <div>Cute Bird</div>
+    </div>
+  );
+};
+
+export default Video;
+
+and we import Video.js into App.js and use it 
+
+------------------------------------------------------------------------------------------
+Lets understand JSX 
+
+    JSX - Javascript XML 
+
+previously we keep html and js separate 
+but using JSX we can write html and Javascript 
+
+    #We must have a parent 
+            so use <></>  or  <React.Fragment></React.Fragment>
+
+    #we have to use --> className
+
+    #we have to use --> onClick
+
+    #styles
+      <div style={{ backgroundColor: 'red' }}>Cute Bird</div>
+
+    #variable 
+            <div>{variableName}</div>
+
+
+import React from 'react';
+import './Video.css';
+
+const Video = () => {
+  let bg = 'dark';
+  return (
+    <>
+      <img
+        src="https://cdn.pixabay.com/photo/2023/03/27/18/06/bird-7881393_640.jpg"
+        alt="little bird"
+      />
+      <div className={bg} style={{ backgroundColor: 'red' }}>
+        Cute Bird
+      </div>
+    </>
+  );
+};
+
+export default Video;
+------------------------------------------------------------------------------------------
+
+Passing props :
+
+props are readonly , that we cannot directly change them from button clicks thru UI 
+
+
+import './App.css';
+import Video from './components/Video';
+
+function App() {
+  return (
+    <>
+      <div>Hello</div>
+      <Video bgColor="yellow" title="Cute Little Bird" />
+      <Video bgColor="green" title="Adorable Bird" />
+    </>
+  );
+}
+
+export default App;
+
+---
+import React from 'react';
+import './Video.css';
+
+const Video = ({ title, bgColor }) => {
+  let bg = 'dark';
+  return (
+    <>
+      <img
+        src="https://cdn.pixabay.com/photo/2023/03/27/18/06/bird-7881393_640.jpg"
+        alt="little bird"
+      />
+      <div className={bg} style={{ backgroundColor: bgColor }}>
+        {title}
+      </div>
+    </>
+  );
+};
+
+export default Video;
+
+------------------------------------------------------------------------------------------
+
+Example of using props 
+
+import React from 'react';
+import './Video.css';
+
+const Video = ({ title, channel, views, time }) => {
+  return (
+    <>
+      <div className="container">
+        <div className="pic">
+          <img
+            src="https://cdn.pixabay.com/photo/2023/03/27/18/06/bird-7881393_640.jpg"
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">{channel}</div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Video;
+
+
+import './App.css';
+import Video from './components/Video';
+
+function App() {
+  let channelName = 'HappyChannel';
+  return (
+    <>
+      <div className="App">
+        <div>Videos</div>
+        <Video
+          title="Cute Little Bird"
+          views="10K"
+          time="1 year ago"
+          channel={channelName}
+        />
+        <Video
+          title="Adorable Bird"
+          views="100K"
+          time="1 month ago"
+          channel={channelName}
+        />
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+------------------------------------------------------------------------------------------
+children props
+
+import React from 'react';
+
+const Demo = ({ children }) => {
+  return <div>Demo - {children} children props</div>;
+};
+
+export default Demo;
+
+---
+
+import './App.css';
+import Demo from './components/Demo';
+import Video from './components/Video';
+
+function App() {
+  return (
+    <>
+      <Demo>Children Props are sent here</Demo>
+    </>
+  );
+}
+
+export default App;
+
+------------------------------------------------------------------------------------------
+we can give default prop values 
+
+function Demo(title="Apple"){
+    return (
+        <div>{title}</div>
+    )
+}
+
+------------------------------------------------------------------------------------------
+If we have all the props in a object , we can use object Destructuring as below 
+
+import './App.css';
+import Demo from './components/Demo';
+import Video from './components/Video';
+
+function App() {
+  let channelName = 'HappyChannel';
+
+  let obj = {
+    title: 'Cute Little Bird',
+    views: '10K',
+    time: '1 year ago',
+    channel: 'HappyChannel',
+  };
+  return (
+    <>
+      <div className="App">
+        <div>Videos</div>
+        <Video {...obj} />
+        <Video
+          title={obj.title}
+          views={obj.views}
+          time={obj.time}
+          channel={obj.channel}
+        />
+
+        <Video
+          title="Cute Little Bird"
+          views="10K"
+          time="1 year ago"
+          channel={channelName}
+        />
+        <Video
+          title="Adorable Bird"
+          views="100K"
+          time="1 month ago"
+          channel={channelName}
+        />
+      </div>
+      <Demo>Children Props are sent here</Demo>
+    </>
+  );
+}
+
+export default App;
+
+------------------------------------------------------------------------------------------
+
+Wrapper component that adds a border 
+
+const Border = (props) => {
+  return <div style={{ border: '5px solid red' }}>{props.children}</div>;
+};
+
+export default Border;

@@ -1,0 +1,160 @@
+React-Redux:
+
+We make a global state - Provider , this will provide the state whereever needed
+access state from React - useSelector  
+Change state from anywhere - useDispatch 
+
+--------------------------------------------------------------------------
+If we donot use redux , then data flow is very hard 
+we need to send props at many levels and also have to use Lifting the state up concept
+
+so to overcome unnecessary prop drilling and for complex state management lets use redux 
+
+--------------------------------------------------------------------------
+create a folder inside src ---> actions , inside create index.js file 
+
+create a folder inside src ----> reducers , inside create 2 files - account.js , bonus.js 
+
+inside index.js - create store 
+npm i redux redux-thunk redux-logger
+
+
+actions/index.js 
+
+import axios from 'axios';
+
+//action name constants
+export const inc = 'account/increment';
+export const dec = 'account/increment';
+export const incByAmount = 'account/incrementByAmount';
+export const incBonus = 'bonus/increment';
+export const getAccUserPending = 'account/getUser/pending';
+export const getAccUserFulfilled = 'account/getUser/fulfilled';
+export const getAccUserRejected = 'account/getUser/rejected';
+
+export function getUserAccount(id) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(getAccountUserPending());
+      const data = await axios.get(`http://localhost:3000/accounts/${id}`);
+      dispatch(getAccountUserFulfilled(data.amount));
+    } catch (err) {
+      dispatch(getAccountUserRejected(err.message));
+    }
+  };
+}
+
+export function getAccountUserPending() {
+  return { type: getAccUserPending };
+}
+
+export function getAccountUserRejected(error) {
+  return { type: getAccUserRejected, error: error };
+}
+
+export function getAccountUserFulfilled(value) {
+  return { type: getAccUserFulfilled, payload: value };
+}
+
+export function increment() {
+  return { type: inc };
+}
+
+export function decrement() {
+  return { type: dec };
+}
+
+export function incrementByAmount(value) {
+  return { type: incByAmount, payload: value };
+}
+
+export function incrementBonus(value) {
+  return { type: incBonus };
+}
+
+-----
+
+reducers/account.js 
+
+import {
+  getAccUserFulfilled,
+  getAccUserPending,
+  getAccUserRejected,
+  inc,
+  dec,
+  incByAmount,
+} from '../actions';
+
+export function accountReducer(state = { amount: 1 }, action) {
+  switch (action.type) {
+    case getAccUserFulfilled:
+      return { amount: action.payload, pending: false };
+    case getAccUserRejected:
+      return { ...state, error: action.error, pending: false };
+    case getAccUserPending:
+      return { ...state, pending: true };
+    case inc:
+      return { amount: state.amount + 1 };
+    case dec:
+      return { amount: state.amount - 1 };
+    case incByAmount:
+      return { amount: state.amount + action.payload };
+    default:
+      return state;
+  }
+}
+
+reducers/bonus.js
+
+import { incBonus, incByAmount } from '../actions';
+export function bonusReducer(state = { points: 0 }, action) {
+  switch (action.type) {
+    case incBonus:
+      return { points: state.points + 1 };
+    case incByAmount:
+      if (action.payload >= 100) {
+        return { points: state.points + 5 };
+      }
+      break;
+    default:
+      return state;
+  }
+}
+
+-------
+
+inside index.js create store
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { accountReducer } from './reducers/account';
+import { bonusReducer } from './reducers/bonus';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
+import './index.css';
+import App from './App';
+
+//Store
+const store = createStore(
+  combineReducers({ account: accountReducer, bonus: bonusReducer }),
+  applyMiddleware(thunk, logger)
+);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+----------------------------------------------------------------------------------
+
+Now we need react-redux , to access state and dispatch actions  
+
+npm i react-redux 
+
+we use two hooks 
+        for state - useSelector 
+        for actions dispatch - useDispatch()

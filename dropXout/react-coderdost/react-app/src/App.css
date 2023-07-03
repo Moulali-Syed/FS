@@ -1,0 +1,11 @@
+.App {
+  /* background-color: rgb(66, 65, 65); */
+  width: 100vw;
+  height: 100vh;
+}
+.darkMode {
+  background-color: #333;
+}
+.lightMode {
+  background-color: #ccc;
+}

@@ -1,0 +1,431 @@
+CRUD Operations , useEffect Hook
+====================================
+To run something after the component is rendered then we can use useEffect hook 
+
+Lets see Edit and delete functionality 
+
+
+deleteVideo
+
+To delete a video , i need to get the id of specific video i want to delete
+
+So i created a function deleteVideo that has a parameter id , i will pass this as a prop
+to VideoList component and from there iam passing to Video component and i will get the specific 
+id i want to delete 
+
+once i get the id, i will filter my available videos and display the filtered videos 
+
+import './App.css';
+import { useState } from 'react';
+import videoDB from './data/data';
+import AddVideo from './components/AddVideo';
+import VideoList from './components/VideoList';
+
+function App() {
+  const [videos, setVideos] = useState(videoDB);
+  const [editableVideo, setEditableVideo] = useState(null);
+
+  function addVideos(vid) {
+    setVideos([
+      ...videos,
+      {
+        id: videos.length + 1,
+        ...vid,
+      },
+    ]);
+  }
+
+  function deleteVideo(id) {
+    const filteredVideos = videos.filter((vid) => vid.id !== id);
+    setVideos(filteredVideos);
+  }
+
+  function editVideo(id) {
+    setEditableVideo(videos.find((vid) => vid.id === id));
+  }
+
+  function updateVideo(video) {
+    const index = videos.findIndex((vid) => vid.id === video.id);
+    const newVideos = [...videos];
+    newVideos.splice(index, 1, video);
+    setVideos(newVideos);
+    console.log(video);
+  }
+
+  return (
+    <>
+      <div className="App" onClick={() => console.log('parent triggered')}>
+        <AddVideo
+          videos={videos}
+          addVideo={addVideos}
+          updateVideo={updateVideo}
+          editableVideo={editableVideo}
+        />
+        <VideoList
+          videos={videos}
+          deleteVideo={deleteVideo}
+          editVideo={editVideo}
+        />
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+
+-----
+import React from 'react';
+import Video from './Video';
+import PlayButton from './PlayButton';
+const VideoList = ({ videos, deleteVideo, editVideo }) => {
+  return (
+    <div>
+      {' '}
+      {videos.map((video, index) => (
+        <Video
+          key={index}
+          id={video.id}
+          title={video.title}
+          views={video.views}
+          time={video.views}
+          channel={video.channel}
+          isVerified={video.isVerified}
+          deleteVideo={deleteVideo}
+          editVideo={editVideo}
+        >
+          <PlayButton
+            onPlay={() => console.log('Video is Playing', video.title)}
+            onPause={() => console.log('Video is Paused', video.title)}
+          >
+            {video.title}
+          </PlayButton>
+        </Video>
+      ))}
+    </div>
+  );
+};
+
+export default VideoList;
+
+----
+import React from 'react';
+import './Video.css';
+
+const Video = ({
+  id,
+  title,
+  channel,
+  views,
+  time,
+  isVerified,
+  children,
+  deleteVideo,
+  editVideo,
+}) => {
+  return (
+    <>
+      <div className="container">
+        <button className="close" onClick={() => deleteVideo(id)}>
+          X
+        </button>
+        <button className="edit" onClick={() => editVideo(id)}>
+          Edit
+        </button>
+        <div className="pic">
+          <img
+            src={`https://picsum.photos/id/${id}/160/90`}
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">
+          {channel} {isVerified && '✅'}
+        </div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+        <div>{children}</div>
+      </div>
+    </>
+  );
+};
+
+export default Video;
+
+
+=======================================================================================================
+
+Edit Video:
+
+to edit a video , i still need the id , so i create a function in App.js , send it as prop to
+VideoList and from there to Video.js 
+Then i get the id i want to delete 
+
+Now i create a state variable inside the App.js , and i update the state variable based on the 
+id i received from the click on particular video 
+based on id, i traverse the videos and find the actual video i want to edit
+
+Then i create a function called updateVideo , which accepts the video 
+now i will iterate through the whole videos and find the index of the video i am gonna edit 
+now i will create a copy of all videos , then i use splice on this copied videos list to delete and add the edited video 
+i will set the videolist to this new videos 
+
+Now i pass the editableVideo state variable and the updateVideo function to AddVideo 
+using the useEffect and checking the condition if editableVideo is present then i will update it 
+
+
+//In App.js i created a - 
+    1.state variable
+  const [editableVideo, setEditableVideo] = useState(null);
+
+    2.editVideo function
+  function editVideo(id) {
+    setEditableVideo(videos.find((vid) => vid.id === id));
+  }
+
+   3.  
+  function updateVideo(video) {
+    const index = videos.findIndex((vid) => vid.id === video.id);
+    const newVideos = [...videos];
+    newVideos.splice(index, 1, video);
+    setVideos(newVideos);
+    console.log(video);
+  }
+
+  4. i will pass the editVideo function that gets me the id i want to update , to VideoList component 
+          <VideoList
+          videos={videos}
+          deleteVideo={deleteVideo}
+          editVideo={editVideo}
+        />
+
+  5. i will pass the updateVideo function to AddVideo Component and also the editableVideo to it 
+        <AddVideo
+          videos={videos}
+          addVideo={addVideos}
+          updateVideo={updateVideo}
+          editableVideo={editableVideo}
+        />  
+
+import './App.css';
+import { useState } from 'react';
+import videoDB from './data/data';
+import AddVideo from './components/AddVideo';
+import VideoList from './components/VideoList';
+
+function App() {
+  const [videos, setVideos] = useState(videoDB);
+  const [editableVideo, setEditableVideo] = useState(null);
+
+  function addVideos(vid) {
+    setVideos([
+      ...videos,
+      {
+        id: videos.length + 1,
+        ...vid,
+      },
+    ]);
+  }
+
+  function deleteVideo(id) {
+    const filteredVideos = videos.filter((vid) => vid.id !== id);
+    setVideos(filteredVideos);
+  }
+
+  function editVideo(id) {
+    setEditableVideo(videos.find((vid) => vid.id === id));
+  }
+
+  function updateVideo(video) {
+    const index = videos.findIndex((vid) => vid.id === video.id);
+    const newVideos = [...videos];
+    newVideos.splice(index, 1, video);
+    setVideos(newVideos);
+    console.log(video);
+  }
+
+  return (
+    <>
+      <div className="App" onClick={() => console.log('parent triggered')}>
+        <AddVideo
+          videos={videos}
+          addVideo={addVideos}
+          updateVideo={updateVideo}
+          editableVideo={editableVideo}
+        />
+        <VideoList
+          videos={videos}
+          deleteVideo={deleteVideo}
+          editVideo={editVideo}
+        />
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+***************************************
+Now based on editableVideo , i will trigger the updateVideo function inside AddVideo.js 
+
+if we have something in editableVideo , we will trigger updateVideo 
+        1. trigger updateVideo
+const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editableVideo) {
+      updateVideo(video);
+    } else {
+      addVideo(video);
+    }
+    setVideo(initialState);
+  };
+
+    2.we use useEffect hook to update state of video 
+
+      useEffect(() => {
+        if (editableVideo) {
+        setVideo(editableVideo);
+        }
+    }, [editableVideo]);
+
+import React, { useEffect, useState } from 'react';
+import './AddVideo.css';
+
+const initialState = {
+  time: '1 month ago',
+  channel: 'HappyChannel4',
+  isVerified: true,
+  title: '',
+  views: '',
+};
+const AddVideo = ({ addVideo, updateVideo, editableVideo }) => {
+  const [video, setVideo] = useState(initialState);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editableVideo) {
+      updateVideo(video);
+    } else {
+      addVideo(video);
+    }
+    setVideo(initialState);
+  };
+  const changeHandler = (e) => {
+    e.stopPropagation();
+    setVideo({ ...video, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    if (editableVideo) {
+      setVideo(editableVideo);
+    }
+  }, [editableVideo]);
+
+  return (
+    <form>
+      <input
+        type="text"
+        placeholder="title"
+        onChange={changeHandler}
+        name="title"
+        value={video.title}
+      />
+      <input
+        type="text"
+        placeholder="views"
+        onChange={changeHandler}
+        name="views"
+        value={video.views}
+      />
+
+      <div>
+        <button onClick={handleSubmit}>
+          {editableVideo ? 'Edit' : 'Add'} Video
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default AddVideo;
+
+------------------
+we are passing editVideo , to VideoList and Video.js to get the id 
+
+import React from 'react';
+import Video from './Video';
+import PlayButton from './PlayButton';
+const VideoList = ({ videos, deleteVideo, editVideo }) => {
+  return (
+    <div>
+      {' '}
+      {videos.map((video, index) => (
+        <Video
+          key={index}
+          id={video.id}
+          title={video.title}
+          views={video.views}
+          time={video.views}
+          channel={video.channel}
+          isVerified={video.isVerified}
+          deleteVideo={deleteVideo}
+          editVideo={editVideo}
+        >
+          <PlayButton
+            onPlay={() => console.log('Video is Playing', video.title)}
+            onPause={() => console.log('Video is Paused', video.title)}
+          >
+            {video.title}
+          </PlayButton>
+        </Video>
+      ))}
+    </div>
+  );
+};
+
+export default VideoList;
+
+
+import React from 'react';
+import './Video.css';
+
+const Video = ({
+  id,
+  title,
+  channel,
+  views,
+  time,
+  isVerified,
+  children,
+  deleteVideo,
+  editVideo,
+}) => {
+  return (
+    <>
+      <div className="container">
+        <button className="close" onClick={() => deleteVideo(id)}>
+          X
+        </button>
+        <button className="edit" onClick={() => editVideo(id)}>
+          Edit
+        </button>
+        <div className="pic">
+          <img
+            src={`https://picsum.photos/id/${id}/160/90`}
+            alt="little bird"
+          />
+        </div>
+        <div className="title">{title}</div>
+        <div className="channel">
+          {channel} {isVerified && '✅'}
+        </div>
+        <div className="views">
+          {views} views <span>.</span> {time}
+        </div>
+        <div>{children}</div>
+      </div>
+    </>
+  );
+};
+
+export default Video;

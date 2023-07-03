@@ -1,0 +1,111 @@
+Components and JSX Rules:
+
+
+Component name must start with capital letter 
+
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+---
+
+import './App.css';
+
+function App() {
+  return <div className="App">Welcome to React</div>;
+}
+
+export default App;
+
+===========================================================================================
+To display variables we use {}
+
+import './App.css';
+
+function App() {
+  let a = 2;
+  return (
+    <div className="App">
+      <p>{a}</p>Welcome to React
+    </div>
+  );
+}
+
+export default App;
+
+===========================================================================================
+<></> - <React.Fragment></React.Fragment>  - <Fragment></Fragment>
+
+import css file:
+
+import './style.css';
+
+
+Adding inline css style
+      <p style={{ backgroundColor: 'red', color: 'white' }}>{a}</p>
+
+
+shortcut for creating functional component - rafce  
+===========================================================================================
+project with components and JSX Rules:
+
+
+import React from 'react';
+
+const Book = () => {
+  const title = 'The Power of Kid';
+  return (
+    <div className="book">
+      <img
+        src="https://images-na.ssl-images-amazon.com/images/G/01/US-hq/2022/img/Amazon_Exports/XCM_CUTTLE_1469244_2584128_379x304_1X_en_US._SY304_CB609318944_.jpg"
+        alt="kid"
+      />
+      <h1>{title}</h1>
+      <p>$100</p>
+      <button>Add To Cart</button>
+    </div>
+  );
+};
+
+export default Book;
+
+
+---
+import React from 'react';
+import Book from './Book';
+
+const BookList = () => {
+  return (
+    <div>
+      <Book />
+      <Book />
+      <Book />
+      <Book />
+    </div>
+  );
+};
+
+export default BookList;
+
+---
+import './App.css';
+import BookList from './BookList';
+
+function App() {
+  return (
+    <div className="App">
+      <BookList />
+    </div>
+  );
+}
+
+export default App;

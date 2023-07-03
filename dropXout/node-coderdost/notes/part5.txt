@@ -1,0 +1,9 @@
+Model View Controller and File structure:
+=========================================
+MVC is pattern 
+
+
+    we separated Controllers, routes 
+
+
+code is in part 5 folder

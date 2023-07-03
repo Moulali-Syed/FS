@@ -132,3 +132,50 @@ const Counter = () => {
 };
 
 export default Counter;
+
+===================================================================================
+useLocation 
+
+          baseURL/pic/march/13
+          location.pathname ---> will give pic/march/13  this 
+
+          location.search ----> will helps to add some search parameters after pic/march/13/?page=1 
+ 
+useSearchParams 
+          baseURL/pic/m?tag='13' 
+                      to access the value 13 , we can do it 
+                      and also we can update the search parameter , value 13  
+===================================================================================
+
+Lets start a project of shopping cart  using redux toolkit 
+
+
+code is in ---> shopping-cart-redux-project 
+
+folder structure:
+      src 
+        components 
+            CartItem.jsx 
+            Navbar.jsx
+            Product.jsx
+
+        pages
+            Cart.jsx 
+            Home.jsx 
+
+        redux 
+            Slices 
+              CartSlice.js 
+            Store.js 
+      App.jsx
+      index.jsx
+
+            
+===================================================================================
+Now lets start creating slice 
+    go to redux folder --> Slices folder  --->  CartSlice.js 
+
+
+
+1:26 minutes
+

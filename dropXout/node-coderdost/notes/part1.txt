@@ -1,0 +1,169 @@
+Node Js is a javascript run time environment not a web server
+Node Js is asynchronous and non-blocking I/O
+
+Express Js is a framework using node js 
+
+
+Why Node web server?
+Heavy I/O 
+Small code foot print 
+
+
+
+first install node js 
+then install vs code 
+
+
+REPL in terminal
+write node click enter , this open Read , Evaluate , Print , Loop in the terminal
+we can do common javascript operations 
+
+to come out of REPL  , ctrl + D 
+
+
+we can write code in a .js file and we can run it in terminal using
+node filename
+
+====================================================================================
+Modules:
+
+In Node every file is considered as module 
+
+const a = require('./lib');
+
+console.log(a.multiply(9, 7));
+console.log(a.sum(10, 20));
+
+function diff(a, b) {
+  return a - b;
+}
+
+exports.sum = (a, b) => {
+  return a + b;
+};
+
+exports.multiply = (a, b) => {
+  return a * b;
+};
+
+----------------------
+const sum = (a, b) => {
+  return a + b;
+};
+
+module.exports = sum;
+
+
+console.log('hi there');
+const a = require('./lib');
+
+console.log(a(9, 7));
+console.log(a(10, 20));
+
+=======================================================
+we can use es modules 
+
+const sum = (a, b) => {
+  return a + b;
+};
+
+export { sum };
+
+----
+import { sum } from './lib.mjs';
+
+console.log(sum(10, 20));
+
+
+either use package.json and set type:'module' 
+
+or
+
+use the file extension as .mjs 
+=============================================================================
+Create package.json
+
+npm init -y 
+
+
+fs module , reading file data
+
+//file system module
+const fs = require('fs');
+
+//readFileSync
+const fileData = fs.readFileSync('./demo.txt', 'utf-8');
+console.log(fileData);
+
+console.log(performance.now());
+fs.readFile('./demo.txt', 'utf-8', (err, data) => {
+  if (err) console.log(err.message);
+  console.log(data);
+});
+
+console.log(performance.now());
+console.log('hello there');
+
+=============================================================================
+
+install Express Dependency
+
+npm i express 
+
+
+install dev Dependency
+
+npm i nodemon -D 
+or
+npm i nodemon --save-dev 
+
+
+add scripts in package.json 
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+
+npm run start
+num run dev
+
+install globally
+npm i --global nodemon 
+
+or
+
+npm i -g nodemon    
+
+=======================================
+4.18.2 - majorVersion.minorVersion.patchVersion 
+
+* - kuch bhi update kar lo
+~ - sirf patch version update kar lo 
+^ - minor aur patch version update kar sakte ho apne aap
+
+koi bhi sign mention nahi hai, tab tho sirf particular version chalega 
+=======================================
+
+check outdated version of npm modules 
+
+npm outdated
+
+------
+to get nodemodules back 
+
+npm install 
+
+------
+to update packages 
+
+npm update 
+
+------
+to uninstall packages
+
+npm uninstall express 
+
+---------
+never push nodemodules to gitignore

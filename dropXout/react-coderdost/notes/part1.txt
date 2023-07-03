@@ -1,0 +1,111 @@
+React is useful for building SPA 
+
+React is a UI Library that helps us to create UI Components
+
+Component - very easy structure
+
+
+Setup:
+install node js
+node --v
+npm -v 
+
+
+Check ReactDocs Beta 
+
+
+Create a react app
+        npx create-react-app react-app 
+
+
+Install vs code
+
+
+#Lets understand react folder structure
+inside public folder -->  index.html is main file , delete others 
+
+inside src folder , for now keep 
+        App.js | index.js | App.css | index.css 
+
+App.js
+
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Welcome to React</h1>
+    </div>
+  );
+}
+
+export default App;
+
+
+--
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+#run the app 
+npm start 
+
+
+#creating a basic component , using variables 
+
+import './App.css';
+
+function App() {
+  let city = 'Mumbai';
+  return (
+    <div className="App">
+      <h1>Welcome to React {city}</h1>
+      <Demo a="Apple" />
+    </div>
+  );
+}
+
+function Demo(props) {
+  return (
+    <div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe,
+        consequatur.
+      </p>
+      <h5>Dummy {props.a}</h5>
+    </div>
+  );
+}
+
+export default App;
+
+
+#What happens if we delete node_modules?
+    We can get them back using   npm install 
+
+#How to remove double console logs
+    Because of React.StrictMode we are getting double console logs 
+    we can remove them 
+
+
+#create a react app using --> vite 
+
+    npm create vite@latest
+    give a Project name:
+    select Framework : React 
+    Select variant : Javascript
+    Now move to folder cd projectname
+    npm install 
+    npm run dev
+    

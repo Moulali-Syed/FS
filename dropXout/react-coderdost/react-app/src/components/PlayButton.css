@@ -1,0 +1,21 @@
+button {
+  padding: 1rem;
+  border-radius: 1rem;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: white;
+  color: #000;
+}
+
+button.darkMode {
+  background-color: #000;
+  border: 1px solid yellow;
+}
+
+button.lightMode {
+  background-color: #666;
+  border: 1px solid black;
+}

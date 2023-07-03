@@ -1,0 +1,141 @@
+useEffect hook:
+===================
+koi bhi component chal gaya hai , uske turant baad mujhey kuch chalaana hai 
+toh O useEffect se chalega (side effects)
+
+
+=======================================================================================
+
+pure function
+
+function sum(a,b){
+    return a+b;
+}
+sum(2,3);
+
+
+impure function - because below function is dependent on n , which can be changed by anyone 
+
+let n = 1;
+function sum(a,b){
+    return a+b+n;
+}
+sum(2,3);
+
+=======================================================================================
+
+Below will run after every  re render 
+
+  useEffect(() => {
+    console.log('video playing ', id);
+  });
+
+
+To run only after first render, specify empty dependency array  
+
+  useEffect(() => {
+    console.log('video playing ', id);
+  }, []);
+
+To run based on some dependency , specify it in dependency array 
+
+  useEffect(() => {
+    console.log('video playing ', id);
+  }, [id]);
+
+
+clean up function 
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('video playing ', id);
+    }, 1000);
+
+    //clean up function
+    return () => {
+      clearInterval(interval);
+    };
+  }, [id]);
+
+=======================================================================================
+
+We can get mock data from - https://www.mockaroo.com/
+
+lets install axios , to use external api call 
+
+
+import React, { useContext, useEffect } from 'react';
+import Video from './Video';
+import PlayButton from './PlayButton';
+import useVideo from '../hooks/Videos';
+import axios from 'axios';
+import useVideoDispatch from '../hooks/VideoDispatch';
+
+const VideoList = ({ editVideo }) => {
+  // const videos = useContext(VideosContext);
+  const videos = useVideo();
+  const dispatch = useVideoDispatch();
+
+  async function handleClick() {
+    const response = await axios.get('https://fakestoreapi.com/products');
+    console.log(response.data);
+    dispatch({ type: 'LOAD', payload: response.data });
+  }
+
+  useEffect(() => {
+    handleClick();
+  }, []);
+  return (
+    <div>
+      {videos.map((video, index) => (
+        <Video
+          key={index}
+          id={video.id}
+          title={video.title}
+          views={video.views}
+          time={video.views}
+          channel={video.channel}
+          isVerified={video.isVerified}
+          editVideo={editVideo}
+        >
+          <PlayButton
+            onPlay={() => console.log('Video is Playing', video.title)}
+            onPause={() => console.log('Video is Paused', video.title)}
+          >
+            {video.title}
+          </PlayButton>
+        </Video>
+      ))}
+    </div>
+  );
+};
+
+export default VideoList;
+
+
+In App.js we have reducer function
+
+  function videoReducer(videos, action) {
+    switch (action.type) {
+      case 'ADD':
+        return [
+          ...videos,
+          {
+            id: videos.length + 1,
+            ...action.payload,
+          },
+        ];
+      case 'LOAD':
+        return action.payload;
+      case 'DELETE':
+        return videos.filter((vid) => vid.id !== action.payload);
+      case 'UPDATE':
+        const index = videos.findIndex((vid) => vid.id === action.payload.id);
+        const newVideos = [...videos];
+        newVideos.splice(index, 1, action.payload);
+        setEditableVideo(null);
+        return newVideos;
+      default:
+        return videos;
+    }
+  }

@@ -1,0 +1,52 @@
+Lazy Loading , flushSync , createPortal
+=========================================
+useDebugValue
+
+This hook makes writing custom hooks a lot easier 
+
+it is used for labelling some extra information for a custom hook 
+
+------------------
+useId hook: this generates unique id , can be linked with id attribute
+
+import {useId} from 'react';
+
+const uid = useId();
+
+const Component = ()=>{
+    return <div id={uid}></div>
+}
+
+----------------------
+useSyncExternalStore() - this hook follows subscribe pattern , mostly seen while using firebase 
+database 
+==============================================================================================
+lazy loading:
+
+component is loaded only when it is actually needed to be rendered on screen 
+
+
+Suspense and lazy will work together 
+
+import {lazy,Suspense,useState} from 'react';
+
+const lazyLoadComponent = lazy(()=>import('../components/lazyLoadComponent.js'));
+
+const Component = ()=>{
+    const [show,setShow] = useState(false);
+    return (
+        <>
+            <button onClick={()=>setShow(true)}>Show</button>
+            {
+                show ? <Suspense fallback={<>Loading....</>}>
+                           <lazyLoadComponent/> 
+                       </Suspense> 
+                  : null 
+            }
+        </>
+    )
+}
+
+==============================================================================================
+
+createPortal (9:26)

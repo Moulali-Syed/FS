@@ -1,0 +1,16 @@
+React Typescript
+
+Provides static type checking , we will get to learn potential errors while typing code
+
+makes refactoring and maintenance easy of large code bases
+
+---------
+Creating a typescript react app
+
+npx create-react-app app-name --template typescript
+
+
+we get file extensions as .tsx 
+
+----------
+create a components folder in src folder 

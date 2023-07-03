@@ -1,0 +1,100 @@
+#   Building our First React app:
+
+we can write code in codesandbox
+    go to -->  react.new  , this opens a new code editor in the browser for react 
+
+
+import { useEffect, useState } from "react";
+
+function App() {
+  const [advice, setAdvice] = useState("");
+  const [count, setCount] = useState(0);
+
+  async function getAdvice() {
+    const res = await fetch("https://api.adviceslip.com/advice");
+    const data = await res.json();
+    setAdvice(data.slip.advice);
+    setCount((c) => c + 1);
+  }
+
+  useEffect(() => {
+    getAdvice();
+  }, []);
+  return (
+    <div>
+      <h1>{advice}</h1>
+      <button onClick={getAdvice}>Get Advice</button>
+      <Message count={count} />
+    </div>
+  );
+}
+
+function Message({ count }) {
+  return <p>You have read {count} pieces of code</p>;
+}
+export default App;
+
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+import App from "./App";
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+
+
+=======================================================================================
+Why Do Frontend frameworks exist
+
+Because of client side rendering
+and rise of Single Page Applications
+
+Frontend web applications are all about 
+        $ Handling data + displaying data in a user interface
+        $ User Interface needs to stay in sync with data 
+        
+
+Problems with only using javascript and jquery
+    Requires lot of direct DOM manipulation and traversing(imperative)
+    Data(state) is usually stored in the DOM shared across entire app (Hard to reason + bugs )
+
+--> Javascript frontend frameworks exist because keeping a user interface in sync 
+    with data is really hard and a lot of work , front-end frameworks solve this 
+    problem and take hard work away from developers
+
+    They enforce a correct way of structuring and writing code(therefore contributing to solving
+    the problem of spaghetti code)
+
+    They give developers and teams a consistent way of building front-end applications     
+=======================================================================================
+What is react?
+
+JS library for building User Interfaces 
+It is Declarative  , component-based ,state-driven javascript library for building user interfaces  
+
+Components are building blocks of user interfaces in React
+We build complex UIs by building and combining multiple components 
+
+Declarative: telling React what a component should look like, based on current data/state 
+React is abstraction away from DOM . we never touch the DOM 
+JSX: a syntax that combines HTML CSS Javascript as well as referencing other components 
+
+State-driven: based on state --> UI renders , react reacts to state changes by re-rendering the UI 
+
+React is a library , because React is only the view layer We need to pick multiple external libraries
+to build a complete application 
+=======================================================================================
+
+
+
+
+
+
+=======================================================================================

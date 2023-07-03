@@ -1,0 +1,96 @@
+Memoization:
+
+useMemo , useCallback , memo 
+==============================
+Memoization is like caching 
+
+if there is some heavy calculation in our component and it is recalculating
+for every render then we must optimize this and not to call that particular
+function which takes time 
+
+useMemo  hook koi bhi value ko save karne ke liye hothaa hai
+
+//1.funtion , dependency array
+useMemo(()=>{},[])
+
+import React, { useMemo, useRef } from 'react';
+import { useState } from 'react';
+
+function fibonacci(n) {
+  if (n === 0) return 1;
+  if (n === 1 || n === 2) {
+    return 1;
+  }
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  let num = useRef(0);
+  const incrementHandler = (e) => {
+    e.stopPropagation();
+    setCount((count) => count + 1);
+    //   setCount(count + 1);
+    num.current++;
+    console.log(num);
+  };
+
+  useMemo(() => fibonacci(count), [count]);
+  return (
+    <>
+      <h1>{count}</h1>
+      <button onClick={incrementHandler}>Click</button>
+      <p>{fibonacci(count)}</p>
+    </>
+  );
+};
+
+export default Counter;
+
+==============================================================================
+agar koi function ko memoize karna hai tho , useCallback ko use kar sakte hai 
+
+useCallback(()=>{},[]);
+
+import React, { useCallback, useMemo, useRef } from 'react';
+import { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  let num = useRef(0);
+  const incrementHandler = (e) => {
+    e.stopPropagation();
+    setCount((count) => count + 1);
+    //   setCount(count + 1);
+    num.current++;
+    console.log(num);
+  };
+
+  const fibx = useCallback(function fibonacci(n) {
+    if (n === 0) return 1;
+    if (n === 1 || n === 2) {
+      return 1;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+  }, []);
+
+  useMemo(() => fibx(count), [count, fibx]);
+  return (
+    <>
+      <h1>{count}</h1>
+      <button onClick={incrementHandler}>Click</button>
+      <p>{fibx(count)}</p>
+    </>
+  );
+};
+
+export default Counter;
+==============================================================================
+memo - agar koi prop change ho tab hee memo Component change hoga 
+
+
+we use useCallback function along with memo function 
+
+so that the callback functions defined on component can be memoized 
