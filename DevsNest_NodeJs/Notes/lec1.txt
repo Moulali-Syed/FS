@@ -1,0 +1,102 @@
+Introduction to Backend development:
+-----------------------------------
+In web dev we have FrontEnd and BackEnd 
+
+Frontend mostly resides in browser
+    we have html , css , js 
+    to make our life easier we have react.js library
+These are set of instructions , what to be displayed in browser 
+
+Backend  - Node Js , python , Java , GoLang , PHP , Ruby (Any one of these is OK)
+        BackEnd has servers , as we have browsers in Frontend 
+
+        we tell browser what to do , like receive chat send chat , do calculation
+
+        Backend has severs and databases 
+
+What is Server?
+Server is something which serves , we can say they are computers without screen 
+
+Can our laptop can becomes a server ?
+Yes , any device can become a server the only condition is it has to serve 
+
+Can we access any laptop , No we have to make it publicly available then we can access the files 
+we are okay to share 
+
+
+What are databases?
+data and bases --> the place /base where data resides is called a database 
+data examples  - chat , file , password, identity , video, image .. all this is data 
+
+
+If we have all the data in databases then why do we need servers?
+The purpose of server is serve the data , database is to store the data 
+
+For any website , we have a index.html , say iam opening google.com 
+the browser requests for index.html to serve the index.html , then it ask database 
+and give it back to server and server will again send it back to browser 
+
+
+via internet we are able to communicate 
+browser understands html , server understands node js , database understands its own query language
+what would internet understands ?
+language of INTERNET is called API 
+
+we make an api call get data or to send data 
+
+API - Application Programming Interface 
+
+Any language is just a set of rules , that helps us and computer to do something 
+
+
+Jargons of Backend:
+APIs
+databases
+server 
+
+
+Programming is just a set of rules to tell our computer what to do 
+
+With evolution , we got many languages developed all are deep down Binary representations only 
+C , C++ , Java , Python , Javascript  - all these solves a different problem 
+
+
+
+Say in Youtube , 1 million users are watching the same live stream ,how can we serve this ?
+    there can multiple solutions
+                say 1 server (can handle 10 users)+ server +server +........
+                or
+                tell user to download desktop app - access the live cameras 
+                or
+                1 server that can serve 5 crore users 
+
+    Similar way , different technologies handles this in a different way 
+
+In Javascript we have event loop    
+        What it does is , it created a Queue and divided our video into small parts
+
+Javascript is single threaded , under the hood it has capability to handle 1 million users 
+
+Along with the advantage of Event Loop , it has advantages as easy , huge developer community and write less code 
+
+Thus javascript is came to backend and called it Node JS 
+
+For any application that has a good traffic , we use Node JS
+
+
+If we need low level coding , then we can use C , C++
+
+--------
+install node version manager 
+
+nvm -v [to check nvm version]
+
+to install latest nvm --> nvm install latest
+
+to switch the version
+nvm use vX.Y.Z
+
+
+
+C:\Users\MOULALI>nvm use v18
+Now using node v18.16.1 (64-bit)
